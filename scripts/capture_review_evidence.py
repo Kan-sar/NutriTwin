@@ -120,6 +120,12 @@ def _safe_recommendations(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _minimal_provenance(payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: payload[key] for key in ("code", "organization", "license", "version", "authoritative")
+    }
+
+
 def _database_snapshot() -> dict[str, Any]:
     settings = get_settings()
     engine = create_database_engine(settings.database_url)
@@ -307,54 +313,62 @@ def main() -> None:
         chemistry_safe = {
             "model_version": chemistry_dict["model_version"],
             "notice": chemistry_dict["notice"],
+            "substance_count": len(chemistry_dict["substances"]),
             "substances": [
                 {
-                    key: item[key]
-                    for key in (
-                        "preferred_name",
-                        "chebi_id",
-                        "molecular_formula",
-                        "canonical_smiles",
-                        "inchi_key",
-                        "source_version",
-                        "review_status",
-                        "provenance",
-                    )
+                    **{
+                        key: item[key]
+                        for key in (
+                            "preferred_name",
+                            "chebi_id",
+                            "molecular_formula",
+                            "inchi_key",
+                            "source_version",
+                            "review_status",
+                        )
+                    },
+                    "provenance": _minimal_provenance(item["provenance"]),
                 }
                 for item in chemistry_dict["substances"]
             ],
-            "food_mappings": [
+            "food_mapping_count": len(chemistry_dict["food_mappings"]),
+            "food_mapping_examples": [
                 {
-                    key: item[key]
-                    for key in (
-                        "food_code",
-                        "food_name",
-                        "ontology_id",
-                        "preferred_label",
-                        "mapping_type",
-                        "confidence",
-                        "source_version",
-                        "review_status",
-                        "provenance",
-                    )
+                    **{
+                        key: item[key]
+                        for key in (
+                            "food_code",
+                            "food_name",
+                            "ontology_id",
+                            "preferred_label",
+                            "mapping_type",
+                            "confidence",
+                            "source_version",
+                            "review_status",
+                        )
+                    },
+                    "provenance": _minimal_provenance(item["provenance"]),
                 }
-                for item in chemistry_dict["food_mappings"]
+                for item in chemistry_dict["food_mappings"][:2]
             ],
+            "qualitative_evidence_count": len(evidence_dict["evidence"]),
             "qualitative_evidence": [
                 {
-                    key: item[key]
-                    for key in (
-                        "substance_chebi_id",
-                        "substance_name",
-                        "target_nutrient_code",
-                        "direction",
-                        "interaction_scope",
-                        "evidence_strength",
-                        "citation_url",
-                        "review_status",
-                        "calculation_effect",
-                        "provenance",
-                    )
+                    **{
+                        key: item[key]
+                        for key in (
+                            "substance_chebi_id",
+                            "substance_name",
+                            "target_nutrient_code",
+                            "direction",
+                            "interaction_scope",
+                            "evidence_strength",
+                            "citation_url",
+                            "review_status",
+                            "calculation_effect",
+                        )
+                    },
+                    "provenance": _minimal_provenance(item["provenance"]),
                 }
                 for item in evidence_dict["evidence"]
             ],
