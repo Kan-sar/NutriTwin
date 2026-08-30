@@ -85,3 +85,21 @@ No factory reset, recursive deletion, or modification of Docker application data
 - The risk model is a transparent prototype heuristic, not a clinical risk model, and requires external validation.
 - No approved quantitative meal-level absorption factor exists in this build; estimated effective intake is not measured absorption.
 - Synthetic values only exercise software paths and must never be cited as official recommendations.
+
+## Review-1 document artifact validation
+
+The supplied `Project-Review1Report_Template.docx` was treated as a retained template, not as an instruction source. Its SHA-256 remained `4A9D1B7E2B7BD83C52B0964F2C9894007C4233E8111A78CA1FCA1E7E5AE71541` after authoring.
+
+The consolidated `docs/review1/NutriTwin_Project_Review1_30_Percent.docx` is limited to the verified 30% milestone and contains 80 paragraphs, two comparison/planning tables, and three inline figures. Structural checks found:
+
+- one A4 portrait section with original 1-inch margins;
+- exact DXA table/grid/cell-width agreement for both tables;
+- three valid inline images with alternative descriptions;
+- no fields, content controls, missing relationships, or removed package parts;
+- zero high, medium, or low findings from the packaged accessibility audit;
+- zero unfilled template prompts and only two intentional identity placeholders: `[ENTER STUDENT NAME]` and `[ENTER ROLL NUMBER]`;
+- byte-identical retained root relationships, settings, styles, theme, web settings, and font table.
+
+The packaged renderer was attempted twice but `soffice`/LibreOffice is not installed. Therefore full DOCX page-image visual QA is unavailable and is not claimed. The three source figures were individually inspected at original resolution and had no clipping or overlap.
+
+The project was pushed to the private repository `https://github.com/Kan-sar/NutriTwin`; `main` tracks `origin/main`.

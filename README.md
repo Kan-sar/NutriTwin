@@ -93,6 +93,10 @@ make down
 
 Exact commands and observed results are recorded in [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md). The manual/API walkthrough is [docs/DEMO_WALKTHROUGH.md](docs/DEMO_WALKTHROUGH.md).
 
+## Academic review artifact
+
+The consolidated Review-1 report limited to the verified 30% implementation milestone is [docs/review1/NutriTwin_Project_Review1_30_Percent.docx](docs/review1/NutriTwin_Project_Review1_30_Percent.docx). Student name and roll number remain explicit placeholders because those facts were not supplied. The report was structurally audited; visual DOCX-to-PNG rendering could not be performed on the development host because LibreOffice is unavailable.
+
 ## Local demo accounts
 
 | Role | Email | Password |
