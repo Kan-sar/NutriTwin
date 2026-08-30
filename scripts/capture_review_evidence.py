@@ -181,7 +181,11 @@ def _run_test_evidence() -> tuple[str, str]:
 
 
 def _evidence_html(title: str, source: str, payload: Any) -> str:
-    pretty = json.dumps(payload, indent=2, ensure_ascii=True, default=str)
+    pretty = (
+        payload
+        if isinstance(payload, str)
+        else json.dumps(payload, indent=2, ensure_ascii=True, default=str)
+    )
     return f"""<!doctype html>
 <html><head><meta charset="utf-8"><style>
 body {{ margin: 0; background: #07111f; color: #d9e6f2;
@@ -303,9 +307,57 @@ def main() -> None:
         chemistry_safe = {
             "model_version": chemistry_dict["model_version"],
             "notice": chemistry_dict["notice"],
-            "substances": chemistry_dict["substances"],
-            "food_mappings": chemistry_dict["food_mappings"],
-            "qualitative_evidence": evidence_dict["evidence"],
+            "substances": [
+                {
+                    key: item[key]
+                    for key in (
+                        "preferred_name",
+                        "chebi_id",
+                        "molecular_formula",
+                        "canonical_smiles",
+                        "inchi_key",
+                        "source_version",
+                        "review_status",
+                        "provenance",
+                    )
+                }
+                for item in chemistry_dict["substances"]
+            ],
+            "food_mappings": [
+                {
+                    key: item[key]
+                    for key in (
+                        "food_code",
+                        "food_name",
+                        "ontology_id",
+                        "preferred_label",
+                        "mapping_type",
+                        "confidence",
+                        "source_version",
+                        "review_status",
+                        "provenance",
+                    )
+                }
+                for item in chemistry_dict["food_mappings"]
+            ],
+            "qualitative_evidence": [
+                {
+                    key: item[key]
+                    for key in (
+                        "substance_chebi_id",
+                        "substance_name",
+                        "target_nutrient_code",
+                        "direction",
+                        "interaction_scope",
+                        "evidence_strength",
+                        "citation_url",
+                        "review_status",
+                        "calculation_effect",
+                        "provenance",
+                    )
+                }
+                for item in evidence_dict["evidence"]
+            ],
             "evidence_notice": evidence_dict["notice"],
         }
         test_command, test_output = _run_test_evidence()
@@ -336,6 +388,8 @@ def main() -> None:
             swagger_path = output_dir / "01-api-interface.png"
             page.goto(f"{args.base_url}/docs", wait_until="networkidle")
             page.locator(".swagger-ui").wait_for(state="visible")
+            if page.locator(".models").count():
+                page.locator(".models").evaluate("element => element.style.display = 'none'")
             page.screenshot(path=str(swagger_path), full_page=True)
 
             captures = [
@@ -367,7 +421,7 @@ def main() -> None:
                     "06-automated-tests.png",
                     "Automated test and coverage result",
                     test_command,
-                    {"command": test_command, "output": test_output},
+                    test_output,
                 ),
                 (
                     "07-database-state.png",
