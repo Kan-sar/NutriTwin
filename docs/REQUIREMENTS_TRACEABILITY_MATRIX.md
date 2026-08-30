@@ -24,6 +24,8 @@ Statuses reflect verified repository behavior on 2026-08-30. “Implemented” r
 | R-18 | Flutter primary client | `/api/v1` client contract | `apps/mobile` | Deferred-status contract only; SDK unavailable | Deferred |
 | R-19 | Security/privacy controls | Threat model, minimal profile, tokens, consent, audit | auth/consent/admin boundaries | auth/RBAC tests, Ruff security rules, pip-audit and secret scan | Partial: upload/export controls await those features |
 | R-20 | Reproducible commands/CI/demo | Compose, Makefile, pinned lock, CI | OpenAPI and demo script | local checks/demo passed; Compose syntax passed; live containers/remote CI unverified | Partial |
+| R-21 | Basic non-clinical nutrition chemistry | ChEBI substances, FoodOn mappings, qualitative evidence; RDKit validation; calculation-inactive constraint | Admin `/substances` and `/evidence` | chemistry model/migration/fixture/validator; data, API and constraint tests | Implemented for the bounded demo subset |
+| R-22 | Review-1 working-state screenshots | Commit-bound manifest, captions, alt text, checksums, secret-safe demo records | Swagger/API/test/database evidence images | `scripts/capture_review_evidence.py`; README and DOCX embedding after capture | Implementation added; evidence capture validation pending |
 
 ## Deferred specification groups
 

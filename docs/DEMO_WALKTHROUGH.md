@@ -39,7 +39,31 @@ The automation logs in as the seeded Student, records consent/profile data if ne
 
 ## Admin check
 
-Log in with `admin@example.com` and call `GET /api/v1/admin/reference-data` or `GET /api/v1/admin/audit-events`. A Student or Adult receives HTTP 403 for those routes.
+Log in with `admin@example.com` and call:
+
+- `GET /api/v1/admin/reference-data` for target/reference versions.
+- `GET /api/v1/admin/substances` for the reviewed ChEBI substances and FoodOn mappings.
+- `GET /api/v1/admin/evidence` for calculation-inactive qualitative interaction evidence and provenance.
+- `GET /api/v1/admin/audit-events` for access and high-impact event inspection.
+
+A Student or Adult receives HTTP 403 for every Admin route. The chemistry responses are non-clinical; every evidence record has `calculation_effect=false` and cannot modify the nutrition twin.
+
+## Reproduce the Review-1 screenshots
+
+Install the pinned browser evidence dependency and Chromium once:
+
+```powershell
+.venv\Scripts\python.exe -m pip install -r requirements-evidence.lock
+.venv\Scripts\python.exe -m playwright install chromium
+```
+
+With the migrated, seeded API running on `127.0.0.1:8000`, capture the complete evidence set:
+
+```powershell
+.venv\Scripts\python.exe scripts\capture_review_evidence.py
+```
+
+The script exercises Student and Admin logins, creates then soft-deletes a temporary demo meal, runs the automated test/coverage command, captures seven live PNGs, and writes `docs/review1/evidence/manifest.json`. The manifest records the application commit, capture time, endpoint or command, caption, alt text, and SHA-256 checksum. It never records access or refresh tokens.
 
 ## Interpretation boundary
 

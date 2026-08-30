@@ -16,6 +16,9 @@ UUID primary keys and UTC timestamps are used unless noted. Scientific numerics 
 | TargetValue | `snapshot_id`, `nutrient_id`, `ear/rda/tul`, unit, `target_rule_id`, `missing_reason` | Historical values |
 | Food | `id`, `food_code`, `name`, `source_id`, `source_food_id`, `edible_fraction`, `authoritative`, dietary/allergen tags | Food identity separate from composition version |
 | FoodNutrient | `food_id`, `nutrient_id`, `amount_per_100g`, unit, `value_status`, `source_version` | Null amount requires missing reason |
+| ChemicalSubstance | `id`, preferred name/synonyms, `chebi_id`, formula, canonical SMILES, InChI/InChIKey, `source_id/version`, review/effective dates | Reference identity only; RDKit validates structure consistency |
+| FoodOntologyMapping | `food_id`, `source_id`, FoodOn ID/IRI/label, mapping type/confidence, source version, review/effective dates | Exact/broad semantics are explicit; confidence is bounded to 0-1 |
+| QualitativeInteractionEvidence | substance, target nutrient, direction, scope/timing, strength, citation, review/version/effective dates, `calculation_effect` | Database check requires `calculation_effect=false`; informational only |
 | Meal | `id`, `user_id`, `eaten_at`, `local_date`, `name`, `revision`, `deleted_at` | Ingredient-level log container |
 | MealIngredient | `id`, `meal_id`, `food_id`, `quantity_g`, `edible_fraction_override` | Positive bounded quantities |
 | EffectiveRule | target nutrient, trigger, timing/scope, factor/formula bounds, evidence strength/citation, version/review/effective dates, priority | Qualitative rules cannot alter totals |

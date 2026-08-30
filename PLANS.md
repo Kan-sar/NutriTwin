@@ -15,9 +15,10 @@ Updated: 2026-08-30
 
 | Phase | Scope | Validation gate | Status |
 |---|---|---|---|
-| 0 | Specification, source register, architecture, algorithms, data model, threat model, ADRs, traceability | Required documents complete and internally consistent | Complete |
+| 0 | Specification, source/open-source register, architecture, algorithms, data model, threat model, ADRs, traceability | Required documents complete and internally consistent | Complete; chemistry/evidence boundary added in ADR 0005 |
 | 1 | FastAPI, schema/migrations, auth/RBAC, consent, audit, Redis/Celery entry point, Compose, CI | Health/OpenAPI/auth/RBAC tests; clean migration | Implemented; live Compose blocked by host Docker failure |
 | 2 | Profile, target, food search, meal logging, daily/7d/30d twin, risk, ranking, explanation | Automated no-LLM end-to-end API workflow | Complete with synthetic data |
+| 2A | Read-only nutrition chemistry foundation | RDKit-validated ChEBI records, reviewed FoodOn mappings, qualitative calculation-inactive evidence and Admin inspection | Implemented for the bounded demo subset; live migration validation pending |
 | 3 | Licensed ICMR target import and golden cases | Source checksum and independently verified fixtures | Blocked on lawful data/permission and scientific review |
 | 4 | Evidence-governed quantitative absorption rules | Approved evidence records and golden/invariant tests | Partial: safe identity baseline and rule engine invariants implemented; active modifiers deferred |
 | 5 | Materialized nutrition memory and scheduled idempotent recomputation | Edit/delete/retry and worker integration tests | Partial: on-demand summaries and idempotent job execution implemented; scheduled materialization deferred |
@@ -36,11 +37,17 @@ Updated: 2026-08-30
 6. Recommendations enforce allergens and dietary restrictions as hard checks, store normalized objectives/weights/rejections, and use deterministic explanations.
 7. OR-Tools CP-SAT construction is deterministic and serving-bounded in domain tests.
 8. The workflow passes with LLM, Neo4j, OCR, barcode, external price APIs, and vision disabled.
+9. Admins can inspect versioned ChEBI/FoodOn/qualitative evidence records, while
+   database and pipeline constraints prevent those qualitative rows from changing totals.
+10. Review evidence images are captured from a running application, test output, and
+    database state with a commit-bound checksum manifest and no secrets.
 
 ## Next implementation order
 
-1. Obtain lawful ICMR-NIN RDA/EAR and IFCT inputs, formalize local import manifests, and have reference rows/golden cases independently reviewed.
-2. Add PostgreSQL-backed integration validation once Docker Desktop or another local PostgreSQL instance works.
+1. Complete live PostgreSQL/Redis/Neo4j migration and evidence capture once Docker
+   Desktop or another compatible local engine works.
+2. Obtain lawful ICMR-NIN RDA/EAR and IFCT inputs, formalize local import manifests, and
+   have reference rows/golden cases independently reviewed.
 3. Expose and persist CP-SAT constructed meals with time limits, infeasibility fallback, and decision traces.
 4. Add approved absorption evidence authoring/review; keep quantitative rules inactive until the evidence threshold is met.
 5. Materialize summary/risk snapshots via Celery and test retry behavior against Redis/PostgreSQL.

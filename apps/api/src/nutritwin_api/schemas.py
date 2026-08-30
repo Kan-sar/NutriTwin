@@ -144,3 +144,75 @@ class TargetSnapshotResponse(ApiModel):
     calculated_at: datetime
     trace: dict[str, object]
     values: list[TargetValueResponse]
+
+
+class SourceProvenanceResponse(ApiModel):
+    code: str
+    title: str
+    organization: str
+    url: str | None
+    license: str
+    version: str
+    authoritative: bool
+
+
+class ChemicalSubstanceResponse(ApiModel):
+    id: uuid.UUID
+    preferred_name: str
+    synonyms: list[str]
+    chebi_id: str
+    molecular_formula: str
+    canonical_smiles: str
+    inchi: str
+    inchi_key: str
+    source_version: str
+    review_status: str
+    effective_from: date
+    provenance: SourceProvenanceResponse
+
+
+class FoodOntologyMappingResponse(ApiModel):
+    id: uuid.UUID
+    food_code: str
+    food_name: str
+    ontology_id: str
+    ontology_iri: str
+    preferred_label: str
+    mapping_type: str
+    confidence: Decimal
+    source_version: str
+    review_status: str
+    effective_from: date
+    provenance: SourceProvenanceResponse
+
+
+class AdminChemistryResponse(ApiModel):
+    model_version: str
+    notice: str
+    substances: list[ChemicalSubstanceResponse]
+    food_mappings: list[FoodOntologyMappingResponse]
+
+
+class QualitativeInteractionEvidenceResponse(ApiModel):
+    id: uuid.UUID
+    substance_chebi_id: str
+    substance_name: str
+    target_nutrient_code: str
+    direction: str
+    interaction_scope: str
+    timing_window: str | None
+    evidence_strength: str
+    citation_url: str
+    citation_doi: str | None
+    citation_pmid: str | None
+    review_status: str
+    calculation_effect: bool
+    version: str
+    effective_from: date
+    provenance: SourceProvenanceResponse
+
+
+class AdminQualitativeEvidenceResponse(ApiModel):
+    model_version: str
+    notice: str
+    evidence: list[QualitativeInteractionEvidenceResponse]

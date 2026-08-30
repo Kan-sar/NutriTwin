@@ -1,0 +1,124 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-08-30",
+  "limitations": "Small attributed reference subset for software demonstration. It is not a clinical knowledge base, does not establish causality, and cannot activate a quantitative absorption adjustment.",
+  "sources": [
+    {
+      "code": "CHEBI-DEMO",
+      "title": "Chemical Entities of Biological Interest (ChEBI) demonstration subset",
+      "organization": "EMBL-EBI",
+      "url": "https://www.ebi.ac.uk/chebi/",
+      "license": "CC BY 4.0",
+      "redistribution_status": "attributed subset permitted",
+      "authoritative": false,
+      "version": "accessed-2026-08-30",
+      "effective_from": "2026-08-30"
+    },
+    {
+      "code": "FOODON-2025-12-30",
+      "title": "FoodOn food ontology demonstration mappings",
+      "organization": "FoodOn / OBO Foundry",
+      "url": "http://purl.obolibrary.org/obo/foodon/releases/2025-12-30/foodon.owl",
+      "license": "CC BY 4.0",
+      "redistribution_status": "attribution required",
+      "authoritative": false,
+      "version": "2025-12-30",
+      "effective_from": "2025-12-30"
+    },
+    {
+      "code": "NIH-ODS-IRON",
+      "title": "Iron Fact Sheet for Health Professionals",
+      "organization": "NIH Office of Dietary Supplements",
+      "url": "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+      "license": "US government informational material; attribution retained",
+      "redistribution_status": "citation and metadata only",
+      "authoritative": false,
+      "version": "accessed-2026-08-30",
+      "effective_from": "2026-08-30"
+    }
+  ],
+  "substances": [
+    {
+      "preferred_name": "L-ascorbic acid",
+      "synonyms": ["ascorbic acid", "vitamin C"],
+      "chebi_id": "CHEBI:29073",
+      "molecular_formula": "C6H8O6",
+      "canonical_smiles": "O=C1O[C@H]([C@@H](O)CO)C(O)=C1O",
+      "inchi": "InChI=1S/C6H8O6/c7-1-2(8)5-3(9)4(10)6(11)12-5/h2,5,7-10H,1H2/t2-,5+/m0/s1",
+      "inchi_key": "CIWBSHSKHKDKBQ-JLAZNSOCSA-N",
+      "source_code": "CHEBI-DEMO",
+      "source_version": "accessed-2026-08-30",
+      "review_status": "reviewed_demo",
+      "effective_from": "2026-08-30"
+    },
+    {
+      "preferred_name": "caffeine",
+      "synonyms": ["1,3,7-trimethylxanthine"],
+      "chebi_id": "CHEBI:27732",
+      "molecular_formula": "C8H10N4O2",
+      "canonical_smiles": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
+      "inchi": "InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3",
+      "inchi_key": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
+      "source_code": "CHEBI-DEMO",
+      "source_version": "accessed-2026-08-30",
+      "review_status": "reviewed_demo",
+      "effective_from": "2026-08-30"
+    }
+  ],
+  "food_mappings": [
+    {
+      "food_code": "demo-brown-rice-cooked",
+      "source_code": "FOODON-2025-12-30",
+      "ontology_id": "FOODON:00004678",
+      "ontology_iri": "http://purl.obolibrary.org/obo/FOODON_00004678",
+      "preferred_label": "brown rice kernel (cooked)",
+      "mapping_type": "exact",
+      "confidence": "1.0000",
+      "source_version": "2025-12-30",
+      "review_status": "reviewed_demo",
+      "effective_from": "2026-08-30"
+    },
+    {
+      "food_code": "demo-tomato-raw",
+      "source_code": "FOODON-2025-12-30",
+      "ontology_id": "FOODON:03301453",
+      "ontology_iri": "http://purl.obolibrary.org/obo/FOODON_03301453",
+      "preferred_label": "tomato",
+      "mapping_type": "broad",
+      "confidence": "0.8000",
+      "source_version": "2025-12-30",
+      "review_status": "reviewed_demo",
+      "effective_from": "2026-08-30"
+    },
+    {
+      "food_code": "demo-lentils-cooked",
+      "source_code": "FOODON-2025-12-30",
+      "ontology_id": "FOODON:03310641",
+      "ontology_iri": "http://purl.obolibrary.org/obo/FOODON_03310641",
+      "preferred_label": "lentil",
+      "mapping_type": "broad",
+      "confidence": "0.8000",
+      "source_version": "2025-12-30",
+      "review_status": "reviewed_demo",
+      "effective_from": "2026-08-30"
+    }
+  ],
+  "qualitative_evidence": [
+    {
+      "substance_chebi_id": "CHEBI:29073",
+      "target_nutrient_code": "iron",
+      "source_code": "NIH-ODS-IRON",
+      "direction": "enhances",
+      "interaction_scope": "same_meal_context",
+      "timing_window": "co-consumed food context; no quantitative timing model",
+      "evidence_strength": "authoritative_qualitative",
+      "citation_url": "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+      "citation_doi": null,
+      "citation_pmid": null,
+      "review_status": "reviewed_qualitative",
+      "calculation_effect": false,
+      "version": "1",
+      "effective_from": "2026-08-30"
+    }
+  ]
+}

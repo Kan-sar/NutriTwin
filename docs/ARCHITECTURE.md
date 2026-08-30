@@ -22,9 +22,9 @@ Flutter (primary, deferred locally) / OpenAPI clients
 | Module | Responsibility | Current status |
 |---|---|---|
 | `packages/domain` | Units, targets, effective intake, coverage, risk, ranking, optimizer traces | Implemented and tested for the demo slice |
-| `packages/data_pipeline` | Source acquisition, normalization and demo-schema validation | Partial: synthetic validator and FDC importer implemented; licensed ICMR/IFCT import blocked |
-| `apps/api` | FastAPI routes, application services, configuration, auth/RBAC | Implemented and locally verified |
-| PostgreSQL models/migrations | Accounts, profiles, consent, sources, foods, meals, target snapshots, jobs and audit | Implemented for the slice; live PostgreSQL blocked by host Docker failure |
+| `packages/data_pipeline` | Source acquisition, normalization, chemistry and demo-schema validation | Partial: synthetic/chemistry validators and FDC importer implemented; licensed ICMR/IFCT import blocked |
+| `apps/api` | FastAPI routes, application services, configuration, auth/RBAC and Admin chemistry inspection | Implemented and locally verified |
+| PostgreSQL models/migrations | Accounts, profiles, consent, sources, foods, chemistry/evidence, meals, target snapshots, jobs and audit | Implemented for the slice; live PostgreSQL remains an environment validation gate |
 | `services/worker` | Idempotent recomputation | Partial: Celery task and idempotent execution implemented; live broker/scheduling unverified |
 | Neo4j adapter | Evidence graph | Stubbed until Phase 8 |
 | Flutter | Primary client | Deferred locally; Flutter SDK unavailable |
@@ -33,12 +33,17 @@ Flutter (primary, deferred locally) / OpenAPI clients
 ## Bounded contexts
 
 - **Access**: users, roles, credentials, refresh sessions, consent, audit.
-- **Reference**: sources, nutrients, units, foods, compositions, target schedules, evidence.
+- **Reference**: sources, nutrients, units, foods, compositions, ChEBI substances,
+  FoodOn mappings, qualitative evidence, and target schedules.
 - **Twin**: profiles, target snapshots, meals/ingredients, estimates, daily/rolling summaries, risk snapshots.
 - **Decision**: candidate meals, constraint results, objective normalization/weights, optimization and explanations.
 - **Research/Admin**: review workflows, flags, aggregates, provenance inspection.
 
 Cross-context references use UUIDs and immutable version identifiers. No domain function reads environment variables or performs I/O.
+
+Chemistry references live in PostgreSQL because provenance, review status, and effective
+dates are transactional source facts. RDKit is an optional import-time validator and is
+not called by API nutrition calculations. Neo4j projection remains deferred.
 
 ## Persistence and consistency
 

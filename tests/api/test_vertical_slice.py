@@ -101,5 +101,5 @@ def test_admin_reference_inspection_is_backend_rbac_protected(client: TestClient
     admin = _headers(_login(client, "admin@example.com", "AdminDemo!2026"))
     response = client.get("/api/v1/admin/reference-data", headers=admin)
     assert response.status_code == 200
-    assert response.json()["sources"][0]["code"] == "DEMO-SYNTHETIC"
-    assert response.json()["sources"][0]["authoritative"] is False
+    sources = {source["code"]: source for source in response.json()["sources"]}
+    assert sources["DEMO-SYNTHETIC"]["authoritative"] is False

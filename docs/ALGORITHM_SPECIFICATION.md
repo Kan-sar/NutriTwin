@@ -22,6 +22,19 @@ Start with `effective = consumed`. Select reviewed, active, in-scope quantitativ
 
 With no eligible quantitative rule, effective equals consumed numerically but remains a separate value and trace containing `identity_estimate_no_approved_rules`. This is an estimate, not measured absorption.
 
+## Nutrition chemistry reference validation v1
+
+ChEBI records are accepted only when their stable identifier, canonical SMILES,
+molecular formula, InChI, and InChIKey agree under the pinned RDKit validator. FoodOn
+mappings require a stable ID/IRI, explicit exact/close/broad mapping type, confidence in
+`[0,1]`, source version, and review status. Duplicate identifiers or conflicting
+InChIKeys fail validation.
+
+Qualitative interaction evidence stores direction, meal/timing scope, evidence strength,
+citation, review status, version, and effective date. The data validator and database
+constraint both require `calculation_effect=false`. No chemistry or qualitative
+evidence record participates in the effective-intake rule list.
+
 ## Coverage v1
 
 For a target `T > 0` and total `X`, `coverage_percent = 100 * X / T`. Display may be capped separately, but stored coverage is uncapped. Daily uses a local calendar day; rolling 7/30 uses inclusive ending day and the sum of daily amounts divided by `7*T` or `30*T`. Missing target or insufficient composition produces unavailable coverage plus completeness warnings.
@@ -54,4 +67,3 @@ For each bounded food `i`, integer variable `servings_i ∈ [min_i,max_i]`. Nutr
 ## Explanation assembler v1
 
 Templates consume only trace fields. Numeric tokens are formatted from those fields and round-tripped in tests. Optional LLM rephrasing receives a structured fact envelope and is rejected if it introduces an unrecognized numeric token or disallowed clinical phrase; deterministic text is the fallback.
-

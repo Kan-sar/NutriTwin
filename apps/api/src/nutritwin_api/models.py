@@ -11,6 +11,7 @@ from typing import Any
 from sqlalchemy import (
     JSON,
     Boolean,
+    CheckConstraint,
     Date,
     DateTime,
     Enum,
@@ -222,6 +223,117 @@ class FoodNutrient(Base):
     source_version: Mapped[str] = mapped_column(String(64))
     food: Mapped[Food] = relationship(back_populates="nutrients")
     nutrient: Mapped[Nutrient] = relationship(lazy="joined")
+
+
+class ChemicalSubstance(Base):
+    """Versioned, provenance-bearing chemistry reference; never a clinical assertion."""
+
+    __tablename__ = "chemical_substances"
+    __table_args__ = (
+        UniqueConstraint(
+            "source_id",
+            "chebi_id",
+            "source_version",
+            name="uq_chemical_substance_source_version",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    preferred_name: Mapped[str] = mapped_column(String(256))
+    synonyms: Mapped[list[str]] = mapped_column(JSON, default=list)
+    chebi_id: Mapped[str] = mapped_column(String(32), index=True)
+    molecular_formula: Mapped[str] = mapped_column(String(128))
+    canonical_smiles: Mapped[str] = mapped_column(Text)
+    inchi: Mapped[str] = mapped_column(Text)
+    inchi_key: Mapped[str] = mapped_column(String(32), index=True)
+    source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("data_sources.id"))
+    source_version: Mapped[str] = mapped_column(String(64))
+    review_status: Mapped[str] = mapped_column(String(64))
+    effective_from: Mapped[date] = mapped_column(Date)
+    effective_to: Mapped[date | None] = mapped_column(Date)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+    source: Mapped[DataSource] = relationship(lazy="joined")
+
+
+class FoodOntologyMapping(Base):
+    """Reviewed mapping from a project food to a versioned FoodOn class."""
+
+    __tablename__ = "food_ontology_mappings"
+    __table_args__ = (
+        UniqueConstraint(
+            "food_id",
+            "ontology_id",
+            "source_version",
+            name="uq_food_ontology_mapping_version",
+        ),
+        CheckConstraint(
+            "confidence >= 0 AND confidence <= 1",
+            name="ck_food_ontology_mapping_confidence",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    food_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("foods.id", ondelete="CASCADE"), index=True
+    )
+    source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("data_sources.id"))
+    ontology_id: Mapped[str] = mapped_column(String(64), index=True)
+    ontology_iri: Mapped[str] = mapped_column(String(1024))
+    preferred_label: Mapped[str] = mapped_column(String(256))
+    mapping_type: Mapped[str] = mapped_column(String(32))
+    confidence: Mapped[Decimal] = mapped_column(Numeric(5, 4))
+    source_version: Mapped[str] = mapped_column(String(64))
+    review_status: Mapped[str] = mapped_column(String(64))
+    effective_from: Mapped[date] = mapped_column(Date)
+    effective_to: Mapped[date | None] = mapped_column(Date)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+    food: Mapped[Food] = relationship(lazy="joined")
+    source: Mapped[DataSource] = relationship(lazy="joined")
+
+
+class QualitativeInteractionEvidence(Base):
+    """Informational nutrient-substance evidence that is forbidden from changing totals."""
+
+    __tablename__ = "qualitative_interaction_evidence"
+    __table_args__ = (
+        UniqueConstraint(
+            "substance_id",
+            "target_nutrient_id",
+            "source_id",
+            "version",
+            name="uq_qualitative_interaction_evidence_version",
+        ),
+        CheckConstraint(
+            "calculation_effect = false",
+            name="ck_qualitative_evidence_no_calculation_effect",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    substance_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("chemical_substances.id", ondelete="CASCADE"), index=True
+    )
+    target_nutrient_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("nutrients.id"))
+    source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("data_sources.id"))
+    direction: Mapped[str] = mapped_column(String(32))
+    interaction_scope: Mapped[str] = mapped_column(String(64))
+    timing_window: Mapped[str | None] = mapped_column(String(128))
+    evidence_strength: Mapped[str] = mapped_column(String(64))
+    citation_url: Mapped[str] = mapped_column(String(1024))
+    citation_doi: Mapped[str | None] = mapped_column(String(256))
+    citation_pmid: Mapped[str | None] = mapped_column(String(32))
+    review_status: Mapped[str] = mapped_column(String(64))
+    calculation_effect: Mapped[bool] = mapped_column(Boolean, default=False)
+    version: Mapped[str] = mapped_column(String(64))
+    effective_from: Mapped[date] = mapped_column(Date)
+    effective_to: Mapped[date | None] = mapped_column(Date)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+    substance: Mapped[ChemicalSubstance] = relationship(lazy="joined")
+    target_nutrient: Mapped[Nutrient] = relationship(lazy="joined")
+    source: Mapped[DataSource] = relationship(lazy="joined")
 
 
 class Meal(Base):

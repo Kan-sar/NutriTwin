@@ -8,6 +8,8 @@ Method: STRIDE-informed review for a local academic prototype. Trust boundaries 
 | Horizontal/vertical authorization bypass | Cross-user data or Admin mutation | User-scoped repository queries, backend role dependencies, deny by default, audit | RBAC/ownership tests |
 | Nutrition-rule tampering | Unsafe/misleading estimates | Draft/review/approved workflow, activated versions immutable, evidence citation, checksums, Admin audit, deterministic traces | Mutation/approval tests; single-admin collusion remains |
 | Reference-data poisoning | Corrupted foods/targets | Source manifests/checksums, schema/range validation, explicit missingness, quarantined rejects, reviewer activation | Pipeline tests; source truth still requires expert review |
+| Chemical identity or ontology poisoning | Mislinked substance/food evidence and misleading context | Pinned ChEBI/FoodOn versions, RDKit structure checks, unique identifiers, explicit broad/exact mappings, Admin read-only inspection | Chemistry validation/API tests; expert review still required |
+| Qualitative evidence promoted to calculation | False biological precision | `calculation_effect=false` in fixture validator and database check constraint; no runtime conversion path | Constraint and API tests; quantitative rules require a separate approval model |
 | Malicious upload | Malware/resource exhaustion | Optional feature off; type allowlist, size/count limits, random names, no execution, isolated parsing when added | Upload tests required before enablement |
 | SQL/graph injection | Data exfiltration/tampering | SQLAlchemy bound parameters, fixed Cypher templates/parameters, validated IDs, least privilege | Static review/integration tests |
 | Prompt injection / LLM fabrication | Unsupported claims/numbers | External content untrusted; structured facts only; number/phrase validator; deterministic fallback; LLM cannot select/score | Disabled by default; adversarial tests before enablement |
@@ -21,4 +23,3 @@ Method: STRIDE-informed review for a local academic prototype. Trust boundaries 
 ## Security assumptions
 
 Compose credentials are development-only and must be replaced outside local use. The prototype has no public deployment approval. Dependency, secret, and workflow scanning are defense-in-depth; a human scientific/security review remains required before participant use.
-

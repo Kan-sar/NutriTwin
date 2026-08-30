@@ -23,10 +23,14 @@ Only the roles `student`, `adult`, and `admin` are valid. ICMR-NIN 2020 is autho
 
 Before editing: inspect `git status`, relevant ADRs, and `PLANS.md`. Add or update meaningful tests with changes. Run the narrow tests first, then `make check`. Update `docs/VALIDATION_REPORT.md` with commands actually run; do not claim unexecuted checks. Preserve unrelated user work and never commit secrets, private inputs, or restricted publications.
 
+Before adding an external repository, package, ontology, or dataset, apply the intake
+policy in `THIRD_PARTY_NOTICES.md`: official upstream only, pinned version/commit,
+license and redistribution review, provenance entry, security checks, and no copied
+code unless its license and necessity are explicitly documented.
+
 ## Status vocabulary
 
 - **Implemented**: exercised by a passing automated test or verified command.
 - **Partial**: some usable behavior exists, with documented gaps.
 - **Stubbed**: interface exists but intentionally returns a safe placeholder/unavailable result.
 - **Deferred**: no implementation is claimed.
-

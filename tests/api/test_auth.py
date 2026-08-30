@@ -3,7 +3,10 @@ from fastapi.testclient import TestClient
 
 def test_health_and_openapi_are_usable(client: TestClient) -> None:
     assert client.get("/health/live").json() == {"status": "ok"}
-    assert client.get("/health/ready").status_code == 200
+    readiness = client.get("/health/ready")
+    assert readiness.status_code == 200
+    assert readiness.json()["components"]["database"] == "sqlite"
+    assert readiness.json()["components"]["postgresql"] == ("development_fallback_not_postgresql")
     assert "/api/v1/auth/login" in client.get("/openapi.json").json()["paths"]
 
 

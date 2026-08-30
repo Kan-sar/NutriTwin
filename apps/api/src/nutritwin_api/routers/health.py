@@ -17,10 +17,14 @@ def live() -> dict[str, str]:
 @router.get("/health/ready")
 def ready(db: Annotated[Session, Depends(get_db)]) -> dict[str, str | dict[str, str]]:
     db.execute(text("SELECT 1"))
+    dialect = db.get_bind().dialect.name
     return {
         "status": "ready",
         "components": {
-            "postgresql": "available",
+            "database": dialect,
+            "postgresql": (
+                "available" if dialect == "postgresql" else "development_fallback_not_postgresql"
+            ),
             "redis": "optional_not_checked",
             "neo4j": "optional_not_checked",
             "llm": "disabled",

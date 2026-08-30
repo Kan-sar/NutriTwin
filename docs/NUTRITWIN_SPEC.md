@@ -63,6 +63,13 @@ Pantry and grocery features manage quantities, units, expiries, budgets, manual/
 
 Neo4j represents cited Food, Nutrient, Substance, and Physiological Outcome nodes with provenance-bearing `CONTAINS`, `HELPS`, `IMPROVES`, and `REDUCES` edges. Graph downtime degrades gracefully. Research baseline mode supplies protocols, synthetic fixtures, schemas, and analysis scripts; it must never imply a participant study occurred without ethics approval and consent.
 
+The 30% milestone includes a relational, read-only nutrition-chemistry foundation:
+versioned ChEBI substance identities, reviewed FoodOn mappings, and cited qualitative
+nutrient-interaction evidence. Optional RDKit validation may verify chemical structure
+metadata but cannot predict biological effects. Qualitative rows are database-enforced
+as calculation-inactive. Drugs, diagnoses, treatment, medication histories, and
+supplement prescriptions remain outside scope.
+
 ### Clients
 
 Flutter is the primary client for onboarding/consent, authentication, profile, search/logging, dashboard/trends, recommendations/traces, pantry/grocery, simulation, and appropriate Admin screens. Consumed, estimated effective, target, risk, simulation, and medical disclaimer states must be visibly distinct. The optional Next.js client is deferred.
@@ -77,3 +84,7 @@ Testing includes domain/golden/conversion/invariant/property tests, optimizer fe
 
 Delivery follows phases 0–9 documented in `PLANS.md`, prioritizing a verified manual backend vertical slice before optional integrations or polished clients. Completion requires reproducible startup, clean migrations/seeds, Student/Adult workflow, Admin science inspection/versioning, full traces, distinct intake states, provenance, optional-service independence, passing checks, license/secret hygiene, honest status documentation, an exact validation report, demo workflow, and a complete README.
 
+For the Review-1 milestone, current-state evidence must include clear, secret-safe
+screenshots generated from the running application, successful automated commands, and
+database/reference state. Each image records its application commit, capture time,
+source, caption, alt text, and checksum.
