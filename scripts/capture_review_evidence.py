@@ -1,4 +1,4 @@
-"""Capture reproducible, secret-safe Review-1 evidence from a running local API."""
+"""Capture reproducible, secret-safe working-state evidence from a running local API."""
 
 from __future__ import annotations
 
@@ -271,7 +271,7 @@ def main() -> None:
                 "/api/v1/meals",
                 headers=student,
                 json={
-                    "name": "Review-1 evidence meal",
+                    "name": "Working-state evidence meal",
                     "eaten_at": datetime.now(UTC).isoformat(),
                     "local_date": today,
                     "ingredients": [{"food_id": foods[0]["id"], "quantity_g": "100"}],
