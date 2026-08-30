@@ -1,33 +1,82 @@
 # NutriTwin
 
-NutriTwin is an explainable, non-clinical personalized-nutrition digital-twin academic prototype for Indian dietary contexts. It keeps logged consumed intake, estimated effective intake, reference targets, persistent intake-gap indications, and what-if projections explicitly separate.
+NutriTwin is an explainable, non-clinical personalized-nutrition digital-twin academic prototype for Indian dietary contexts. It keeps logged consumed intake, estimated effective intake, reference targets, persistent intake-gap indications, and future simulations as distinct concepts.
 
 > **Safety:** NutriTwin is educational research software. It does not diagnose nutrient deficiency or disease, measure biological absorption, prescribe supplements, or recommend medication changes. Seek a qualified professional for medical or dietary care.
 
-## Project status
+## What works now
 
-Phase 0 architecture and scientific-data governance are implemented in documentation. Backend foundation and the manual core vertical slice are in progress. Flutter, pantry/grocery, quantitative absorption modifiers, Neo4j Admin authoring, participant research, OCR/vision/barcode, external prices, LLM rephrasing, Next.js, Kubernetes, and deployment are deferred or blocked as detailed in [PLANS.md](PLANS.md).
+The verified backend vertical slice supports Student, Adult, and Admin accounts; consent; versioned profiles and target snapshots; curated food search; ingredient-level meal create/edit/delete; consumed and separately estimated-effective nutrient totals; daily, rolling 7-day, and rolling 30-day coverage; deterministic intake-gap risk traces; hard-constraint-aware weighted meal ranking; and deterministic explanations. The workflow runs with the LLM, Neo4j, OCR, barcode, image recognition, and external prices disabled.
 
-Authoritative ICMR-NIN tables are **not bundled** because product redistribution permission has not been established. Initial demo target fixtures are conspicuously synthetic and validate software behavior only. See [the source register](docs/DATA_SOURCE_REGISTER.md).
+The API foundation also includes Argon2 password hashing, short-lived JWT access tokens, rotating/revocable hashed refresh sessions, backend RBAC, audit events, structured request logging, Alembic migrations, an idempotent Celery recomputation job, Docker Compose, and CI checks.
 
-## Intended architecture
+Authoritative ICMR-NIN tables are **not bundled** because redistribution permission has not been established. The included seven-food/four-nutrient dataset and target rules are conspicuously synthetic and validate software behavior only. They are not nutrition guidance and do not scientifically validate the model.
+
+| Area | Status |
+|---|---|
+| FastAPI modular monolith and OpenAPI | Implemented and locally verified |
+| Pure targets/intake/effective/coverage/risk/ranking/CP-SAT domain logic | Implemented and tested |
+| PostgreSQL schema and Alembic migrations | Implemented; migrations also verified against SQLite locally |
+| Redis/Celery recomputation | Implemented and unit/integration tested; live container run blocked by host Docker Desktop failure |
+| Synthetic demo pipeline and automated HTTP walkthrough | Implemented and verified |
+| Licensed ICMR-NIN/IFCT import and scientific golden cases | Blocked on lawful source access/permission |
+| Quantitative absorption modifiers | Deferred pending evidence review; identity-estimate baseline implemented |
+| Neo4j evidence graph and Admin authoring | Deferred; core is independent of it |
+| Flutter, pantry/grocery, what-if, research export | Deferred |
+| OCR, vision, barcode, external prices, LLM adapter, Next.js, Kubernetes, deployment | Deferred |
+
+## Architecture
 
 ```text
-Flutter client (primary; deferred locally)
+Flutter client (primary; deferred)
                  |
-            FastAPI modular monolith
- auth | profiles | foods | meals | twin | recommendations | admin
+        FastAPI modular monolith
+ auth | profiles | foods | meals | twin | recommendations | admin-read
                  |
- pure deterministic domain package
+     pure deterministic domain package
                  |
- PostgreSQL (authoritative history) + optional Redis/Celery + optional Neo4j
+ PostgreSQL (authoritative history)
+      | optional Redis/Celery      optional Neo4j/LLM
 ```
 
-The complete provisional specification is [docs/NUTRITWIN_SPEC.md](docs/NUTRITWIN_SPEC.md), architecture is [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and calculation formulas are [docs/ALGORITHM_SPECIFICATION.md](docs/ALGORITHM_SPECIFICATION.md).
+The complete provisional specification is [docs/NUTRITWIN_SPEC.md](docs/NUTRITWIN_SPEC.md), the architecture is [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), calculation formulas are [docs/ALGORITHM_SPECIFICATION.md](docs/ALGORITHM_SPECIFICATION.md), and requirement status is [docs/REQUIREMENTS_TRACEABILITY_MATRIX.md](docs/REQUIREMENTS_TRACEABILITY_MATRIX.md).
 
-## Developer workflow
+## Quick start with Docker Compose
 
-The target commands, added with the implementation foundation, are:
+Prerequisites are Git and a functioning Docker Desktop/Engine. No paid service or external API key is needed.
+
+```bash
+make up
+make demo
+make down
+```
+
+The API is at `http://127.0.0.1:8000`; interactive OpenAPI documentation is at `http://127.0.0.1:8000/docs`. Compose publishes only loopback ports. Its credentials are local-development defaults and must be replaced outside local use.
+
+On the validation machine, `docker compose config` passed but Docker Desktop itself crashed while creating its `dockerInference` Unix-socket path. That host-level issue prevented a live Compose run; it is not reported as a successful container test. The local-process workflow below was fully verified.
+
+## Local-process quick start
+
+Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.lock
+.venv\Scripts\python.exe -m pip install --no-deps -e .
+.venv\Scripts\alembic.exe upgrade head
+.venv\Scripts\python.exe scripts\seed.py
+.venv\Scripts\uvicorn.exe nutritwin_api.main:app --host 127.0.0.1 --port 8000
+```
+
+In a second terminal:
+
+```powershell
+.venv\Scripts\python.exe scripts\demo.py
+```
+
+The default local database is `nutritwin-dev.db` and is ignored by Git. Set values from `.env.example` to use PostgreSQL or other local services. Unix developers can override `VENV_PYTHON=.venv/bin/python` and `VENV_BIN=.venv/bin` when using the Makefile.
+
+## Developer commands
 
 ```bash
 make bootstrap
@@ -42,21 +91,42 @@ make demo
 make down
 ```
 
-Windows developers without `make` can use the equivalent documented Python/Docker commands. Exact commands actually verified on this machine are recorded in [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md).
+Exact commands and observed results are recorded in [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md). The manual/API walkthrough is [docs/DEMO_WALKTHROUGH.md](docs/DEMO_WALKTHROUGH.md).
 
 ## Local demo accounts
 
-Demo credentials will be emitted by the local-only seeder and documented here only after the authentication workflow is implemented and verified. They must never be used outside local development.
+| Role | Email | Password |
+|---|---|---|
+| Student | `student@example.com` | `StudentDemo!2026` |
+| Adult | `adult@example.com` | `AdultDemo!2026` |
+| Admin | `admin@example.com` | `AdminDemo!2026` |
 
-## Provenance and licensing
+These credentials exist only in seeded local demo data. Do not reuse them or expose this configuration publicly.
 
-- ICMR-NIN RDA/EAR 2020 is the required authority for production-quality Indian targets.
-- IFCT 2017 is preferred for Indian food composition.
-- Restricted publications belong in ignored local input directories and are imported through checksum-recorded scripts.
-- USDA FoodData Central may provide attributed CC0 demo/gap data.
-- Missing values remain missing; no absent nutrient is silently converted to zero.
+## Data provenance
+
+- ICMR-NIN RDA/EAR 2020 remains the required authority for real Indian targets.
+- IFCT 2017 is the preferred Indian food-composition source.
+- Restricted publications belong in ignored local input directories and require checksum-recorded acquisition/import.
+- The optional USDA FoodData Central importer targets CC0 gap/demo records, but the latest unauthenticated acquisition attempt was rate-limited and no FDC records are bundled.
+- Missing nutrient values remain missing; an absent value is never silently converted to zero.
+
+See [docs/DATA_SOURCE_REGISTER.md](docs/DATA_SOURCE_REGISTER.md) for source, license, extraction, transformation, and limitation details.
+
+## Repository layout
+
+```text
+apps/api/                 FastAPI application and Alembic migrations
+apps/mobile/              Flutter implementation contract (deferred)
+packages/domain/          Pure deterministic nutrition and optimization logic
+packages/data_pipeline/   Reproducible demo/source acquisition validation
+services/worker/          Celery task entry point
+data/processed/           Legally redistributable generated demo data
+infra/docker/             Local reproducible service topology
+tests/                    Domain, API, pipeline, migration and job tests
+docs/                     Science, architecture, security and validation records
+```
 
 ## License
 
 No project license has been selected by the user. Until one is added, all rights in repository-authored material remain with the repository owner. Third-party data and citations retain their own terms.
-

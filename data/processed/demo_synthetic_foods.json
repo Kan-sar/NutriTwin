@@ -1,0 +1,87 @@
+{
+  "schema_version": "1",
+  "source": {
+    "code": "DEMO-SYNTHETIC",
+    "title": "NutriTwin synthetic software demonstration records",
+    "organization": "NutriTwin project",
+    "url": null,
+    "license": "project-internal synthetic data",
+    "redistribution_status": "permitted",
+    "authoritative": false,
+    "version": "1",
+    "effective_from": "2026-01-01",
+    "limitations": "All quantities are deliberately synthetic round values for software tests. They are not ICMR-NIN, IFCT, USDA, or dietary advice."
+  },
+  "foods": [
+    {
+      "food_code": "demo-lentils-cooked",
+      "name": "DEMO — cooked lentils",
+      "source_food_id": "SYN-001",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian", "vegan"],
+      "allergens": [],
+      "nutrients": {"energy": ["150", "kcal"], "protein": ["9", "g"], "iron": ["3", "mg"], "vitamin_c": ["1", "mg"]}
+    },
+    {
+      "food_code": "demo-spinach-cooked",
+      "name": "DEMO — cooked spinach",
+      "source_food_id": "SYN-002",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian", "vegan"],
+      "allergens": [],
+      "nutrients": {"energy": ["50", "kcal"], "protein": ["4", "g"], "iron": ["3.5", "mg"], "vitamin_c": ["10", "mg"]}
+    },
+    {
+      "food_code": "demo-tomato-raw",
+      "name": "DEMO — raw tomato",
+      "source_food_id": "SYN-003",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian", "vegan"],
+      "allergens": [],
+      "nutrients": {"energy": ["20", "kcal"], "protein": ["1", "g"], "iron": ["0.5", "mg"], "vitamin_c": ["20", "mg"]}
+    },
+    {
+      "food_code": "demo-chickpeas-cooked",
+      "name": "DEMO — cooked chickpeas",
+      "source_food_id": "SYN-004",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian", "vegan"],
+      "allergens": [],
+      "nutrients": {"energy": ["160", "kcal"], "protein": ["9", "g"], "iron": ["3", "mg"], "vitamin_c": ["2", "mg"]}
+    },
+    {
+      "food_code": "demo-brown-rice-cooked",
+      "name": "DEMO — cooked brown rice",
+      "source_food_id": "SYN-005",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian", "vegan"],
+      "allergens": [],
+      "nutrients": {"energy": ["120", "kcal"], "protein": ["3", "g"], "iron": ["1", "mg"], "vitamin_c": ["0", "mg"]}
+    },
+    {
+      "food_code": "demo-yogurt-plain",
+      "name": "DEMO — plain yogurt",
+      "source_food_id": "SYN-006",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian"],
+      "allergens": ["milk"],
+      "nutrients": {"energy": ["60", "kcal"], "protein": ["3.5", "g"], "iron": ["0.1", "mg"], "vitamin_c": ["1", "mg"]}
+    },
+    {
+      "food_code": "demo-orange-raw",
+      "name": "DEMO — raw orange",
+      "source_food_id": "SYN-007",
+      "edible_fraction": "1",
+      "authoritative": false,
+      "dietary_tags": ["vegetarian", "vegan"],
+      "allergens": [],
+      "nutrients": {"energy": ["50", "kcal"], "protein": ["1", "g"], "iron": ["0.2", "mg"], "vitamin_c": ["50", "mg"]}
+    }
+  ]
+}

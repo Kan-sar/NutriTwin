@@ -12,6 +12,8 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+*.db
+*.sqlite
 .idea/
 .vscode/
 .DS_Store
@@ -23,4 +25,3 @@ data/private/
 *.xlsx
 apps/mobile/.dart_tool/
 apps/mobile/build/
-

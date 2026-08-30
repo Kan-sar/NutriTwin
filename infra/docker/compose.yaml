@@ -1,0 +1,96 @@
+name: nutritwin
+
+services:
+  postgres:
+    image: postgres:16.15-alpine
+    environment:
+      POSTGRES_DB: nutritwin
+      POSTGRES_USER: nutritwin
+      POSTGRES_PASSWORD: nutritwin_local_only # pragma: allowlist secret -- public local-only default
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - nutritwin-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nutritwin -d nutritwin"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4.10-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - nutritwin-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  neo4j:
+    image: neo4j:5.26.30-community
+    environment:
+      NEO4J_AUTH: neo4j/nutritwin_local_only
+    ports:
+      - "127.0.0.1:7474:7474"
+      - "127.0.0.1:7687:7687"
+    volumes:
+      - nutritwin-neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    environment: &api-environment
+      NUTRITWIN_ENVIRONMENT: development
+      NUTRITWIN_DATABASE_URL: postgresql+psycopg://nutritwin:nutritwin_local_only@postgres:5432/nutritwin # pragma: allowlist secret -- public local-only default
+      NUTRITWIN_REDIS_URL: redis://redis:6379/0
+      NUTRITWIN_NEO4J_URI: bolt://neo4j:7687
+      NUTRITWIN_NEO4J_USER: neo4j
+      NUTRITWIN_NEO4J_PASSWORD: nutritwin_local_only # pragma: allowlist secret -- public local-only default
+      NUTRITWIN_JWT_SECRET: local-compose-only-change-before-nonlocal-use-123456 # pragma: allowlist secret -- public local-only default
+      NUTRITWIN_CORS_ORIGINS: '["http://localhost:3000","http://localhost:8080"]'
+      NUTRITWIN_LLM_ENABLED: "false"
+    command: ["sh", "-c", "alembic upgrade head && python scripts/seed.py && uvicorn nutritwin_api.main:app --host 0.0.0.0 --port 8000"]
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    environment: *api-environment
+    command: ["celery", "-A", "nutritwin_worker.celery_app:celery_app", "worker", "--loglevel=INFO", "--concurrency=1"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  nutritwin-postgres:
+  nutritwin-redis:
+  nutritwin-neo4j-data:

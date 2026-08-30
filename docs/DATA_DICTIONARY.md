@@ -23,6 +23,7 @@ UUID primary keys and UTC timestamps are used unless noted. Scientific numerics 
 | DailySummary | user/date/input revision, nutrient, consumed/effective, completeness, model versions | Unique idempotency key |
 | RollingSummary | user/end date/window, nutrient, totals/coverage, completeness, input/model versions | Window is 7 or 30 |
 | RiskSnapshot | user/date/nutrient, score/band, factor contributions, model version, wording | Non-diagnostic wording |
+| RecomputeJob | user, affected date, input revision, model version, status, attempts, result trace, completion timestamp | Unique idempotency tuple; implemented; dedicated summary tables remain deferred |
 | CandidateMeal | ID/name, ingredients/servings, cost/time, tags, source | Bounded validated candidate |
 | RecommendationTrace | user/date, candidate, hard checks, normalized objectives, weights, score/status/rejections, model version/seed | Explanation source |
 | PantryItem | user, food, quantity/unit, expiry, revision | Phase 7 |
@@ -32,4 +33,3 @@ UUID primary keys and UTC timestamps are used unless noted. Scientific numerics 
 ## Canonical units
 
 Energy `kcal`; mass `g`, `mg`, or `µg` per nutrient registry; ingredient quantity `g`; time `minute`; currency stored as integer minor units plus ISO-4217 code. Unit conversion is explicit at the import/API boundary and never inferred from display labels.
-

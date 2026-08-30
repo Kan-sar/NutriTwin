@@ -4,50 +4,60 @@ Updated: 2026-08-30
 
 ## Assumptions and blockers
 
-- The user-provided project brief is captured as the provisional authoritative specification because no repository attachment was available.
-- The repository was intentionally created at `C:\Projects\NutriTwin`; `C:\.cache` was an unrelated cache.
-- ICMR-NIN RDA/EAR 2020 and IFCT 2017 full tables are not redistributed. A licensed/local import is required before real scientific target data can be enabled.
-- Python 3.12-3.14 is supported. The development host has Python 3.14.5 and Docker; Flutter is not installed.
-- Pregnancy, lactation, medical conditions, medications, and supplements are outside the initial personalized target engine. No medical adjustment is inferred.
+- The user-provided project brief is captured as the provisional authoritative specification because no separate specification file was available before initialization.
+- The repository was created at `C:\Projects\NutriTwin`; the original `C:\.cache` folder was an unrelated cache.
+- ICMR-NIN RDA/EAR 2020 and IFCT 2017 tables are not redistributed. A lawful local acquisition/import and expert-verified golden cases are required before real scientific target data can be enabled.
+- Python 3.12–3.14 is supported and 3.14.5 was used locally. Flutter is not installed on the development host.
+- Docker Compose syntax is verified, but a Docker Desktop host crash involving its `dockerInference` socket blocked live container validation. No factory reset or Docker application-data deletion was performed.
+- Pregnancy, lactation, medical conditions, medications, and supplements remain outside the initial target engine. No medical adjustment is inferred.
 
 ## Phases and acceptance gates
 
-| Phase | Scope | Dependencies | Validation gate | Status |
-|---|---|---|---|---|
-| 0 | Specification, source register, architecture, algorithms, data model, threat model, ADRs, traceability | Authoritative-source review | Required documents present and internally consistent | In progress |
-| 1 | FastAPI, PostgreSQL, Alembic, auth/RBAC, consent, audit, Redis/Celery, Neo4j health, Compose, CI | Phase 0 | Clean migration; health/auth/RBAC tests | Planned |
-| 2 | Profile, versioned target, food search, ingredient meal logging, daily/7d/30d totals, risk, ranked recommendation, explanation | Phase 1; demo data | Automated end-to-end API workflow | Planned |
-| 3 | Licensed ICMR target import and golden cases | User-supplied licensed source/permission | Source checksum + verified golden fixtures | Blocked on data permission |
-| 4 | Evidence-governed absorption rules | Reviewed quantitative evidence | Golden and invariant tests; no unreviewed active rule | Planned, identity baseline first |
-| 5 | Materialized nutrition memory and idempotent Celery recomputation | Phase 2 | Edit/delete/retry tests | Planned |
-| 6 | Weighted ranking and bounded deterministic CP-SAT construction | Phase 2, OR-Tools | Feasible/infeasible/constraint/trace tests | Planned |
-| 7 | Pantry, grocery optimization, deterministic what-if | Phase 6 | Scenario and invariant tests | Deferred until vertical slice stable |
-| 8 | Evidence graph, Admin workflows, aggregate research export | Phase 1-6 | Graceful-degradation and anonymization tests | Deferred |
-| 9 | Flutter client and accessibility/hardening | Stable API; Flutter SDK | Unit/widget/e2e tests | Deferred; SDK unavailable locally |
+| Phase | Scope | Validation gate | Status |
+|---|---|---|---|
+| 0 | Specification, source register, architecture, algorithms, data model, threat model, ADRs, traceability | Required documents complete and internally consistent | Complete |
+| 1 | FastAPI, schema/migrations, auth/RBAC, consent, audit, Redis/Celery entry point, Compose, CI | Health/OpenAPI/auth/RBAC tests; clean migration | Implemented; live Compose blocked by host Docker failure |
+| 2 | Profile, target, food search, meal logging, daily/7d/30d twin, risk, ranking, explanation | Automated no-LLM end-to-end API workflow | Complete with synthetic data |
+| 3 | Licensed ICMR target import and golden cases | Source checksum and independently verified fixtures | Blocked on lawful data/permission and scientific review |
+| 4 | Evidence-governed quantitative absorption rules | Approved evidence records and golden/invariant tests | Partial: safe identity baseline and rule engine invariants implemented; active modifiers deferred |
+| 5 | Materialized nutrition memory and scheduled idempotent recomputation | Edit/delete/retry and worker integration tests | Partial: on-demand summaries and idempotent job execution implemented; scheduled materialization deferred |
+| 6 | Weighted ranking and bounded deterministic CP-SAT construction | Feasible/infeasible/constraint/trace tests | Partial: ranking is exposed; pure CP-SAT constructor is tested but not yet an API workflow |
+| 7 | Pantry, grocery optimization, deterministic what-if | Scenario and invariant tests | Deferred |
+| 8 | Evidence graph, Admin workflows, aggregate research export | Graceful degradation, audit and anonymization tests | Partial: Admin read/RBAC and audit foundation only; rest deferred |
+| 9 | Flutter client and accessibility/hardening | Unit/widget/end-to-end tests | Deferred; Flutter SDK unavailable |
 
-## Initial vertical-slice validation criteria
+## Verified vertical-slice criteria
 
-1. A Student or Adult can register, consent, create a profile, and obtain an immutable demo target marked provisional/synthetic.
-2. The user can search curated foods and log ingredient quantities with explicit source and missingness.
-3. Consumed and estimated-effective totals are separate outputs; with no approved rules, the trace explicitly reports identity estimation.
-4. Daily, 7-day, and 30-day coverage are deterministic and recalculated after edits.
-5. Risk wording is always “persistent intake-gap risk indication,” with factor contributions.
-6. At least one meal is ranked after hard constraints, and explanation text is assembled only from stored trace facts.
-7. The workflow passes with LLM, Neo4j, OCR, barcode, price APIs, and vision disabled.
+1. Student and Adult accounts can authenticate, consent, create/update a profile, and obtain immutable provisional synthetic targets.
+2. A user can search curated foods and create, edit, list, and soft-delete ingredient-level meals.
+3. Consumed and estimated-effective totals are separate. With no approved quantitative rule, the trace states that the identity estimate was applied.
+4. Daily, rolling 7-day, and rolling 30-day coverage and completeness are deterministic.
+5. Risk wording is “persistent intake-gap risk indication” and includes exact factor contributions and model version.
+6. Recommendations enforce allergens and dietary restrictions as hard checks, store normalized objectives/weights/rejections, and use deterministic explanations.
+7. OR-Tools CP-SAT construction is deterministic and serving-bounded in domain tests.
+8. The workflow passes with LLM, Neo4j, OCR, barcode, external price APIs, and vision disabled.
+
+## Next implementation order
+
+1. Obtain lawful ICMR-NIN RDA/EAR and IFCT inputs, formalize local import manifests, and have reference rows/golden cases independently reviewed.
+2. Add PostgreSQL-backed integration validation once Docker Desktop or another local PostgreSQL instance works.
+3. Expose and persist CP-SAT constructed meals with time limits, infeasibility fallback, and decision traces.
+4. Add approved absorption evidence authoring/review; keep quantitative rules inactive until the evidence threshold is met.
+5. Materialize summary/risk snapshots via Celery and test retry behavior against Redis/PostgreSQL.
+6. Implement the Flutter manual workflow before pantry, grocery, graph authoring, or optional recognition integrations.
 
 ## Principal risks
 
 | Risk | Mitigation |
 |---|---|
-| Restricted scientific tables | Local acquisition/import contract; source hashes; synthetic demo data clearly labeled |
-| Overstating biological absorption | Rename as estimated effective intake; identity baseline; uncertainty warning on every trace |
-| Clinical interpretation | Constrained vocabulary and response tests; no disease/medication/supplement modules |
-| Data poisoning or rule tampering | Admin-only versioned approvals, citations, audit events, immutable activated versions |
-| Optimizer hiding hard violations | Pre-filter and post-validate candidates; record rejection reasons |
-| Student-maintained complexity | Modular monolith; optional services degrade safely; defer Kubernetes and web client |
-| Re-identification | Data minimization, pseudonymous exports, small-cell suppression in later research module |
+| Restricted scientific tables | Local acquisition/import contract, source hashes, synthetic demo data clearly labeled |
+| Overstating biological absorption | “Estimated effective intake” naming, identity baseline, uncertainty warning on every trace |
+| Clinical interpretation | Constrained wording tests; no disease, medication, supplement, or diagnostic modules |
+| Data poisoning or rule tampering | Versioned approvals/citations, Admin RBAC, audit events; full authoring still deferred |
+| Optimizer hiding hard violations | Pre-filter and post-validate; record rejection reasons; invariant tests |
+| Student-maintained complexity | Modular monolith; optional services degrade safely; web/Kubernetes deferred |
+| Research re-identification | Data minimization now; pseudonymization and small-cell suppression before exports |
 
-## Explicitly deferred initial features
+## Explicitly deferred features
 
-Flutter UI, Next.js, Kubernetes, public deployment, OCR, image recognition, barcode scanning, external prices, live LLM rephrasing, condition-specific adjustments, supplement advice, real participant research, and unrestricted graph authoring.
-
+Flutter UI, pantry and grocery workflows, what-if simulation, unrestricted evidence-graph authoring, anonymized research exports, Next.js, Kubernetes, public deployment, OCR, image recognition, barcode scanning, external prices, live LLM rephrasing, condition-specific adjustments, supplement advice, and real participant research.

@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nutritwin"
+version = "0.1.0"
+description = "Explainable non-clinical personalized nutrition digital twin academic prototype"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+  "alembic==1.19.1",
+  "argon2-cffi==25.1.0",
+  "celery==5.6.3",
+  "email-validator==2.3.0",
+  "fastapi==0.141.1",
+  "neo4j==6.3.0",
+  "ortools==9.15.6755",
+  "psycopg[binary]==3.3.4",
+  "pydantic==2.13.5",
+  "pydantic-settings==2.15.0",
+  "pwdlib[argon2]==0.3.1",
+  "pyjwt==2.13.0",
+  "redis==8.1.0",
+  "sqlalchemy==2.0.52",
+  "uvicorn==0.52.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "detect-secrets==1.5.0",
+  "httpx==0.28.1",
+  "hypothesis==6.165.10",
+  "mypy==2.3.1",
+  "pip-audit==2.10.1",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.5",
+]
+
+[tool.setuptools.packages.find]
+where = ["apps/api/src", "packages/domain/src", "packages/data_pipeline/src", "services/worker/src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+markers = [
+  "integration: requires service or database integration",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["nutritwin_domain", "nutritwin_api", "nutritwin_data"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 80
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "S", "RUF"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S106"]
+"scripts/**" = ["S603"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+mypy_path = ["apps/api/src", "packages/domain/src", "packages/data_pipeline/src", "services/worker/src"]

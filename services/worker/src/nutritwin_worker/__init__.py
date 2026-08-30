@@ -1,0 +1,1 @@
+"""NutriTwin Celery worker package."""
