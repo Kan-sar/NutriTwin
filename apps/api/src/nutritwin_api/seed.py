@@ -45,16 +45,24 @@ DEMO_ACCOUNTS = {
 
 
 def _default_dataset_path() -> Path:
-    return Path(__file__).resolve().parents[4] / "data" / "processed" / "demo_synthetic_foods.json"
+    return _resolve_data_path("demo_synthetic_foods.json")
 
 
 def _default_chemistry_path() -> Path:
-    return (
-        Path(__file__).resolve().parents[4]
-        / "data"
-        / "processed"
-        / "demo_chemistry_references.json"
+    return _resolve_data_path("demo_chemistry_references.json")
+
+
+def _resolve_data_path(filename: str) -> Path:
+    """Resolve copied repository data before considering an editable-source layout."""
+    candidates = (
+        Path.cwd() / "data" / "processed" / filename,
+        Path(__file__).resolve().parents[4] / "data" / "processed" / filename,
     )
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    attempted = ", ".join(str(candidate) for candidate in candidates)
+    raise FileNotFoundError(f"could not locate {filename}; attempted: {attempted}")
 
 
 def seed_database(
