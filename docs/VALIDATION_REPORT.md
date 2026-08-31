@@ -41,6 +41,7 @@ All commands used the repository `.venv` unless noted otherwise.
 | `detect-secrets-hook --no-verify` over tracked files | Passed; public evidence commit/checksum fields are excluded by exact key regex, and the public Alembic revision identifier is explicitly annotated |
 | `docker compose -f infra/docker/compose.yaml config --quiet` | Passed |
 | `git diff --check` | Passed before the final commit |
+| GitHub Actions CI run `33369863646` for commit `a82ed7a` | Passed: lint, format, typing, RDKit data validation, tests/coverage, migration checks, dependency audit, secret scan, and Compose validation |
 
 ## Database, API, and worker validation
 
