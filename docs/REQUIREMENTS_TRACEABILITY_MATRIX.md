@@ -25,7 +25,7 @@ Statuses reflect verified repository behavior on 2026-08-31. “Implemented” r
 | R-19 | Security/privacy controls | Threat model, minimal profile, tokens, consent, audit | auth/consent/admin boundaries | auth/RBAC tests, Ruff security rules, pip-audit and secret scan | Partial: upload/export controls await those features |
 | R-20 | Reproducible commands/CI/demo | Compose, Makefile, pinned lock, CI | OpenAPI and demo script | local checks/demo and live Compose services passed; remote CI execution unverified | Partial |
 | R-21 | Basic non-clinical nutrition chemistry | ChEBI substances, FoodOn mappings, qualitative evidence; RDKit validation; calculation-inactive constraint | Admin `/substances` and `/evidence` | chemistry model/migration/fixture/validator; data, API and constraint tests | Implemented for the bounded demo subset |
-| R-22 | Working-state screenshots | Commit-bound manifest, captions, alt text, checksums, secret-safe demo records | Swagger/API/test/database evidence images | `scripts/capture_review_evidence.py`; seven captured images embedded in README and DOCX | Implemented |
+| R-22 | Working-state screenshots | Commit-bound manifest, captions, alt text, checksums, secret-safe demo records | Swagger/API/test/database evidence images | `scripts/capture_powershell_evidence.ps1` for native terminal windows; `scripts/capture_review_evidence.py` for browser/API captures and manifest; seven images embedded in README and DOCX | Implemented |
 
 ## Deferred specification groups
 

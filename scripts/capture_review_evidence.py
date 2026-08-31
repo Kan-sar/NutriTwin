@@ -295,21 +295,6 @@ def main() -> None:
         chemistry_dict = cast("dict[str, Any]", chemistry)
         evidence_dict = cast("dict[str, Any]", evidence)
 
-        workflow = {
-            "health": health,
-            "authenticated_role": "student",
-            "food_search_result": {
-                "food_code": foods[0]["food_code"],
-                "authoritative": foods[0]["authoritative"],
-            },
-            "meal_created": {
-                "name": meal["name"],
-                "local_date": meal["local_date"],
-                "revision": meal["revision"],
-                "ingredient_count": len(meal["ingredients"]),
-            },
-            "status": "successful",
-        }
         chemistry_safe = {
             "model_version": chemistry_dict["model_version"],
             "notice": chemistry_dict["notice"],
@@ -374,8 +359,20 @@ def main() -> None:
             ],
             "evidence_notice": evidence_dict["notice"],
         }
-        test_command, test_output = _run_test_evidence()
-        database = _database_snapshot()
+        terminal_files = (
+            "02-health-workflow.png",
+            "06-automated-tests.png",
+            "07-database-state.png",
+        )
+        missing_terminal_files = [
+            filename for filename in terminal_files if not (output_dir / filename).is_file()
+        ]
+        if missing_terminal_files:
+            missing = ", ".join(missing_terminal_files)
+            raise RuntimeError(
+                "Native PowerShell evidence is missing: "
+                f"{missing}. Run scripts/capture_powershell_evidence.ps1 first."
+            )
 
         playwright_api = importlib.import_module("playwright.sync_api")
         browser_executable: Path | None = args.browser_executable
@@ -408,12 +405,6 @@ def main() -> None:
 
             captures = [
                 (
-                    "02-health-workflow.png",
-                    "Successful health and manual workflow",
-                    "GET /health/ready; authenticated food search and POST /api/v1/meals",
-                    workflow,
-                ),
-                (
                     "03-nutrition-twin.png",
                     "Consumed and estimated-effective nutrition twin",
                     "GET /api/v1/twin/summary",
@@ -431,18 +422,6 @@ def main() -> None:
                     "GET /api/v1/admin/substances and /api/v1/admin/evidence",
                     chemistry_safe,
                 ),
-                (
-                    "06-automated-tests.png",
-                    "Automated test and coverage result",
-                    test_command,
-                    test_output,
-                ),
-                (
-                    "07-database-state.png",
-                    "Database state with scientific provenance records",
-                    "Read-only SQLAlchemy counts from the configured local database",
-                    database,
-                ),
             ]
             for filename, title, source, payload in captures:
                 _capture_html(page, output_dir / filename, title, source, payload)
@@ -453,7 +432,7 @@ def main() -> None:
                 "FastAPI Swagger UI showing the implemented NutriTwin endpoint groups."
             ),
             "02-health-workflow.png": (
-                "Successful local readiness check, authenticated food search, and meal creation."
+                "Actual PowerShell readiness response and authenticated demo workflow."
             ),
             "03-nutrition-twin.png": (
                 "Iron and vitamin C consumed and estimated-effective totals across three windows."
@@ -465,19 +444,28 @@ def main() -> None:
             "05-chemistry-evidence.png": (
                 "ChEBI substances, FoodOn mappings, and qualitative evidence with provenance."
             ),
-            "06-automated-tests.png": "Passing automated tests and branch-aware coverage output.",
+            "06-automated-tests.png": (
+                "Actual PowerShell pytest and branch-aware coverage output."
+            ),
             "07-database-state.png": (
-                "Database row counts and public reference identifiers without user identifiers."
+                "Actual PowerShell PostgreSQL row counts and public provenance records."
             ),
         }
         sources = {
             "01-api-interface.png": "live /docs",
-            "02-health-workflow.png": "live local API workflow",
+            "02-health-workflow.png": (
+                "native Windows PowerShell: irm /health/ready and scripts/demo.py"
+            ),
             "03-nutrition-twin.png": "live /api/v1/twin/summary",
             "04-recommendation-trace.png": "live /api/v1/recommendations",
             "05-chemistry-evidence.png": "live Admin chemistry APIs",
-            "06-automated-tests.png": test_command,
-            "07-database-state.png": "configured local database read-only query",
+            "06-automated-tests.png": (
+                "native Windows PowerShell: .venv\\Scripts\\python.exe -m pytest "
+                "--cov --cov-report=term"
+            ),
+            "07-database-state.png": (
+                "native Windows PowerShell: Docker Compose psql read-only queries"
+            ),
         }
         for filename in descriptions:
             path = output_dir / filename
@@ -488,10 +476,12 @@ def main() -> None:
                     "alt_text": descriptions[filename],
                     "source": sources[filename],
                     "sha256": _sha256(path),
+                    "captured_at": captured_at,
+                    "application_commit_sha": revision,
                 }
             )
         manifest = {
-            "schema_version": "1",
+            "schema_version": "2",
             "application_commit_sha": revision,
             "captured_at": captured_at,
             "base_url": args.base_url,

@@ -84,18 +84,19 @@ The prior settings file was backed up as `C:\Users\kanis\AppData\Roaming\Docker\
 
 ## Evidence package
 
-Seven screenshots under `docs/review1/evidence/` were captured from the running application, successful test output, and PostgreSQL state at application commit `5f05f39`. The manifest records timestamp, endpoint or command, caption, alternative text, SHA-256 checksum, and commit for every image. Images contain demo-only information and exclude passwords, tokens, connection strings, secrets, user identifiers, and personal data.
+Seven screenshots under `docs/review1/evidence/` were captured from the running application and local PostgreSQL state. Browser images retain their original application commit `5f05f39`; the native PowerShell readiness/demo, pytest/coverage, and PostgreSQL images were captured against `baf4fc7`. Manifest schema 2 records the exact timestamp, endpoint or command, application commit, caption, alternative text, and SHA-256 checksum for every image. Images contain demo-only information and exclude passwords, tokens, connection strings, secrets, user identifiers, and personal data.
 
-The consolidated DOCX at `docs/review1/NutriTwin_Project_Review1_Report.docx` contains 106 paragraphs, 3 tables, 10 inline figures, and one A4 portrait section. It identifies K. Sarthak (`24BDS1121`) as the sole project member. Structural assertions confirmed:
+The consolidated DOCX at `docs/review1/NutriTwin_Project_Review1_Report.docx` contains 67 paragraphs, no tables, 10 inline figures, and one A4 portrait section. It identifies K. Sarthak (`24BDS1121`) as the sole project member. Structural assertions confirmed:
 
 - the requested report term occurs exactly once, in the main heading;
+- the only numbered headings are the seven headings supplied in the institutional template, in their original order;
 - percentage-milestone wording is absent;
 - the academic-use note, evaluation rubric, marks, and assessment-weightage block are absent;
+- readiness/demo, automated-test, and PostgreSQL evidence are direct native PowerShell window captures produced by `scripts/capture_powershell_evidence.ps1`, while `scripts/capture_review_evidence.py` preserves those files and captures only browser/API evidence;
 - every image has a title and alternative description;
-- every table exposes a header row;
 - the accessibility audit reports zero high, medium, or low findings.
 
-LibreOffice rendered all 18 pages to PNG and PDF for visual inspection. The cover, architecture, evidence, tables, and final references pages were inspected; no overlap, clipping, orphaned rubric content, or blank trailing page was found. Final DOCX SHA-256: `87636631E198D9C1DAC0422E28F655F1D15ECC2B5050340674E7BB496D0B3E2A`.
+LibreOffice rendered all 13 pages to PNG and PDF for visual inspection. Every page was inspected at original render resolution; no overlap, clipping, orphaned heading, rubric content, or blank trailing page was found. Final DOCX SHA-256: `FB86360A970E438364F1ED501A1B83F3F3E78564E7B54E20617C79D9C30FD2B7`.
 
 ## Remaining limitations
 

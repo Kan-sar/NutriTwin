@@ -1,5 +1,5 @@
 {
-  "schema_version": "1",
+  "schema_version": "2",
   "application_commit_sha": "5f05f39953bde0d1f892f09d64a5eb0b0a98815f",
   "captured_at": "2026-08-30T18:24:27+00:00",
   "base_url": "http://127.0.0.1:8000",
@@ -15,20 +15,26 @@
       "caption": "FastAPI Swagger UI showing the implemented NutriTwin endpoint groups.",
       "alt_text": "FastAPI Swagger UI showing the implemented NutriTwin endpoint groups.",
       "source": "live /docs",
+      "captured_at": "2026-08-30T18:24:27+00:00",
+      "application_commit_sha": "5f05f39953bde0d1f892f09d64a5eb0b0a98815f",
       "sha256": "cd8b7927d6edba5b31dce38f381acc13cf694dd2fcc5b583190df3aa922d1eea"
     },
     {
       "file": "02-health-workflow.png",
-      "caption": "Successful local readiness check, authenticated food search, and meal creation.",
-      "alt_text": "Successful local readiness check, authenticated food search, and meal creation.",
-      "source": "live local API workflow",
-      "sha256": "a0fbfcd8b1bae2020a0668c9d9bf92c53a285499606ab4f3ad2c90e00ed9cef1"
+      "caption": "Actual PowerShell readiness response and authenticated demo workflow.",
+      "alt_text": "Native Windows PowerShell window showing a successful readiness response and authenticated demo workflow.",
+      "source": "native Windows PowerShell: irm /health/ready and scripts/demo.py",
+      "captured_at": "2026-08-31T12:31:13+05:30",
+      "application_commit_sha": "baf4fc7f064d09cf29f5bc0931c2d9ee25117f16",
+      "sha256": "824e53f45f50412545e20a1c6d5b3f9cb06ded4e66339f73e659d85610a00fd8"
     },
     {
       "file": "03-nutrition-twin.png",
       "caption": "Iron and vitamin C consumed and estimated-effective totals across three windows.",
       "alt_text": "Iron and vitamin C consumed and estimated-effective totals across three windows.",
       "source": "live /api/v1/twin/summary",
+      "captured_at": "2026-08-30T18:24:27+00:00",
+      "application_commit_sha": "5f05f39953bde0d1f892f09d64a5eb0b0a98815f",
       "sha256": "0b6de32f294e749e6a6cb6de17c149ba12de6820ee922ee3a0988d2aaf88ebca"
     },
     {
@@ -36,6 +42,8 @@
       "caption": "Deterministic meal recommendation constraints, score contributions, and explanation.",
       "alt_text": "Deterministic meal recommendation constraints, score contributions, and explanation.",
       "source": "live /api/v1/recommendations",
+      "captured_at": "2026-08-30T18:24:27+00:00",
+      "application_commit_sha": "5f05f39953bde0d1f892f09d64a5eb0b0a98815f",
       "sha256": "dc6ce1dd41d57699a637b6f2aebb37c4eea6836b310e0016242b9a10cf830d47"
     },
     {
@@ -43,21 +51,27 @@
       "caption": "ChEBI substances, FoodOn mappings, and qualitative evidence with provenance.",
       "alt_text": "ChEBI substances, FoodOn mappings, and qualitative evidence with provenance.",
       "source": "live Admin chemistry APIs",
+      "captured_at": "2026-08-30T18:24:27+00:00",
+      "application_commit_sha": "5f05f39953bde0d1f892f09d64a5eb0b0a98815f",
       "sha256": "d43a6d1c8f180a7cdcb5e0422e339dbd88ad3e36980450ac04a2c0a2760de9ed"
     },
     {
       "file": "06-automated-tests.png",
-      "caption": "Passing automated tests and branch-aware coverage output.",
-      "alt_text": "Passing automated tests and branch-aware coverage output.",
-      "source": "C:\\Projects\\NutriTwin\\.venv\\Scripts\\python.exe -m pytest --cov --cov-report=term",
-      "sha256": "f864165705e7a60840b387494d784ebe50ff6eca8b8094b27033397496b60c9e"
+      "caption": "Actual PowerShell pytest and branch-aware coverage output.",
+      "alt_text": "Native Windows PowerShell window showing 40 passing tests and 83.35 percent branch-aware coverage.",
+      "source": "native Windows PowerShell: .venv\\Scripts\\python.exe -m pytest --cov --cov-report=term",
+      "captured_at": "2026-08-31T12:31:13+05:30",
+      "application_commit_sha": "baf4fc7f064d09cf29f5bc0931c2d9ee25117f16",
+      "sha256": "1b62f1993e2dc3a12d18a086db6293f94ced8388b03c9993223602cddecf51a0"
     },
     {
       "file": "07-database-state.png",
-      "caption": "Database row counts and public reference identifiers without user identifiers.",
-      "alt_text": "Database row counts and public reference identifiers without user identifiers.",
-      "source": "configured local database read-only query",
-      "sha256": "08649104d2da269010671e5e1f83907adc19826ad7a7facd2791cc2a8691a868"
+      "caption": "Actual PowerShell PostgreSQL row counts and public provenance records.",
+      "alt_text": "Native Windows PowerShell window showing live PostgreSQL aggregate counts and public ChEBI provenance records through Docker Compose.",
+      "source": "native Windows PowerShell: Docker Compose psql read-only queries",
+      "captured_at": "2026-08-31T12:31:13+05:30",
+      "application_commit_sha": "baf4fc7f064d09cf29f5bc0931c2d9ee25117f16",
+      "sha256": "06c58ef49190c38847b0be472f250ab9ec1f1f636c37e4ebec0f59ca83f1e612"
     }
   ]
 }
