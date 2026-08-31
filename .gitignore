@@ -23,6 +23,7 @@ data/private/
 *.pdf
 *.docx
 !docs/review1/*.docx
+docs/review1/rendered*/
 *.xlsx
 apps/mobile/.dart_tool/
 apps/mobile/build/

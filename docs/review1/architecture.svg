@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">NutriTwin modular-monolith architecture</title>
+  <desc id="desc">The deferred Flutter client connects to the implemented FastAPI modular monolith, which uses a pure deterministic domain package and PostgreSQL. Redis and Celery are supporting services; Neo4j and an LLM are optional and cannot change core results.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #17324d; }
+    .title { font-size: 42px; font-weight: 700; }
+    .head { font-size: 28px; font-weight: 700; }
+    .body { font-size: 22px; }
+    .small { font-size: 19px; fill: #52697f; }
+    .solid { stroke-width: 4; rx: 18; }
+    .deferred { stroke-width: 4; stroke-dasharray: 14 10; rx: 18; fill: #f7f9fb; stroke: #7995ae; }
+    .connector { stroke: #496b89; stroke-width: 5; fill: none; }
+  </style>
+  <rect width="1400" height="900" fill="#ffffff"/>
+  <text x="700" y="70" text-anchor="middle" class="title">NutriTwin Modular-Monolith Architecture</text>
+
+  <rect x="430" y="110" width="540" height="120" class="deferred"/>
+  <text x="700" y="158" text-anchor="middle" class="head">Flutter primary client</text>
+  <text x="700" y="197" text-anchor="middle" class="small">Planned client — not implemented in reviewed scope</text>
+
+  <path d="M700 230 V280" class="connector"/>
+  <rect x="190" y="280" width="1020" height="155" class="solid" fill="#e8f2f8" stroke="#2990c2"/>
+  <text x="700" y="330" text-anchor="middle" class="head">FastAPI modular monolith</text>
+  <text x="700" y="370" text-anchor="middle" class="body">Auth · RBAC · profiles · foods · meals · twin summaries</text>
+  <text x="700" y="405" text-anchor="middle" class="body">recommendations · Admin provenance inspection</text>
+
+  <path d="M700 435 V485" class="connector"/>
+  <rect x="270" y="485" width="860" height="140" class="solid" fill="#e9f5ef" stroke="#3c9b6e"/>
+  <text x="700" y="535" text-anchor="middle" class="head">Pure deterministic domain package</text>
+  <text x="700" y="575" text-anchor="middle" class="body">Targets · intake · effective estimate · coverage · risk trace</text>
+  <text x="700" y="610" text-anchor="middle" class="body">weighted ranking · bounded OR-Tools CP-SAT</text>
+
+  <path d="M700 625 V680 M700 680 H250 M700 680 H570 M700 680 H880 M700 680 H1170" class="connector"/>
+  <path d="M250 680 V710 M570 680 V710 M880 680 V710 M1170 680 V710" class="connector"/>
+
+  <rect x="70" y="710" width="360" height="135" class="solid" fill="#f6efe5" stroke="#a9772d"/>
+  <text x="250" y="760" text-anchor="middle" class="head">PostgreSQL</text>
+  <text x="250" y="800" text-anchor="middle" class="small">Authoritative transactions</text>
+  <text x="250" y="828" text-anchor="middle" class="small">and historical records</text>
+
+  <rect x="460" y="710" width="220" height="135" class="solid" fill="#eef4fa" stroke="#527aa0"/>
+  <text x="570" y="760" text-anchor="middle" class="head">Redis</text>
+  <text x="570" y="800" text-anchor="middle" class="small">Task broker</text>
+
+  <rect x="710" y="710" width="340" height="135" class="solid" fill="#eef4fa" stroke="#527aa0"/>
+  <text x="880" y="760" text-anchor="middle" class="head">Celery worker</text>
+  <text x="880" y="800" text-anchor="middle" class="small">Idempotent recomputation</text>
+
+  <rect x="1080" y="710" width="250" height="135" class="deferred"/>
+  <text x="1205" y="760" text-anchor="middle" class="head">Neo4j / LLM</text>
+  <text x="1205" y="800" text-anchor="middle" class="small">Optional enrichment</text>
+  <text x="1205" y="828" text-anchor="middle" class="small">core stays independent</text>
+</svg>

@@ -1,6 +1,6 @@
 # Requirements traceability matrix
 
-Statuses reflect verified repository behavior on 2026-08-30. “Implemented” requires a passing automated test or command; “partial,” “blocked,” and “deferred” are not completion claims.
+Statuses reflect verified repository behavior on 2026-08-31. “Implemented” requires a passing automated test or command; “partial,” “blocked,” and “deferred” are not completion claims.
 
 | Req | Requirement | Design / data | API or UI | Implementation and evidence | Status |
 |---|---|---|---|---|---|
@@ -12,7 +12,7 @@ Statuses reflect verified repository behavior on 2026-08-30. “Implemented” r
 | R-06 | Deterministic transparent versioned risk | `intake-gap-risk-v1`, factor contributions | `/twin/summary` | `risk.py`; exact-sum and safe-wording tests | Implemented prototype heuristic |
 | R-07 | Weighted ranking and OR-Tools | Candidate trace; CP-SAT result | `/recommendations` exposes ranking | `recommendation.py`, `optimizer.py`; ranking/optimizer tests | Partial: ranking exposed, constructor domain-only |
 | R-08 | LLM rephrase only and optional | Deterministic assembler/fallback boundary | Recommendation metadata `llm_used=false` | Deterministic explanations; no LLM adapter; no-LLM API test/demo | Core requirement implemented; adapter deferred |
-| R-09 | PostgreSQL transaction/history | SQLAlchemy entities, Alembic revisions | Core API | `models.py`, Alembic; clean migration test/check; live PostgreSQL unverified | Implemented schema; container validation blocked |
+| R-09 | PostgreSQL transaction/history | SQLAlchemy entities, Alembic revisions | Core API | `models.py`, Alembic; clean migration test/check and live PostgreSQL validation | Implemented |
 | R-10 | Neo4j cited relationships, optional | Optional adapter boundary | Future evidence enrichment | Core no-Neo4j workflow tested; graph/edge provenance not built | Deferred Phase 8 |
 | R-11 | Manual ingredient logging core | `Food`, `Meal`, `MealIngredient` | food search and meal CRUD | `routers/core.py`; complete API workflow and demo | Implemented |
 | R-12 | Versioned immutable target trace | Append-only `TargetSnapshot`/`TargetValue` | `/targets/current` | `services/targets.py`; profile/reference history integration test | Implemented with synthetic references |
@@ -23,10 +23,10 @@ Statuses reflect verified repository behavior on 2026-08-30. “Implemented” r
 | R-17 | Admin science/access/audit/export | Admin RBAC, audit/source entities | reference/audit read endpoints | `routers/admin.py`; RBAC tests | Partial: inspection foundation only |
 | R-18 | Flutter primary client | `/api/v1` client contract | `apps/mobile` | Deferred-status contract only; SDK unavailable | Deferred |
 | R-19 | Security/privacy controls | Threat model, minimal profile, tokens, consent, audit | auth/consent/admin boundaries | auth/RBAC tests, Ruff security rules, pip-audit and secret scan | Partial: upload/export controls await those features |
-| R-20 | Reproducible commands/CI/demo | Compose, Makefile, pinned lock, CI | OpenAPI and demo script | local checks/demo passed; Compose syntax passed; live containers/remote CI unverified | Partial |
+| R-20 | Reproducible commands/CI/demo | Compose, Makefile, pinned lock, CI | OpenAPI and demo script | local checks/demo and live Compose services passed; remote CI execution unverified | Partial |
 | R-21 | Basic non-clinical nutrition chemistry | ChEBI substances, FoodOn mappings, qualitative evidence; RDKit validation; calculation-inactive constraint | Admin `/substances` and `/evidence` | chemistry model/migration/fixture/validator; data, API and constraint tests | Implemented for the bounded demo subset |
-| R-22 | Review-1 working-state screenshots | Commit-bound manifest, captions, alt text, checksums, secret-safe demo records | Swagger/API/test/database evidence images | `scripts/capture_review_evidence.py`; README and DOCX embedding after capture | Implementation added; evidence capture validation pending |
+| R-22 | Working-state screenshots | Commit-bound manifest, captions, alt text, checksums, secret-safe demo records | Swagger/API/test/database evidence images | `scripts/capture_review_evidence.py`; seven captured images embedded in README and DOCX | Implemented |
 
 ## Deferred specification groups
 
-Pantry/grocery, what-if simulation, evidence-graph authoring, full Admin approval workflow, anonymized aggregate export, Flutter, OCR, image recognition, barcode, external prices, optional LLM rephrasing, Next.js, Kubernetes, and public deployment retain their specification requirements but have no implementation claim in this milestone.
+Pantry/grocery, what-if simulation, evidence-graph authoring, full Admin approval workflow, anonymized aggregate export, Flutter, OCR, image recognition, barcode, external prices, optional LLM rephrasing, Next.js, Kubernetes, and public deployment retain their specification requirements but have no implementation claim in the current reviewed scope.

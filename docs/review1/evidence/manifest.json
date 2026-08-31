@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "application_commit_sha": "5f05f39953bde0d1f892f09d64a5eb0b0a98815f",
+  "captured_at": "2026-08-30T18:24:27+00:00",
+  "base_url": "http://127.0.0.1:8000",
+  "browser": {
+    "engine": "Chromium",
+    "version": "151.0.4129.107",
+    "executable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+  },
+  "privacy": "Local demo data only. Tokens, passwords, connection strings, emails, and user IDs are excluded from the images.",
+  "artifacts": [
+    {
+      "file": "01-api-interface.png",
+      "caption": "FastAPI Swagger UI showing the implemented NutriTwin endpoint groups.",
+      "alt_text": "FastAPI Swagger UI showing the implemented NutriTwin endpoint groups.",
+      "source": "live /docs",
+      "sha256": "cd8b7927d6edba5b31dce38f381acc13cf694dd2fcc5b583190df3aa922d1eea"
+    },
+    {
+      "file": "02-health-workflow.png",
+      "caption": "Successful local readiness check, authenticated food search, and meal creation.",
+      "alt_text": "Successful local readiness check, authenticated food search, and meal creation.",
+      "source": "live local API workflow",
+      "sha256": "a0fbfcd8b1bae2020a0668c9d9bf92c53a285499606ab4f3ad2c90e00ed9cef1"
+    },
+    {
+      "file": "03-nutrition-twin.png",
+      "caption": "Iron and vitamin C consumed and estimated-effective totals across three windows.",
+      "alt_text": "Iron and vitamin C consumed and estimated-effective totals across three windows.",
+      "source": "live /api/v1/twin/summary",
+      "sha256": "0b6de32f294e749e6a6cb6de17c149ba12de6820ee922ee3a0988d2aaf88ebca"
+    },
+    {
+      "file": "04-recommendation-trace.png",
+      "caption": "Deterministic meal recommendation constraints, score contributions, and explanation.",
+      "alt_text": "Deterministic meal recommendation constraints, score contributions, and explanation.",
+      "source": "live /api/v1/recommendations",
+      "sha256": "dc6ce1dd41d57699a637b6f2aebb37c4eea6836b310e0016242b9a10cf830d47"
+    },
+    {
+      "file": "05-chemistry-evidence.png",
+      "caption": "ChEBI substances, FoodOn mappings, and qualitative evidence with provenance.",
+      "alt_text": "ChEBI substances, FoodOn mappings, and qualitative evidence with provenance.",
+      "source": "live Admin chemistry APIs",
+      "sha256": "d43a6d1c8f180a7cdcb5e0422e339dbd88ad3e36980450ac04a2c0a2760de9ed"
+    },
+    {
+      "file": "06-automated-tests.png",
+      "caption": "Passing automated tests and branch-aware coverage output.",
+      "alt_text": "Passing automated tests and branch-aware coverage output.",
+      "source": "C:\\Projects\\NutriTwin\\.venv\\Scripts\\python.exe -m pytest --cov --cov-report=term",
+      "sha256": "f864165705e7a60840b387494d784ebe50ff6eca8b8094b27033397496b60c9e"
+    },
+    {
+      "file": "07-database-state.png",
+      "caption": "Database row counts and public reference identifiers without user identifiers.",
+      "alt_text": "Database row counts and public reference identifiers without user identifiers.",
+      "source": "configured local database read-only query",
+      "sha256": "08649104d2da269010671e5e1f83907adc19826ad7a7facd2791cc2a8691a868"
+    }
+  ]
+}

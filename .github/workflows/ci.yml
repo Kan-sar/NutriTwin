@@ -29,5 +29,5 @@ jobs:
       - run: alembic upgrade head
       - run: alembic check
       - run: pip-audit
-      - run: git ls-files -z | xargs -0 detect-secrets-hook --no-verify
+      - run: git ls-files -z | xargs -0 detect-secrets-hook --no-verify --exclude-lines '"(application_commit_sha|sha256)":'
       - run: docker compose -f infra/docker/compose.yaml config --quiet

@@ -1,6 +1,6 @@
 # NutriTwin delivery plan
 
-Updated: 2026-08-30
+Updated: 2026-08-31
 
 ## Assumptions and blockers
 
@@ -8,7 +8,7 @@ Updated: 2026-08-30
 - The repository was created at `C:\Projects\NutriTwin`; the original `C:\.cache` folder was an unrelated cache.
 - ICMR-NIN RDA/EAR 2020 and IFCT 2017 tables are not redistributed. A lawful local acquisition/import and expert-verified golden cases are required before real scientific target data can be enabled.
 - Python 3.12–3.14 is supported and 3.14.5 was used locally. Flutter is not installed on the development host.
-- Docker Compose syntax is verified, but a Docker Desktop host crash involving its `dockerInference` socket blocked live container validation. No factory reset or Docker application-data deletion was performed.
+- Docker Desktop's stale Windows AF_UNIX runtime sockets were preserved under timestamped recovery names; Docker recreated them and engine 29.5.2 became healthy without a factory reset or data deletion.
 - Pregnancy, lactation, medical conditions, medications, and supplements remain outside the initial target engine. No medical adjustment is inferred.
 
 ## Phases and acceptance gates
@@ -16,9 +16,9 @@ Updated: 2026-08-30
 | Phase | Scope | Validation gate | Status |
 |---|---|---|---|
 | 0 | Specification, source/open-source register, architecture, algorithms, data model, threat model, ADRs, traceability | Required documents complete and internally consistent | Complete; chemistry/evidence boundary added in ADR 0005 |
-| 1 | FastAPI, schema/migrations, auth/RBAC, consent, audit, Redis/Celery entry point, Compose, CI | Health/OpenAPI/auth/RBAC tests; clean migration | Implemented; live Compose blocked by host Docker failure |
+| 1 | FastAPI, schema/migrations, auth/RBAC, consent, audit, Redis/Celery entry point, Compose, CI | Health/OpenAPI/auth/RBAC tests; clean migration | Implemented; live PostgreSQL, Redis, Neo4j, API, and Celery services verified locally |
 | 2 | Profile, target, food search, meal logging, daily/7d/30d twin, risk, ranking, explanation | Automated no-LLM end-to-end API workflow | Complete with synthetic data |
-| 2A | Read-only nutrition chemistry foundation | RDKit-validated ChEBI records, reviewed FoodOn mappings, qualitative calculation-inactive evidence and Admin inspection | Implemented for the bounded demo subset; live migration validation pending |
+| 2A | Read-only nutrition chemistry foundation | RDKit-validated ChEBI records, reviewed FoodOn mappings, qualitative calculation-inactive evidence and Admin inspection | Implemented for the bounded demo subset; migration and live Admin inspection verified |
 | 3 | Licensed ICMR target import and golden cases | Source checksum and independently verified fixtures | Blocked on lawful data/permission and scientific review |
 | 4 | Evidence-governed quantitative absorption rules | Approved evidence records and golden/invariant tests | Partial: safe identity baseline and rule engine invariants implemented; active modifiers deferred |
 | 5 | Materialized nutrition memory and scheduled idempotent recomputation | Edit/delete/retry and worker integration tests | Partial: on-demand summaries and idempotent job execution implemented; scheduled materialization deferred |
@@ -39,19 +39,17 @@ Updated: 2026-08-30
 8. The workflow passes with LLM, Neo4j, OCR, barcode, external price APIs, and vision disabled.
 9. Admins can inspect versioned ChEBI/FoodOn/qualitative evidence records, while
    database and pipeline constraints prevent those qualitative rows from changing totals.
-10. Review evidence images are captured from a running application, test output, and
+10. Working-state evidence images are captured from a running application, test output, and
     database state with a commit-bound checksum manifest and no secrets.
 
 ## Next implementation order
 
-1. Complete live PostgreSQL/Redis/Neo4j migration and evidence capture once Docker
-   Desktop or another compatible local engine works.
-2. Obtain lawful ICMR-NIN RDA/EAR and IFCT inputs, formalize local import manifests, and
+1. Obtain lawful ICMR-NIN RDA/EAR and IFCT inputs, formalize local import manifests, and
    have reference rows/golden cases independently reviewed.
-3. Expose and persist CP-SAT constructed meals with time limits, infeasibility fallback, and decision traces.
-4. Add approved absorption evidence authoring/review; keep quantitative rules inactive until the evidence threshold is met.
-5. Materialize summary/risk snapshots via Celery and test retry behavior against Redis/PostgreSQL.
-6. Implement the Flutter manual workflow before pantry, grocery, graph authoring, or optional recognition integrations.
+2. Expose and persist CP-SAT constructed meals with time limits, infeasibility fallback, and decision traces.
+3. Add approved absorption evidence authoring/review; keep quantitative rules inactive until the evidence threshold is met.
+4. Materialize summary/risk snapshots via Celery and test retry behavior against Redis/PostgreSQL.
+5. Implement the Flutter manual workflow before pantry, grocery, graph authoring, or optional recognition integrations.
 
 ## Principal risks
 

@@ -8,7 +8,7 @@ NutriTwin is an explainable, non-clinical personalized-nutrition digital-twin ac
 
 The verified backend vertical slice supports Student, Adult, and Admin accounts; consent; versioned profiles and target snapshots; curated food search; ingredient-level meal create/edit/delete; consumed and separately estimated-effective nutrient totals; daily, rolling 7-day, and rolling 30-day coverage; deterministic intake-gap risk traces; hard-constraint-aware weighted meal ranking; and deterministic explanations. The workflow runs with the LLM, Neo4j, OCR, barcode, image recognition, and external prices disabled.
 
-The API foundation also includes Argon2 password hashing, short-lived JWT access tokens, rotating/revocable hashed refresh sessions, backend RBAC, audit events, structured request logging, Alembic migrations, an idempotent Celery recomputation job, Docker Compose, and CI checks. The bounded Review-1 chemistry layer adds reviewed ChEBI substances, FoodOn mappings, calculation-inactive qualitative interaction evidence, and optional RDKit structure validation. It does not predict absorption or make medical claims.
+The API foundation also includes Argon2 password hashing, short-lived JWT access tokens, rotating/revocable hashed refresh sessions, backend RBAC, audit events, structured request logging, Alembic migrations, an idempotent Celery recomputation job, Docker Compose, and CI checks. The bounded chemistry layer adds reviewed ChEBI substances, FoodOn mappings, calculation-inactive qualitative interaction evidence, and optional RDKit structure validation. It does not predict absorption or make medical claims.
 
 Authoritative ICMR-NIN tables are **not bundled** because redistribution permission has not been established. The included seven-food/four-nutrient dataset and target rules are conspicuously synthetic and validate software behavior only. They are not nutrition guidance and do not scientifically validate the model.
 
@@ -97,7 +97,7 @@ make down
 
 Exact commands and observed results are recorded in [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md). The manual/API walkthrough is [docs/DEMO_WALKTHROUGH.md](docs/DEMO_WALKTHROUGH.md).
 
-## Review-1 working-state evidence
+## Working-state evidence
 
 The following images are generated from a running local application by `scripts/capture_review_evidence.py`. They use demo-only data and omit credentials, tokens, connection strings, and personal information. `docs/review1/evidence/manifest.json` binds every image to its source command or endpoint, timestamp, application commit, caption, alternative text, and SHA-256 checksum.
 
@@ -145,7 +145,7 @@ The following images are generated from a running local application by `scripts/
 
 ## Academic review artifact
 
-The consolidated Review-1 report limited to the verified 30% implementation milestone is [docs/review1/NutriTwin_Project_Review1_30_Percent.docx](docs/review1/NutriTwin_Project_Review1_30_Percent.docx). Student name and roll number remain explicit placeholders because those facts were not supplied. The report embeds the seven commit-bound images above and is structurally and visually checked as described in the validation report.
+The consolidated project report is [docs/review1/NutriTwin_Project_Review1_Report.docx](docs/review1/NutriTwin_Project_Review1_Report.docx). It covers only the currently implemented foundation, vertical slice, and bounded chemistry-evidence layer; later-scope features are identified only as future work. It identifies K. Sarthak (24BDS1121) as the sole project member. The report embeds the seven commit-bound images above and is structurally, accessibility, and visually checked as described in the validation report.
 
 ## Local demo accounts
 
@@ -164,7 +164,7 @@ These credentials exist only in seeded local demo data. Do not reuse them or exp
 - Restricted publications belong in ignored local input directories and require checksum-recorded acquisition/import.
 - The optional USDA FoodData Central importer targets CC0 gap/demo records, but the latest unauthenticated acquisition attempt was rate-limited and no FDC records are bundled.
 - ChEBI (CC BY 4.0) supplies the two demonstration chemical identifiers/structures; FoodOn (CC BY 4.0) supplies three reviewed demo-food ontology mappings.
-- NIH ODS evidence is qualitative and informational in this milestone; the database and validator prevent it from changing nutrient calculations.
+- NIH ODS evidence is qualitative and informational in the current implementation; the database and validator prevent it from changing nutrient calculations.
 - Missing nutrient values remain missing; an absent value is never silently converted to zero.
 
 See [docs/DATA_SOURCE_REGISTER.md](docs/DATA_SOURCE_REGISTER.md) for source, license, extraction, transformation, and limitation details, and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for pinned open-source/resource notices.
