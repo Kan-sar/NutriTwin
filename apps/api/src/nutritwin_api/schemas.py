@@ -216,3 +216,29 @@ class AdminQualitativeEvidenceResponse(ApiModel):
     model_version: str
     notice: str
     evidence: list[QualitativeInteractionEvidenceResponse]
+
+
+class ConstructMealRequest(ApiModel):
+    nutrient_minimums: dict[str, Decimal] = Field(
+        min_length=1,
+        max_length=10,
+        description="Positive amounts in each nutrient's canonical internal unit.",
+    )
+    maximum_budget_minor: int = Field(ge=0, le=100_000)
+    seed: int = Field(default=1, ge=0, le=2_147_483_647)
+    time_limit_ms: int = Field(default=500, ge=50, le=2_000)
+
+    @field_validator("nutrient_minimums")
+    @classmethod
+    def validate_nutrient_minimums(cls, values: dict[str, Decimal]) -> dict[str, Decimal]:
+        normalized: dict[str, Decimal] = {}
+        for raw_code, amount in values.items():
+            code = raw_code.strip().casefold()
+            if not code or len(code) > 64 or not code.replace("_", "").isalnum():
+                raise ValueError(f"invalid nutrient code: {raw_code!r}")
+            if not amount.is_finite() or amount <= 0 or amount > Decimal("1000000"):
+                raise ValueError(f"invalid nutrient minimum for {code}")
+            if code in normalized:
+                raise ValueError(f"duplicate nutrient code after normalization: {code}")
+            normalized[code] = amount
+        return normalized

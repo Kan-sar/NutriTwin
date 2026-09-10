@@ -9,7 +9,9 @@ from sqlalchemy.orm import Session
 from nutritwin_api.database import get_db
 from nutritwin_api.models import Profile
 from nutritwin_api.routers.core import _require_consent
+from nutritwin_api.schemas import ConstructMealRequest
 from nutritwin_api.security import CurrentUser
+from nutritwin_api.services.construction import construct_demo_meal
 from nutritwin_api.services.recommendations import recommend
 from nutritwin_api.services.targets import get_or_create_target_snapshot
 from nutritwin_api.services.twin import build_twin_summary
@@ -61,3 +63,28 @@ def recommendations(
         "notice": "Demo meals and nutrient values are synthetic; this is not dietary advice.",
         "llm_used": False,
     }
+
+
+@router.post("/recommendations/construct")
+def construct_recommendation(
+    payload: ConstructMealRequest,
+    user: CurrentUser,
+    db: Annotated[Session, Depends(get_db)],
+    as_of: Annotated[date | None, Query()] = None,
+) -> dict[str, Any]:
+    effective_date = as_of or date.today()
+    _require_consent(db, user.id)
+    profile = _profile(db, user.id)
+    try:
+        return construct_demo_meal(
+            db,
+            user.id,
+            profile,
+            payload.nutrient_minimums,
+            payload.maximum_budget_minor,
+            effective_date,
+            seed=payload.seed,
+            time_limit_ms=payload.time_limit_ms,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc

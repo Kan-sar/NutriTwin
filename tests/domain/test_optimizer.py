@@ -24,3 +24,35 @@ def test_optimizer_never_selects_allergen() -> None:
     )
     assert result.status == "infeasible"
     assert result.servings == ()
+
+
+def test_optimizer_returns_bounded_fallback_when_minimum_is_infeasible() -> None:
+    result = construct_meal(
+        [FoodOption("spinach", "Spinach", {"iron": Decimal("3")}, 60, 2)],
+        {"iron": Decimal("100")},
+        120,
+        frozenset(),
+        seed=4,
+    )
+    assert result.status == "infeasible"
+    assert result.servings[0].servings == 2
+    assert result.total_cost_minor == 120
+    assert result.nutrient_totals["iron"] == Decimal("6")
+    assert result.warnings == (
+        "requested_constraints_infeasible",
+        "fallback_relaxed_nutrient_minimums",
+    )
+
+
+def test_optimizer_rejects_unknown_nutrient_values_instead_of_assuming_zero() -> None:
+    try:
+        construct_meal(
+            [FoodOption("rice", "Rice", {}, 50, 2)],
+            {"iron": Decimal("1")},
+            100,
+            frozenset(),
+        )
+    except ValueError as exc:
+        assert "missing nutrient data cannot be treated as zero" in str(exc)
+    else:
+        raise AssertionError("missing nutrient data must fail validation")

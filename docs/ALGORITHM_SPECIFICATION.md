@@ -62,7 +62,23 @@ The first gap-coverage objective is based only on nutrients with valid targets a
 
 ## CP-SAT construction v1
 
-For each bounded food `i`, integer variable `servings_i ∈ [min_i,max_i]`. Nutrient, cost, and time coefficients are scaled integers with declared scale. Enforce allergens/restrictions by setting upper bound zero, budget/time upper bounds, serving bounds, and valid TUL constraints. Maximize weighted gap coverage minus costs/time/waste with deterministic seed, one search worker, and time limit. Post-validate the result using Decimal domain calculations. If infeasible or timed out, return status and the best validated ranked candidate/fallback; never relax allergens or restrictions.
+The exposed demo constructor uses only the seven explicitly synthetic foods and synthetic
+prices. For each eligible food `i`, integer variable `servings_i ∈ [0,2]`, with one
+serving equal to 100 g. Profile dietary tags pre-filter candidates; profile allergens
+set the candidate upper bound to zero. Every requested nutrient must have a known value
+for a modeled food, so missing composition is never interpreted as zero. Nutrient
+coefficients use a declared integer scale; the budget is expressed in synthetic minor
+currency units.
+
+The primary model enforces requested nutrient minimums and budget, then maximizes total
+requested-nutrient quantity minus cost. It uses a caller-visible deterministic seed, one
+search worker, and a bounded 50–2,000 ms time limit. Decimal post-validation verifies
+budget, nutrient minimums, and allergens. When the primary model is infeasible or times
+out, a second bounded model relaxes only the nutrient minimums and returns the best
+budget-feasible selection with `fallback_used=true`, the original status, warnings, and
+each unmet amount. Allergen, dietary, budget, serving, and time bounds remain active.
+The API persists the full request, candidate checks, solver result, seed, fallback state,
+and limitations as a `RecommendationDecision` trace using model `cp-sat-meal-v1`.
 
 ## Explanation assembler v1
 

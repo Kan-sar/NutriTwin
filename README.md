@@ -6,7 +6,7 @@ NutriTwin is an explainable, non-clinical personalized-nutrition digital-twin ac
 
 ## What works now
 
-The verified backend vertical slice supports Student, Adult, and Admin accounts; consent; versioned profiles and target snapshots; curated food search; ingredient-level meal create/edit/delete; consumed and separately estimated-effective nutrient totals; daily, rolling 7-day, and rolling 30-day coverage; deterministic intake-gap risk traces; hard-constraint-aware weighted meal ranking; and deterministic explanations. The workflow runs with the LLM, Neo4j, OCR, barcode, image recognition, and external prices disabled.
+The verified backend vertical slice supports Student, Adult, and Admin accounts; consent; versioned profiles and target snapshots; curated food search; ingredient-level meal create/edit/delete; consumed and separately estimated-effective nutrient totals; daily, rolling 7-day, and rolling 30-day coverage; deterministic intake-gap risk traces; hard-constraint-aware weighted meal ranking; deterministic explanations; and a bounded CP-SAT demo meal constructor with persisted decision traces and explicit infeasibility fallback. The workflow runs with the LLM, Neo4j, OCR, barcode, image recognition, and external prices disabled.
 
 The API foundation also includes Argon2 password hashing, short-lived JWT access tokens, rotating/revocable hashed refresh sessions, backend RBAC, audit events, structured request logging, Alembic migrations, an idempotent Celery recomputation job, Docker Compose, and CI checks. The bounded chemistry layer adds reviewed ChEBI substances, FoodOn mappings, calculation-inactive qualitative interaction evidence, and optional RDKit structure validation. It does not predict absorption or make medical claims.
 
@@ -16,6 +16,7 @@ Authoritative ICMR-NIN tables are **not bundled** because redistribution permiss
 |---|---|
 | FastAPI modular monolith and OpenAPI | Implemented and locally verified |
 | Pure targets/intake/effective/coverage/risk/ranking/CP-SAT domain logic | Implemented and tested |
+| CP-SAT construction API | Implemented at `POST /api/v1/recommendations/construct` for the bounded synthetic catalogue |
 | PostgreSQL schema and Alembic migrations | Implemented; migrations also verified against SQLite locally |
 | Redis/Celery recomputation | Implemented and unit/integration tested; clean live Compose validation recorded in the validation report |
 | ChEBI/FoodOn chemistry and provenance inspection | Implemented for two substances and three demo-food mappings; Admin read-only APIs tested |
