@@ -83,7 +83,9 @@ def test_complete_manual_workflow_without_optional_services_or_llm(client: TestC
     assert yogurt["rejection_reasons"] == ["allergens"]
 
     meal_payload["ingredients"][0]["quantity_g"] = "200"
-    updated = client.put(f"/api/v1/meals/{meal_id}", json=meal_payload, headers=headers)
+    updated = client.put(
+        f"/api/v1/meals/{meal_id}?expected_revision=1", json=meal_payload, headers=headers
+    )
     assert updated.status_code == 200
     assert updated.json()["revision"] == 2
     changed = client.get("/api/v1/twin/summary", params={"as_of": today}, headers=headers)
@@ -92,7 +94,10 @@ def test_complete_manual_workflow_without_optional_services_or_llm(client: TestC
     )
     assert changed_iron["consumed"]["daily"]["total_amount"] == "6.0000"
 
-    assert client.delete(f"/api/v1/meals/{meal_id}", headers=headers).status_code == 204
+    assert (
+        client.delete(f"/api/v1/meals/{meal_id}?expected_revision=2", headers=headers).status_code
+        == 204
+    )
     after_delete = client.get("/api/v1/twin/summary", params={"as_of": today}, headers=headers)
     assert after_delete.json()["logged_days_30"] == 0
 

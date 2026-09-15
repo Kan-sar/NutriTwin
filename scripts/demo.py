@@ -67,7 +67,9 @@ def main() -> None:
             f"recommendations={len(recommendations['recommendations'])}, "
             "llm_used=false"
         )
-        client.delete(f"/api/v1/meals/{meal['id']}", headers=headers).raise_for_status()
+        client.delete(
+            f"/api/v1/meals/{meal['id']}?expected_revision={meal['revision']}", headers=headers
+        ).raise_for_status()
 
 
 if __name__ == "__main__":

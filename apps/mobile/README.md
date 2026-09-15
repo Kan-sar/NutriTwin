@@ -1,5 +1,7 @@
 # NutriTwin Flutter client
 
+Meal edits and deletions send the loaded revision. If another tab changes the meal, the client keeps the draft and shows a conflict. Use Refresh journal to compare saved state; select Edit on the refreshed meal before reapplying changes.
+
 Flutter stable 3.47.2 / Dart 3.13.2. The shared client currently targets Web. Android/iOS toolchains and packaging are not installed or verified.
 
 Start the backend with `docker compose -f infra/docker/compose.yaml up --build -d` from the repository root. From this directory run `flutter --no-version-check pub get`, `flutter --no-version-check test`, and `flutter --no-version-check run -d chrome --web-hostname 127.0.0.1 --web-port 8080`.

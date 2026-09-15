@@ -80,6 +80,7 @@ class _TwinHomeState extends State<TwinHome> {
       revisions = [];
   List<Map<String, dynamic>> draft = [];
   String? editId, error;
+  int? editRevision;
   String dietary = 'unrestricted', sex = '', role = 'student';
   bool busy = false, register = false, consent = false, demo = true;
   int page = 0;
@@ -316,71 +317,73 @@ class _TwinHomeState extends State<TwinHome> {
       ]),
     ),
   );
-  Widget navigation({bool drawer = false}) => Container(
+  Widget navigation({bool drawer = false}) => Material(
     color: forest,
-    width: 248,
-    child: SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(28),
-            child: Text(
-              '◉  NutriTwin',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+    child: SizedBox(
+      width: 248,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(28),
+              child: Text(
+                '◉  NutriTwin',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          for (int i = 0; i < (user?['role'] == 'admin' ? 5 : 4); i++)
-            ListTile(
-              selected: page == i,
-              selectedTileColor: Colors.white12,
-              leading: Icon(icons[i], color: Colors.white),
-              title: Text(
-                pages[i],
-                style: const TextStyle(color: Colors.white),
+            for (int i = 0; i < (user?['role'] == 'admin' ? 5 : 4); i++)
+              ListTile(
+                selected: page == i,
+                selectedTileColor: Colors.white12,
+                leading: Icon(icons[i], color: Colors.white),
+                title: Text(
+                  pages[i],
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  setState(() => page = i);
+                  if (drawer) Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                setState(() => page = i);
-                if (drawer) Navigator.pop(context);
-              },
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                '${user?['email']}\n${user?['role']}',
+                style: const TextStyle(color: Colors.white70),
+              ),
             ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              '${user?['email']}\n${user?['role']}',
-              style: const TextStyle(color: Colors.white70),
+            TextButton(
+              onPressed: busy
+                  ? null
+                  : () => act(() async {
+                      try {
+                        await api.logout();
+                      } finally {
+                        user = null;
+                        profile = null;
+                        summary = null;
+                        draft = [];
+                        meals = [];
+                        ranked = [];
+                        history = [];
+                        revisions = [];
+                        constructed = null;
+                      }
+                    }),
+              child: const Text(
+                'Sign out',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: busy
-                ? null
-                : () => act(() async {
-                    try {
-                      await api.logout();
-                    } finally {
-                      user = null;
-                      profile = null;
-                      summary = null;
-                      draft = [];
-                      meals = [];
-                      ranked = [];
-                      history = [];
-                      revisions = [];
-                      constructed = null;
-                    }
-                  }),
-            child: const Text(
-              'Sign out',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     ),
   );
@@ -706,6 +709,7 @@ class _TwinHomeState extends State<TwinHome> {
   void resetDraft() {
     draftEpoch++;
     editId = null;
+    editRevision = null;
     draft = [];
     mealName.text = 'My meal';
     mealDate.text = day(DateTime.now());
@@ -719,6 +723,9 @@ class _TwinHomeState extends State<TwinHome> {
         'Food journal',
         'Search a source, choose an amount, and save what you ate.',
       ),
+      button('Refresh journal', () async {
+        meals = await api.request('GET', '/meals');
+      }),
       panel([
         field('Search foods', search),
         button('Search', () async {
@@ -755,6 +762,10 @@ class _TwinHomeState extends State<TwinHome> {
           editId == null ? 'Meal draft' : 'Edit logged meal',
           style: Theme.of(context).textTheme.titleLarge,
         ),
+        if (editId != null)
+          const Text(
+            'If this meal changed elsewhere, your draft stays here. Refresh the journal to compare it with the saved meal, then select Edit on the latest meal before applying your changes.',
+          ),
         field('Meal name', mealName),
         field('Meal date (YYYY-MM-DD)', mealDate),
         field('Local meal time (HH:mm)', mealTime),
@@ -792,7 +803,9 @@ class _TwinHomeState extends State<TwinHome> {
           };
           await api.request(
             editId == null ? 'POST' : 'PUT',
-            editId == null ? '/meals' : '/meals/$editId',
+            editId == null
+                ? '/meals'
+                : '/meals/$editId?expected_revision=$editRevision',
             body: payload,
           );
           resetDraft();
@@ -819,6 +832,7 @@ class _TwinHomeState extends State<TwinHome> {
                       : () => setState(() {
                           draftEpoch++;
                           editId = m['id'];
+                          editRevision = m['revision'];
                           mealName.text = m['name'];
                           mealDate.text = m['local_date'];
                           mealTime.text = DateTime.parse(m['eaten_at'])
@@ -857,7 +871,10 @@ class _TwinHomeState extends State<TwinHome> {
                             ),
                           );
                           if (yes == true) {
-                            await api.request('DELETE', '/meals/${m['id']}');
+                            await api.request(
+                              'DELETE',
+                              '/meals/${m['id']}?expected_revision=${m['revision']}',
+                            );
                             await load();
                           }
                         }),

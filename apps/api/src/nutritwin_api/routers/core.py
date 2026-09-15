@@ -5,7 +5,7 @@ from datetime import date
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session, selectinload
 
 from nutritwin_api.database import get_db
@@ -266,6 +266,7 @@ def update_meal(
     payload: MealCreate,
     user: CurrentUser,
     db: Annotated[Session, Depends(get_db)],
+    expected_revision: Annotated[int, Query(ge=1)],
 ) -> MealResponse:
     meal = db.scalar(
         select(Meal)
@@ -275,12 +276,12 @@ def update_meal(
     if meal is None:
         raise HTTPException(status_code=404, detail="meal not found")
     _require_consent(db, user.id)
-    previous_date = meal.local_date
     _validated_food_ids(db, payload.ingredients)
+    _claim_meal_revision(db, meal, expected_revision)
+    previous_date = meal.local_date
     meal.name = payload.name
     meal.eaten_at = payload.eaten_at
     meal.local_date = payload.local_date
-    meal.revision += 1
     meal.ingredients = [
         MealIngredient(food_id=item.food_id, quantity_g=item.quantity_g)
         for item in payload.ingredients
@@ -299,11 +300,38 @@ def update_meal(
     return _meal_response(meal)
 
 
+def _claim_meal_revision(db: Session, meal: Meal, expected_revision: int) -> None:
+    """Compare and increment in the database, holding the write lock until commit."""
+    claimed = db.scalar(
+        update(Meal)
+        .where(
+            Meal.id == meal.id,
+            Meal.user_id == meal.user_id,
+            Meal.deleted_at.is_(None),
+            Meal.revision == expected_revision,
+        )
+        .values(revision=Meal.revision + 1)
+        .returning(Meal.id)
+        .execution_options(synchronize_session=False)
+    )
+    if claimed is None:
+        db.rollback()
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                "This meal changed since you loaded it. "
+                "Refresh the journal before editing or deleting it again."
+            ),
+        )
+    db.refresh(meal)
+
+
 @router.delete("/meals/{meal_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_meal(
     meal_id: uuid.UUID,
     user: CurrentUser,
     db: Annotated[Session, Depends(get_db)],
+    expected_revision: Annotated[int, Query(ge=1)],
 ) -> None:
     meal = db.scalar(
         select(Meal).where(Meal.id == meal_id, Meal.user_id == user.id, Meal.deleted_at.is_(None))
@@ -311,6 +339,7 @@ def delete_meal(
     if meal is None:
         raise HTTPException(status_code=404, detail="meal not found")
     _require_consent(db, user.id)
+    _claim_meal_revision(db, meal, expected_revision)
     from nutritwin_api.models import utc_now
 
     db.add(
@@ -319,7 +348,6 @@ def delete_meal(
         )
     )
     meal.deleted_at = utc_now()
-    meal.revision += 1
     db.flush()
     enqueue_affected_windows(db, user.id, meal.local_date)
     db.commit()

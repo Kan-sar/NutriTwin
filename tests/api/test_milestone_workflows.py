@@ -187,7 +187,14 @@ def test_moving_meal_invalidates_both_windows_and_preserves_completed_trace(
     payload = {k: meal[k] for k in ("name", "eaten_at", "local_date", "ingredients")}
     payload["local_date"] = today.isoformat()
     payload["eaten_at"] = datetime.now(UTC).isoformat()
-    assert client.put(f"/api/v1/meals/{meal['id']}", headers=h, json=payload).status_code == 200
+    assert (
+        client.put(
+            f"/api/v1/meals/{meal['id']}?expected_revision={meal['revision']}",
+            headers=h,
+            json=payload,
+        ).status_code
+        == 200
+    )
     updated = client.get("/api/v1/twin/summary", headers=h).json()
     iron = next(n for n in updated["nutrients"] if n["nutrient_code"] == "iron")
     assert iron["daily_series"][-1]["consumed"] == "3.0000"
@@ -320,7 +327,11 @@ def test_two_admin_governance_time_scope_and_retirement(
     moved = {k: trigger[k] for k in ("name", "eaten_at", "local_date", "ingredients")}
     moved["eaten_at"] = datetime.now(UTC).replace(hour=14, minute=1).isoformat()
     assert (
-        client.put(f"/api/v1/meals/{trigger['id']}", headers=reviewer, json=moved).status_code
+        client.put(
+            f"/api/v1/meals/{trigger['id']}?expected_revision={trigger['revision']}",
+            headers=reviewer,
+            json=moved,
+        ).status_code
         == 200
     )
     assert Decimal(amount()["estimated_effective"]["daily"]["total_amount"]) == baseline
@@ -389,5 +400,10 @@ def test_consent_withdrawal_blocks_meal_mutation(client: TestClient) -> None:
         ).status_code
         == 201
     )
-    assert client.delete(f"/api/v1/meals/{meal['id']}", headers=h).status_code == 409
+    assert (
+        client.delete(
+            f"/api/v1/meals/{meal['id']}?expected_revision={meal['revision']}", headers=h
+        ).status_code
+        == 409
+    )
     assert client.get("/api/v1/twin/summary", headers=h).status_code == 409
