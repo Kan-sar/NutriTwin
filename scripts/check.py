@@ -18,6 +18,7 @@ def main() -> None:
             "scripts",
         ],
         ["scripts/validate_data.py"],
+        ["scripts/check_docs.py"],
         ["-m", "pytest", "--cov", "--cov-report=term-missing"],
     ]
     for command in commands:

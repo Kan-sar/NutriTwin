@@ -2,6 +2,18 @@
 
 This walkthrough exercises the implemented manual backend workflow using local synthetic data. It does not demonstrate scientifically validated nutrition guidance.
 
+## Local demo accounts
+
+| Role | Email | Password |
+|---|---|---|
+| Student | `student@example.com` | `StudentDemo!2026` |
+| Adult | `adult@example.com` | `AdultDemo!2026` |
+| Admin | `admin@example.com` | `AdminDemo!2026` |
+
+These are public seeded local defaults. Do not reuse them for real accounts or expose the demo configuration publicly. Recommendation counts can change with saved preferences and constraints.
+
+For the visual flow, follow [Flutter setup](../apps/mobile/README.md), sign in, then use Profile, Food journal, Overview and Meal planning. Construction creates a draft; logging requires a separate Save meal action.
+
 ## Start
 
 After installing, migrating, and seeding as described in the root README, start the API:
@@ -19,10 +31,10 @@ Open `http://127.0.0.1:8000/docs` for the interactive OpenAPI UI. Alternatively,
 Expected output:
 
 ```text
-demo passed: nutrients=4, recommendations=2, llm_used=false
+demo passed: nutrients=12, recommendations=2, llm_used=false
 ```
 
-The automation logs in as the seeded Student, records consent/profile data if needed, searches for a synthetic lentil food, logs a 100 g ingredient-level meal, fetches the twin summary and recommendations, verifies the no-LLM path, and soft-deletes the temporary meal.
+The automation logs in as the seeded Student, uses the seeded consent and updates the demo profile, searches for a synthetic lentil food, logs a 100 g ingredient-level meal, fetches the twin summary and recommendations, verifies the no-LLM path, and soft-deletes the temporary meal.
 
 ## Manual API sequence
 

@@ -2,7 +2,7 @@
 
 All arithmetic uses canonical units and decimal semantics. Inputs, rule/model versions, normalized factors, intermediate values, warnings, and outputs form the persisted calculation trace.
 
-## Target selection v1
+## Target selection v2
 
 Filter active target rows by nutrient, reference source/version, effective date, age interval `[min_age, max_age)`, source-defined sex category when scientifically required, and supported physiological/activity inputs. Select the most specific unique row. If required input or an authorized row is absent, return no target for that nutrient and mark the snapshot provisional; never infer a value.
 
@@ -35,9 +35,9 @@ citation, review status, version, and effective date. The data validator and dat
 constraint both require `calculation_effect=false`. No chemistry or qualitative
 evidence record participates in the effective-intake rule list.
 
-## Coverage v1
+## Coverage in twin-summary-v2
 
-For a target `T > 0` and total `X`, `coverage_percent = 100 * X / T`. Display may be capped separately, but stored coverage is uncapped. Daily uses a local calendar day; rolling 7/30 uses inclusive ending day and the sum of daily amounts divided by `7*T` or `30*T`. Missing target or insufficient composition produces unavailable coverage plus completeness warnings.
+For a target `T > 0` and total `X`, `coverage_percent = 100 * X / T`. Display may be capped separately, but stored coverage is uncapped. Daily uses a local calendar day; rolling 7/30 uses the inclusive ending day and divides known amounts by the sum of each day's applicable targets. Missing targets make coverage unavailable. Partial known composition can produce a lower-bound coverage value with `complete=false` and warnings; missing values never become zero.
 
 ## Persistent intake-gap risk v1
 
@@ -48,7 +48,7 @@ This is a deterministic indication, not a deficiency assessment. For each nutrie
 - `duration = clamp(consecutive_days_below_80 / 30, 0, 1)`
 - `trend = 1` when recent 7-day coverage is at least 10 percentage points below prior 7-day coverage, otherwise `0`
 - `adherence = clamp(missing_log_days / 30, 0, 1)` and is reported as uncertainty, not physiological risk
-- `upper = 1` only when a valid TUL exists and rolling average exceeds it
+- `upper = 1` only when a logged consumed daily amount exceeds that day's applicable TUL
 
 `score = 100 * (0.30*gap7 + 0.35*gap30 + 0.15*duration + 0.10*trend + 0.05*adherence + 0.05*upper)`
 
@@ -60,26 +60,14 @@ First evaluate every hard constraint; any failure rejects the candidate. Normali
 
 The first gap-coverage objective is based only on nutrients with valid targets and known composition. Explanations quote stored hard checks, top objective contributions, remaining gaps, provenance, and limitations.
 
-## CP-SAT construction v1
+## CP-SAT construction v2
 
-The exposed demo constructor uses only the seven explicitly synthetic foods and synthetic
-prices. For each eligible food `i`, integer variable `servings_i ∈ [0,2]`, with one
-serving equal to 100 g. Profile dietary tags pre-filter candidates; profile allergens
-set the candidate upper bound to zero. Every requested nutrient must have a known value
-for a modeled food, so missing composition is never interpreted as zero. Nutrient
-coefficients use a declared integer scale; the budget is expressed in synthetic minor
-currency units.
+One integer serving is 100 g. Demo foods have bounded synthetic prices/servings; real candidates require owner-entered INR prices observed within 14 days. Composition is scaled by edible fraction. Relevant missing nutrient data rejects a candidate. Diet and allergens are hard constraints.
 
-The primary model enforces requested nutrient minimums and budget, then maximizes total
-requested-nutrient quantity minus cost. It uses a caller-visible deterministic seed, one
-search worker, and a bounded 50–2,000 ms time limit. Decimal post-validation verifies
-budget, nutrient minimums, and allergens. When the primary model is infeasible or times
-out, a second bounded model relaxes only the nutrient minimums and returns the best
-budget-feasible selection with `fallback_used=true`, the original status, warnings, and
-each unmet amount. Allergen, dietary, budget, serving, and time bounds remain active.
-The API persists the full request, candidate checks, solver result, seed, fallback state,
-and limitations as a `RecommendationDecision` trace using model `cp-sat-meal-v1`.
+The model enforces requested nutrient minima, upper limits, budget, preparation time and serving bounds. Minima use conservative floor coefficients and ceiling right-hand sides; maxima use ceiling coefficients and floor right-hand sides. It minimizes cost times 1,000 plus serving count, with a deterministic seed, one search worker, a deterministic-work limit and a bounded wall-clock limit. Decimal post-validation verifies the requested constraints.
+
+Infeasible or unfinished solves return no compliant meal. Hard constraints are never silently relaxed. The API persists requested constraints, candidate checks, solver result, seed, servings and explanation under `cp-sat-meal-v2`. Real-data construction is gated by authoritative reviewed targets and relevant complete logged composition. Demo mode remains labeled and cannot establish dietary suitability.
 
 ## Explanation assembler v1
 
-Templates consume only trace fields. Numeric tokens are formatted from those fields and round-tripped in tests. Optional LLM rephrasing receives a structured fact envelope and is rejected if it introduces an unrecognized numeric token or disallowed clinical phrase; deterministic text is the fallback.
+Templates consume only trace fields. Numeric tokens are formatted from those fields and round-tripped in tests. An LLM adapter is not implemented; configuration rejects enabling it. Any future rephrasing adapter must preserve the trace facts and numerical values.
