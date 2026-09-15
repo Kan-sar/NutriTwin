@@ -23,7 +23,7 @@ The historical 70% convention means seven accepted phase gates, not a percentage
 1. Acquire permitted ICMR-NIN 2020 inputs and independently reviewed reference/golden cases through the local scientific handoff.
 2. Review quantitative evidence for defined ingredient, meal and timing scopes; activate only source-supported versions.
 3. Finish real recipe ranking and test real-data planning against the reviewed references.
-4. Exercise concurrent edits, prolonged worker recovery, and native Flutter packaging/accessibility.
+4. Extend concurrency coverage to PostgreSQL, prolonged worker recovery, and native Flutter packaging/accessibility. Meal edits/deletes now reject stale revisions, with simultaneous SQLite-session and Flutter conflict-recovery tests.
 5. Only then extend pantry, groceries, simulations, graph editing and aggregate research export.
 
 The current scope uses Student, Adult and Admin roles. Pregnancy/lactation, disease, medications and supplements remain unsupported. Redis, Neo4j, external APIs and LLMs cannot be required for the manual core. No licensed publication is bundled, and no synthetic value may be described as an ICMR value.

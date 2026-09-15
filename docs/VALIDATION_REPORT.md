@@ -1,5 +1,15 @@
 # Validation report
 
+## Meal conflict protection — 2026-09-15
+
+`python scripts/check.py` passed: 62 tests, 82.86% coverage, Ruff, mypy, data/RDKit validation and 63 documentation links. New tests exercise simultaneous claims from two SQLite database sessions, stale edits/deletes, owner isolation, and unchanged audit/outbox records after conflicts. PostgreSQL concurrency was not exercised in this checkpoint; Docker remains closed.
+
+Flutter analysis, all five tests and the release Web build (`--release --no-web-resources-cdn`) passed, including stale edit/delete handling, retained drafts, refreshed meals and submitting the newly loaded revision. The navigation Material surface was corrected after these tests exposed hidden selection/ink effects. The pre-existing non-fatal Cupertino font warning remains.
+
+Meal PUT and DELETE now require the positive `expected_revision` query parameter returned by meal reads. Missing revisions return 422; stale revisions return 409 without changing the meal. The Flutter client and repository scripts send this parameter. Older external clients must be updated. No schema migration is required.
+
+At the usage checkpoint, 95% of the five-hour allowance was consumed. Scientific acceptance, real recipe ranking, PostgreSQL concurrency/worker hardening and native packaging remain open.
+
 ## Verified implementation checkpoint
 
 The implementation checkpoint on 2026-09-14 passed **59 backend tests with 82.61% configured branch-aware coverage**, Ruff lint/formatting, mypy, and data validation. RDKit validated the bounded chemistry fixture. The USDA transform contains 74 foods, 751 reported observations and 137 explicit missing values.

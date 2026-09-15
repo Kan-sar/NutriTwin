@@ -503,7 +503,9 @@ def main() -> None:
         (output_dir / "manifest.json").write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
         )
-        client.delete(f"/api/v1/meals/{meal['id']}", headers=student).raise_for_status()
+        client.delete(
+            f"/api/v1/meals/{meal['id']}?expected_revision={meal['revision']}", headers=student
+        ).raise_for_status()
 
     print(f"captured {len(manifest_rows)} evidence images in {output_dir}")
 
