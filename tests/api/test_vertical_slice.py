@@ -36,9 +36,11 @@ def test_complete_manual_workflow_without_optional_services_or_llm(client: TestC
 
     foods = client.get("/api/v1/foods", params={"query": "lentils"}, headers=headers)
     assert foods.status_code == 200
-    assert len(foods.json()) == 1
-    assert foods.json()[0]["authoritative"] is False
-    food_id = foods.json()[0]["id"]
+    assert len(foods.json()) >= 2
+    demo_food = next(food for food in foods.json() if food["food_code"] == "demo-lentils-cooked")
+    assert demo_food["authoritative"] is False
+    assert any(food["source_code"].startswith("USDA-FDC") for food in foods.json())
+    food_id = demo_food["id"]
 
     today = date.today().isoformat()
     meal_payload = {
@@ -103,3 +105,21 @@ def test_admin_reference_inspection_is_backend_rbac_protected(client: TestClient
     assert response.status_code == 200
     sources = {source["code"]: source for source in response.json()["sources"]}
     assert sources["DEMO-SYNTHETIC"]["authoritative"] is False
+    assert sources["USDA-FDC-FOUNDATION-2026-04"]["license"] == "CC0-1.0"
+    assert sources["USDA-FDC-FOUNDATION-2026-04"]["authoritative"] is False
+
+
+def test_fdc_food_search_preserves_reported_and_missing_values(client: TestClient) -> None:
+    student = _headers(_login(client, "student@example.com", "StudentDemo!2026"))
+    response = client.get("/api/v1/foods", params={"query": "millet"}, headers=student)
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    food = response.json()[0]
+    assert food["food_code"] == "usda-fdc-2512379"
+    assert food["source_code"] == "USDA-FDC-FOUNDATION-2026-04"
+    assert food["authoritative"] is False
+    nutrients = {item["nutrient_code"]: item for item in food["nutrients"]}
+    assert nutrients["iron"]["amount_per_100g"] == "2.530000"
+    assert nutrients["energy"]["amount_per_100g"] is None
+    assert nutrients["energy"]["value_status"] == "missing"
+    assert nutrients["energy"]["missing_reason"] == "not_reported"

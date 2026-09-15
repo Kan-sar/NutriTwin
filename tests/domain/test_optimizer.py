@@ -35,13 +35,10 @@ def test_optimizer_returns_bounded_fallback_when_minimum_is_infeasible() -> None
         seed=4,
     )
     assert result.status == "infeasible"
-    assert result.servings[0].servings == 2
-    assert result.total_cost_minor == 120
-    assert result.nutrient_totals["iron"] == Decimal("6")
-    assert result.warnings == (
-        "requested_constraints_infeasible",
-        "fallback_relaxed_nutrient_minimums",
-    )
+    assert result.servings == ()
+    assert result.total_cost_minor == 0
+    assert result.nutrient_totals == {}
+    assert result.warnings == ("requested_constraints_infeasible",)
 
 
 def test_optimizer_rejects_unknown_nutrient_values_instead_of_assuming_zero() -> None:

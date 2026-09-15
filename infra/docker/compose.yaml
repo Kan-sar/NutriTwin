@@ -60,7 +60,7 @@ services:
       NUTRITWIN_NEO4J_USER: neo4j
       NUTRITWIN_NEO4J_PASSWORD: nutritwin_local_only # pragma: allowlist secret -- public local-only default
       NUTRITWIN_JWT_SECRET: local-compose-only-change-before-nonlocal-use-123456 # pragma: allowlist secret -- public local-only default
-      NUTRITWIN_CORS_ORIGINS: '["http://localhost:3000","http://localhost:8080"]'
+      NUTRITWIN_CORS_ORIGINS: '["http://localhost:3000","http://localhost:8080","http://127.0.0.1:8080"]'
       NUTRITWIN_LLM_ENABLED: "false"
     command: ["sh", "-c", "alembic upgrade head && python scripts/seed.py && uvicorn nutritwin_api.main:app --host 0.0.0.0 --port 8000"]
     ports:
@@ -84,7 +84,20 @@ services:
     environment: *api-environment
     command: ["celery", "-A", "nutritwin_worker.celery_app:celery_app", "worker", "--loglevel=INFO", "--concurrency=1"]
     depends_on:
-      postgres:
+      api:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  scheduler:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    environment: *api-environment
+    command: ["celery", "-A", "nutritwin_worker.celery_app:celery_app", "beat", "--loglevel=INFO", "--schedule=/tmp/nutritwin-beat"]
+    depends_on:
+      api:
         condition: service_healthy
       redis:
         condition: service_healthy

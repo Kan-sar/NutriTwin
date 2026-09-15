@@ -11,11 +11,11 @@ from nutritwin_domain.optimizer import FoodOption, construct_meal
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
-from nutritwin_api.models import Food, Profile, RecommendationDecision
+from nutritwin_api.models import Food, FoodOffer, Nutrient, Profile, RecommendationDecision
 
 SERVING_GRAMS = Decimal("100")
 MAXIMUM_SERVINGS = 2
-MODEL_VERSION = "cp-sat-meal-v1"
+MODEL_VERSION = "cp-sat-meal-v2"
 
 # Project-internal synthetic prices in Indian paise per 100 g, solely for software tests.
 DEMO_COST_MINOR: dict[str, int] = {
@@ -39,16 +39,23 @@ def construct_demo_meal(
     *,
     seed: int,
     time_limit_ms: int,
+    demo_mode: bool = True,
+    maximum_preparation_minutes: int = 60,
+    nutrient_maximums: dict[str, Decimal] | None = None,
 ) -> dict[str, Any]:
+    offers = {
+        offer.food_id: offer
+        for offer in db.scalars(select(FoodOffer).where(FoodOffer.user_id == user_id))
+    }
     foods = list(
         db.scalars(
             select(Food)
-            .where(Food.food_code.in_(DEMO_COST_MINOR))
+            .where(Food.food_code.in_(DEMO_COST_MINOR) if demo_mode else Food.id.in_(offers))
             .options(selectinload(Food.nutrients))
             .order_by(Food.food_code)
         ).all()
     )
-    known_nutrients = {value.nutrient.code for food in foods for value in food.nutrients}
+    known_nutrients = set(db.scalars(select(Nutrient.code)))
     unknown = set(nutrient_minimums) - known_nutrients
     if unknown:
         raise ValueError("unknown nutrient codes: " + ", ".join(sorted(unknown)))
@@ -62,20 +69,28 @@ def construct_demo_meal(
     food_by_id: dict[str, Food] = {}
     for food in foods:
         values = {
-            value.nutrient.code: value.amount_per_100g
+            value.nutrient.code: value.amount_per_100g * food.edible_fraction
             for value in food.nutrients
             if value.amount_per_100g is not None
         }
         reasons: list[str] = []
         if required_tags and not required_tags <= set(food.dietary_tags):
             reasons.append("dietary_pattern")
-        missing = set(nutrient_minimums) - set(values)
+        missing = (set(nutrient_minimums) | set(nutrient_maximums or {})) - set(values)
         if missing:
             reasons.append("unknown_nutrient_data")
         allergen_matches = sorted(set(food.allergens) & excluded_allergens)
         if allergen_matches:
             reasons.append("allergens")
+        if not demo_mode and (
+            offers[food.id].currency != "INR"
+            or offers[food.id].observed_on > as_of_date
+            or (as_of_date - offers[food.id].observed_on).days > 14
+            or food.food_code.startswith("demo-")
+        ):
+            reasons.append("unusable_price_or_demo_food")
         eligible_for_model = not set(reasons) & {"dietary_pattern", "unknown_nutrient_data"}
+        eligible_for_model = eligible_for_model and "unusable_price_or_demo_food" not in reasons
         checks.append(
             {
                 "food_code": food.food_code,
@@ -90,10 +105,15 @@ def construct_demo_meal(
         option = FoodOption(
             id=str(food.id),
             name=food.name,
-            nutrient_per_serving={code: values[code] for code in nutrient_minimums},
-            cost_minor_per_serving=DEMO_COST_MINOR[food.food_code],
-            maximum_servings=MAXIMUM_SERVINGS,
+            nutrient_per_serving={
+                code: values[code] for code in set(nutrient_minimums) | set(nutrient_maximums or {})
+            },
+            cost_minor_per_serving=DEMO_COST_MINOR[food.food_code]
+            if demo_mode
+            else offers[food.id].cost_minor_per_100g,
+            maximum_servings=MAXIMUM_SERVINGS if demo_mode else offers[food.id].maximum_servings,
             allergens=frozenset(food.allergens),
+            preparation_minutes=0 if demo_mode else offers[food.id].preparation_minutes,
         )
         options.append(option)
         food_by_id[str(food.id)] = food
@@ -106,6 +126,8 @@ def construct_demo_meal(
         seed=seed,
         time_limit_seconds=time_limit_ms / 1000,
         model_version=MODEL_VERSION,
+        nutrient_maximums=nutrient_maximums,
+        maximum_preparation_minutes=maximum_preparation_minutes,
     )
     selected_by_id = {item.food_id: item.servings for item in result.servings}
     for check in checks:
@@ -120,7 +142,9 @@ def construct_demo_meal(
             "servings": item.servings,
             "grams_per_serving": SERVING_GRAMS,
             "quantity_g": SERVING_GRAMS * item.servings,
-            "cost_minor_per_serving": DEMO_COST_MINOR[food.food_code],
+            "cost_minor_per_serving": DEMO_COST_MINOR[food.food_code]
+            if demo_mode
+            else offers[food.id].cost_minor_per_100g,
         }
         for item in result.servings
         for food in (food_by_id[item.food_id],)
@@ -136,17 +160,26 @@ def construct_demo_meal(
             "excluded_allergens": sorted(excluded_allergens),
             "required_dietary_tags": sorted(required_tags),
             "time_limit_ms": time_limit_ms,
+            "nutrient_maximums": nutrient_maximums or {},
+            "maximum_preparation_minutes": maximum_preparation_minutes,
+            "demo_mode": demo_mode,
         },
         "candidate_checks": checks,
-        "optimizer": jsonable_encoder(asdict(result)),
+        "optimizer": jsonable_encoder(asdict(result), custom_encoder={Decimal: str}),
         "unmet_nutrient_minimums": unmet,
         "fallback_used": "fallback_relaxed_nutrient_minimums" in result.warnings,
     }
-    encoded_trace = jsonable_encoder(trace)
+    trace["servings"] = servings
+    trace["explanation"] = (
+        "All hard constraints satisfied; minimized cost and servings."
+        if result.status in {"optimal", "feasible"}
+        else "No compliant meal found. No hard constraints were relaxed."
+    )
+    encoded_trace = jsonable_encoder(trace, custom_encoder={Decimal: str})
     decision = RecommendationDecision(
         user_id=user_id,
         local_date=as_of_date,
-        candidate_id="cp-sat-constructed-demo-meal",
+        candidate_id="cp-sat-constructed-demo-meal" if demo_mode else "cp-sat-constructed-meal",
         accepted=result.status in {"optimal", "feasible"},
         score=None,
         trace=encoded_trace,
@@ -171,6 +204,8 @@ def construct_demo_meal(
         "notice": (
             "Foods, nutrient values, and prices are synthetic demonstrations. "
             "This deterministic construction is not dietary or medical advice."
-        ),
+        )
+        if demo_mode
+        else "Source-backed composition and user-entered INR prices; estimation only.",
         "llm_used": False,
     }

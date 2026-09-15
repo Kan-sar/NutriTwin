@@ -1,189 +1,87 @@
 # NutriTwin
 
-NutriTwin is an explainable, non-clinical personalized-nutrition digital-twin academic prototype for Indian dietary contexts. It keeps logged consumed intake, estimated effective intake, reference targets, persistent intake-gap indications, and future simulations as distinct concepts.
+[![CI](https://github.com/Kan-sar/NutriTwin/actions/workflows/ci.yml/badge.svg)](https://github.com/Kan-sar/NutriTwin/actions/workflows/ci.yml)
 
-> **Safety:** NutriTwin is educational research software. It does not diagnose nutrient deficiency or disease, measure biological absorption, prescribe supplements, or recommend medication changes. Seek a qualified professional for medical or dietary care.
+An explainable nutrition-journal and digital-twin academic prototype for Indian dietary contexts. Flutter Web connects to a FastAPI backend with deterministic nutrition calculations and PostgreSQL history.
 
-## What works now
+NutriTwin separates consumed intake, estimated effective intake, reference targets, and intake-gap indications. It does not diagnose deficiency, measure absorption, or provide medication or supplement advice.
 
-The verified backend vertical slice supports Student, Adult, and Admin accounts; consent; versioned profiles and target snapshots; curated food search; ingredient-level meal create/edit/delete; consumed and separately estimated-effective nutrient totals; daily, rolling 7-day, and rolling 30-day coverage; deterministic intake-gap risk traces; hard-constraint-aware weighted meal ranking; deterministic explanations; and a bounded CP-SAT demo meal constructor with persisted decision traces and explicit infeasibility fallback. The workflow runs with the LLM, Neo4j, OCR, barcode, image recognition, and external prices disabled.
+## Current scope
 
-The API foundation also includes Argon2 password hashing, short-lived JWT access tokens, rotating/revocable hashed refresh sessions, backend RBAC, audit events, structured request logging, Alembic migrations, an idempotent Celery recomputation job, Docker Compose, and CI checks. The bounded chemistry layer adds reviewed ChEBI substances, FoodOn mappings, calculation-inactive qualitative interaction evidence, and optional RDKit structure validation. It does not predict absorption or make medical claims.
-
-Authoritative ICMR-NIN tables are **not bundled** because redistribution permission has not been established. The included seven-food/four-nutrient dataset and target rules are conspicuously synthetic and validate software behavior only. They are not nutrition guidance and do not scientifically validate the model.
-
-| Area | Status |
-|---|---|
-| FastAPI modular monolith and OpenAPI | Implemented and locally verified |
-| Pure targets/intake/effective/coverage/risk/ranking/CP-SAT domain logic | Implemented and tested |
-| CP-SAT construction API | Implemented at `POST /api/v1/recommendations/construct` for the bounded synthetic catalogue |
-| PostgreSQL schema and Alembic migrations | Implemented; migrations also verified against SQLite locally |
-| Redis/Celery recomputation | Implemented and unit/integration tested; clean live Compose validation recorded in the validation report |
-| ChEBI/FoodOn chemistry and provenance inspection | Implemented for two substances and three demo-food mappings; Admin read-only APIs tested |
-| RDKit structure consistency validation | Implemented as an optional, pinned data-pipeline dependency |
-| Synthetic demo pipeline and automated HTTP walkthrough | Implemented and verified |
-| Licensed ICMR-NIN/IFCT import and scientific golden cases | Blocked on lawful source access/permission |
-| Quantitative absorption modifiers | Deferred pending evidence review; identity-estimate baseline implemented |
-| Neo4j evidence graph and Admin authoring | Deferred; core is independent of it |
-| Flutter, pantry/grocery, what-if, research export | Deferred |
-| OCR, vision, barcode, external prices, LLM adapter, Next.js, Kubernetes, deployment | Deferred |
-
-## Architecture
-
-```text
-Flutter client (primary; deferred)
-                 |
-        FastAPI modular monolith
- auth | profiles | foods | meals | twin | recommendations | admin-read
-                 |
-     pure deterministic domain package
-                 |
- PostgreSQL (authoritative history)
-      | optional Redis/Celery      optional Neo4j/LLM
-```
-
-The complete provisional specification is [docs/NUTRITWIN_SPEC.md](docs/NUTRITWIN_SPEC.md), the architecture is [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), calculation formulas are [docs/ALGORITHM_SPECIFICATION.md](docs/ALGORITHM_SPECIFICATION.md), and requirement status is [docs/REQUIREMENTS_TRACEABILITY_MATRIX.md](docs/REQUIREMENTS_TRACEABILITY_MATRIX.md).
-
-## Quick start with Docker Compose
-
-Prerequisites are Git and a functioning Docker Desktop/Engine. No paid service or external API key is needed.
-
-```bash
-make up
-make demo
-make down
-```
-
-The API is at `http://127.0.0.1:8000`; interactive OpenAPI documentation is at `http://127.0.0.1:8000/docs`. Compose publishes only loopback ports. Its credentials are local-development defaults and must be replaced outside local use.
-
-On the validation machine, Docker Desktop 4.76 initially failed on stale Windows AF_UNIX runtime sockets. The exact stale runtime directories were preserved under timestamped recovery names, Docker recreated them, and engine 29.5.2 became healthy. No factory reset or Docker data deletion was used. Exact Compose results are recorded in the validation report.
-
-## Local-process quick start
-
-Windows PowerShell:
-
-```powershell
-python -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.lock
-.venv\Scripts\python.exe -m pip install --no-deps -e .
-.venv\Scripts\alembic.exe upgrade head
-.venv\Scripts\python.exe scripts\seed.py
-.venv\Scripts\uvicorn.exe nutritwin_api.main:app --host 127.0.0.1 --port 8000
-```
-
-In a second terminal:
-
-```powershell
-.venv\Scripts\python.exe scripts\demo.py
-```
-
-The default local database is `nutritwin-dev.db` and is ignored by Git. Set values from `.env.example` to use PostgreSQL or other local services. Unix developers can override `VENV_PYTHON=.venv/bin/python` and `VENV_BIN=.venv/bin` when using the Makefile.
-
-## Developer commands
-
-```bash
-make bootstrap
-make bootstrap-research
-make up
-make migrate
-make seed
-make test
-make lint
-make typecheck
-make validate-data
-make validate-chem
-make demo
-make down
-```
-
-Exact commands and observed results are recorded in [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md). The manual/API walkthrough is [docs/DEMO_WALKTHROUGH.md](docs/DEMO_WALKTHROUGH.md).
-
-## Working-state evidence
-
-The readiness/demo, pytest/coverage, and PostgreSQL images are direct captures of native Windows PowerShell windows generated by `scripts/capture_powershell_evidence.ps1`. Run that script first, then run `scripts/capture_review_evidence.py` to capture the browser/API images and rebuild the manifest without replacing the PowerShell evidence. They use demo-only data and omit credentials, tokens, connection strings, and personal information. `docs/review1/evidence/manifest.json` binds every image to its source command or endpoint, timestamp, application commit, caption, alternative text, and SHA-256 checksum.
-
-### API interface
-
-![Swagger UI showing the implemented NutriTwin API endpoint groups](docs/review1/evidence/01-api-interface.png)
-
-*Live Swagger UI for the implemented authentication, consent, profile, food, meal, twin, recommendation, and Admin endpoint groups.*
-
-### Health and authenticated workflow
-
-![Native PowerShell window showing a successful readiness response and authenticated demo workflow](docs/review1/evidence/02-health-workflow.png)
-
-*Actual PowerShell readiness response and authenticated Student workflow against the local PostgreSQL-backed API.*
-
-### Nutrition twin
-
-![Nutrition twin response separating consumed, estimated-effective, target, daily, seven-day, and thirty-day values](docs/review1/evidence/03-nutrition-twin.png)
-
-*Consumed intake, identity-baseline estimated-effective intake, target values, rolling coverage, and non-diagnostic risk trace remain distinct.*
-
-### Recommendation trace
-
-![Recommendation response showing hard constraints, rejected candidates, normalized objectives, weights, and deterministic explanation](docs/review1/evidence/04-recommendation-trace.png)
-
-*Accepted and rejected candidate traces with deterministic scoring and explanation; `llm_used` remains false.*
-
-### Chemistry evidence
-
-![Admin chemistry response showing ChEBI and FoodOn identifiers, provenance, review state, and calculation-inactive qualitative evidence](docs/review1/evidence/05-chemistry-evidence.png)
-
-*Admin-only ChEBI/FoodOn inspection with provenance and explicit `calculation_effect=false`.*
-
-### Automated tests
-
-![Native PowerShell window showing the passing automated test suite and branch-aware coverage](docs/review1/evidence/06-automated-tests.png)
-
-*Actual PowerShell output showing 40 passing tests and 83.35% branch-aware coverage.*
-
-### Database state
-
-![Native PowerShell window showing PostgreSQL row counts and public provenance records](docs/review1/evidence/07-database-state.png)
-
-*Actual PowerShell output from read-only queries against the running PostgreSQL container.*
-
-## Academic review artifact
-
-The consolidated project report is [docs/review1/NutriTwin_Project_Review1_Report.docx](docs/review1/NutriTwin_Project_Review1_Report.docx). It follows the supplied institutional format exactly: the title and numbered sections 1 through 7 are the only report headings, while the excluded evaluation rubric remains absent. It covers only the currently implemented foundation, vertical slice, and bounded chemistry-evidence layer; later-scope features appear only under the template's final section. It identifies K. Sarthak (24BDS1121) as the sole project member and embeds the seven evidence files above.
-
-## Local demo accounts
-
-| Role | Email | Password |
+| Area | Available | Remaining |
 |---|---|---|
-| Student | `student@example.com` | `StudentDemo!2026` |
-| Adult | `adult@example.com` | `AdultDemo!2026` |
-| Admin | `admin@example.com` | `AdminDemo!2026` |
+| Manual journal | Student/Adult accounts, consent, profiles, source-bearing food search, ingredient-level meals | Native mobile packaging and offline sync |
+| Nutrition overview | Daily, 7-day and 30-day totals, charts, completeness and calculation traces | Independent scientific validation |
+| Meal planning | Demo ranking, constrained construction, editable drafts, saved preferences and private INR prices | Real recipe ranking and authoritative target acceptance |
+| Scientific governance | Source/checksum validation, local import, separate Admin review, explicit activation/retirement | Lawful ICMR-NIN inputs and independently reviewed golden cases |
+| History and jobs | Profile/target versions, immutable result traces, PostgreSQL outbox, Celery worker and scheduler | Load and concurrency hardening |
 
-These credentials exist only in seeded local demo data. Do not reuse them or expose this configuration publicly.
+The catalogue contains **74 USDA Foundation foods with 12 nutrients**, plus seven synthetic demonstration foods. The USDA subset preserves 751 reported and 137 missing observations. USDA composition is not an Indian target substitute. All bundled targets are explicitly synthetic; no real quantitative absorption factor is enabled by default.
 
-## Data provenance
+**The strict 70% scientific acceptance gate remains open.** See the [delivery plan](PLANS.md) for phase-level status. Pantry, groceries, what-if simulations, graph editing, research exports and optional recognition features remain deferred.
 
-- ICMR-NIN RDA/EAR 2020 remains the required authority for real Indian targets.
-- IFCT 2017 is the preferred Indian food-composition source.
-- Restricted publications belong in ignored local input directories and require checksum-recorded acquisition/import.
-- The optional USDA FoodData Central importer targets CC0 gap/demo records, but the latest unauthenticated acquisition attempt was rate-limited and no FDC records are bundled.
-- ChEBI (CC BY 4.0) supplies the two demonstration chemical identifiers/structures; FoodOn (CC BY 4.0) supplies three reviewed demo-food ontology mappings.
-- NIH ODS evidence is qualitative and informational in the current implementation; the database and validator prevent it from changing nutrient calculations.
-- Missing nutrient values remain missing; an absent value is never silently converted to zero.
+## Run locally
 
-See [docs/DATA_SOURCE_REGISTER.md](docs/DATA_SOURCE_REGISTER.md) for source, license, extraction, transformation, and limitation details, and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for pinned open-source/resource notices.
+Use Python 3.12–3.14. From the repository root, with a Python virtual environment activated:
 
-## Repository layout
+```sh
+python -m pip install -r requirements.lock
+python -m pip install --no-deps -e .
+python -m alembic upgrade head
+python scripts/seed.py
+python -m uvicorn nutritwin_api.main:app --host 127.0.0.1 --port 8000
+```
+
+This uses the ignored SQLite development database by default. To run PostgreSQL, Redis, Neo4j, API, worker and scheduler together:
+
+```sh
+docker compose -f infra/docker/compose.yaml up --build -d
+docker compose -f infra/docker/compose.yaml down
+```
+
+Compose binds services to loopback. Its credentials and seeded accounts are local demonstration defaults; do not expose that configuration publicly. `down` preserves named data volumes.
+
+The API documentation is at `http://127.0.0.1:8000/docs`. Run `python scripts/demo.py` in a second activated terminal for the API walkthrough.
+
+For the Flutter client, install **Flutter 3.47.2 / Dart 3.13.2**, then run:
+
+```sh
+cd apps/mobile
+flutter --no-version-check pub get
+flutter --no-version-check run -d chrome --web-hostname 127.0.0.1 --web-port 8080
+```
+
+See [client setup](apps/mobile/README.md) for API configuration and the Windows launcher workaround. The [demo walkthrough](docs/DEMO_WALKTHROUGH.md) lists local demo accounts and explains the available flows.
+
+## Verify
+
+```sh
+python scripts/check.py
+python scripts/check_docs.py
+```
+
+These run the backend lint, formatting, type, data and test/coverage checks, plus local documentation-link validation. GNU Make users can run `make check`. For optional chemistry verification, install `requirements-chem.lock` and run `python scripts/validate_data.py --require-rdkit`.
+
+From `apps/mobile`, run `flutter --no-version-check analyze`, `flutter --no-version-check test`, and `flutter --no-version-check build web --release --no-web-resources-cdn`. GitHub Actions checks both Python and Flutter. Historical results and current validation scope are in the [validation report](docs/VALIDATION_REPORT.md).
+
+## Repository guide
 
 ```text
 apps/api/                 FastAPI application and Alembic migrations
-apps/mobile/              Flutter implementation contract (deferred)
-packages/domain/          Pure deterministic nutrition and optimization logic
-packages/data_pipeline/   Reproducible demo/source acquisition validation
-services/worker/          Celery task entry point
-data/processed/           Legally redistributable generated demo data
-infra/docker/             Local reproducible service topology
-tests/                    Domain, API, pipeline, migration and job tests
-docs/                     Science, architecture, security and validation records
+apps/mobile/              Flutter Web client and client tests
+packages/domain/          Deterministic calculation and optimization functions
+packages/data_pipeline/   Reproducible source transforms and validation
+services/worker/          Durable recomputation and scheduled work
+infra/docker/             Local service configuration
+data/processed/           Redistributable, provenance-bearing fixtures
+tests/                    Domain, API, data and integration tests
+docs/                     Specification, decisions, source register and validation
 ```
+
+Start with the [documentation index](docs/README.md), [architecture](docs/ARCHITECTURE.md), [source register](docs/DATA_SOURCE_REGISTER.md), and [scientific import guide](docs/SCIENTIFIC_IMPORT.md). Restricted publications, private inputs, credentials, databases and build outputs are ignored by Git.
+
+The [Review-1 report and evidence](docs/review1/README.md) are retained as dated academic artifacts. They do not describe the latest implementation.
 
 ## License
 
-No project license has been selected by the user. Until one is added, all rights in repository-authored material remain with the repository owner. Third-party data and citations retain their own terms.
+No project license has been selected. Repository-authored material remains under the owner's reserved rights; third-party components and data retain their respective terms in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

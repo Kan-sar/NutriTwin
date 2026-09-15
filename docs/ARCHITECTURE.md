@@ -1,62 +1,44 @@
 # Architecture
 
-## Decision summary
-
-NutriTwin is a modular monolith with explicit domain boundaries. HTTP, persistence, jobs, and graph adapters call pure deterministic domain functions. PostgreSQL is authoritative; Redis/Celery accelerates recomputation; Neo4j enriches evidence exploration but never owns core nutrition facts.
+NutriTwin is a modular monolith. Flutter Web and OpenAPI clients call FastAPI application services, which orchestrate pure deterministic domain functions and PostgreSQL transactions. PostgreSQL owns reference facts, journal records, history and audit. Optional services cannot change the meaning of a calculation.
 
 ```text
-Flutter (primary, deferred locally) / OpenAPI clients
-                         |
-                    FastAPI API
-  auth | profiles | foods | meals | twin | recommendations | admin
-                         |
-       application services + transaction boundary
-          /              |                  \
- pure domain       PostgreSQL/SQLAlchemy    optional adapters
- target/effective/ history + outbox/audit   Redis/Celery, Neo4j, LLM
- coverage/risk/rank
+Flutter Web / OpenAPI
+          |
+FastAPI: auth | profiles | foods | meals | twin | planning | science review
+          |
+application services and transaction boundaries
+       /                         \
+pure domain functions         PostgreSQL / SQLAlchemy
+                           history | source versions | audit | durable jobs
+                                           |
+                                  optional Redis / Celery
+                                  worker + beat scheduler
 ```
 
-## Modules and current status
+## Responsibilities
 
-| Module | Responsibility | Current status |
-|---|---|---|
-| `packages/domain` | Units, targets, effective intake, coverage, risk, ranking, optimizer traces | Implemented and tested for the demo slice |
-| `packages/data_pipeline` | Source acquisition, normalization, chemistry and demo-schema validation | Partial: synthetic/chemistry validators and FDC importer implemented; licensed ICMR/IFCT import blocked |
-| `apps/api` | FastAPI routes, application services, configuration, auth/RBAC and Admin chemistry inspection | Implemented and locally verified |
-| PostgreSQL models/migrations | Accounts, profiles, consent, sources, foods, chemistry/evidence, meals, target snapshots, jobs and audit | Implemented for the slice; live PostgreSQL remains an environment validation gate |
-| `services/worker` | Idempotent recomputation | Partial: Celery task and idempotent execution implemented; live broker/scheduling unverified |
-| Neo4j adapter | Evidence graph | Stubbed until Phase 8 |
-| Flutter | Primary client | Deferred locally; Flutter SDK unavailable |
-| Next.js/Kubernetes/vision/barcode/OCR/prices/LLM | Optional scope | Deferred |
+| Module | Responsibility |
+|---|---|
+| `apps/mobile` | Manual journal, charts, planning, explanation and Admin review UI; memory-only session tokens |
+| `apps/api` | Auth/RBAC, consent, request validation, source/governance workflows and persistence |
+| `packages/domain` | Targets, intake, effective-intake rules, coverage, risk, ranking and bounded optimization |
+| `packages/data_pipeline` | Reproducible source transforms, missing-value handling, checksums and chemistry validation |
+| `services/worker` | Durable queue draining, bounded retry and consent-aware scheduled work |
+| `infra/docker` | Loopback-only local PostgreSQL, Redis, Neo4j, API, worker and scheduler |
 
-## Bounded contexts
+## History and consistency
 
-- **Access**: users, roles, credentials, refresh sessions, consent, audit.
-- **Reference**: sources, nutrients, units, foods, compositions, ChEBI substances,
-  FoodOn mappings, qualitative evidence, and target schedules.
-- **Twin**: profiles, target snapshots, meals/ingredients, estimates, daily/rolling summaries, risk snapshots.
-- **Decision**: candidate meals, constraint results, objective normalization/weights, optimization and explanations.
-- **Research/Admin**: review workflows, flags, aggregates, provenance inspection.
+A meal mutation and affected-window requests are committed together. Moving a meal invalidates both dates. A computation is identified by `(user_id, affected_date, input_revision, model_version)`. Completed results are preserved; changed dependencies create a new job revision. `RecomputeJob.result_trace` stores daily series, rolling coverage and score contributions; separate duplicate summary tables are not implemented.
 
-Cross-context references use UUIDs and immutable version identifiers. No domain function reads environment variables or performs I/O.
+Profile versions are effective-dated. Target snapshot keys include profile revision, reference fingerprint and calculation date. Rolling denominators use each day's applicable target. Missing food composition propagates into completeness rather than becoming zero. Initial profile facts are a user-provided historical baseline assumption, as documented in ADR 0006.
 
-Chemistry references live in PostgreSQL because provenance, review status, and effective
-dates are transactional source facts. RDKit is an optional import-time validator and is
-not called by API nutrition calculations. Neo4j projection remains deferred.
+Celery beat drains pending work and schedules daily refresh. Failed jobs have bounded retries; a failed row does not starve other jobs. API summary reads can calculate synchronously without Redis. This bounded prototype still needs load and concurrent-failure testing.
 
-## Persistence and consistency
+## Scientific boundaries
 
-PostgreSQL transactions atomically write a meal and a recomputation request. The current slice computes summaries on demand for immediate consistency; Celery can repeat the same idempotent operation using `(user_id, affected_date, input_revision, model_version)` uniqueness and stores its result trace on the job. Dedicated materialized summary tables and scheduled dispatch remain deferred. Neo4j population from approved relational evidence records is a Phase 8 design, not current behavior.
+Scientific revisions store immutable payloads and hashes. A separate Admin approves/rejects; activation is explicit. Local source import validates provenance, units and checksums but cannot approve or activate a proposal. Quantitative rules are scoped to ingredients and meal/timing context. ChEBI/FoodOn and qualitative evidence remain calculation-inactive; RDKit runs only in the data pipeline.
 
-## Reliability and graceful degradation
+Neo4j graph authoring, LLM adapters, OCR, barcode, image recognition and research export remain deferred. Native Flutter packaging and offline synchronization are also outside the current verified scope.
 
-- Liveness never depends on downstream services; readiness reports component state.
-- PostgreSQL is required for transactional API operations.
-- Redis/Celery failure falls back to synchronous calculation or pending recomputation status.
-- Neo4j/LLM/external APIs return unavailable enrichment without changing core results.
-- Every optimizer call has bounds, a deterministic seed, and a wall-clock limit.
-
-## Deployment baseline
-
-Docker Compose specifies API, PostgreSQL 16.15, Redis 7.4.10, Neo4j 5.26.30, and a worker with health checks, named development volumes, and loopback-only host ports. Configuration validation passes; live startup is currently unverified because Docker Desktop crashes before the engine becomes available on the validation host. No public exposure or production credentials are included. Kubernetes is intentionally deferred.
+See [ADR 0006](adr/0006-reviewed-science-and-seventy-percent-scope.md), [data dictionary](DATA_DICTIONARY.md), and [validation](VALIDATION_REPORT.md). Docker Desktop recovery and shutdown details belong to the dated validation archive rather than the architecture contract.

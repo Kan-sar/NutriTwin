@@ -8,3 +8,10 @@
 *.json text eol=lf
 *.ini text eol=lf
 Makefile text eol=lf
+
+*.dart text eol=lf
+*.html text eol=lf
+*.lock text eol=lf
+.metadata text eol=lf
+*.png binary
+*.docx binary

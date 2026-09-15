@@ -15,4 +15,10 @@ celery_app.conf.update(
     task_acks_late=True,
     worker_prefetch_multiplier=1,
     timezone="UTC",
+    broker_connection_timeout=2,
+    broker_transport_options={"socket_connect_timeout": 2, "socket_timeout": 2},
+    beat_schedule={
+        "drain-durable-recomputations": {"task": "nutritwin.drain_pending", "schedule": 2.0},
+        "refresh-daily-memory": {"task": "nutritwin.refresh_daily", "schedule": 3600.0},
+    },
 )

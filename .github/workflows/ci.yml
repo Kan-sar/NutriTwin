@@ -7,13 +7,17 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
         with:
           python-version: "3.12"
           cache: pip
@@ -25,9 +29,39 @@ jobs:
       - run: ruff format --check .
       - run: mypy apps/api/src packages/domain/src packages/data_pipeline/src services/worker/src scripts
       - run: python scripts/validate_data.py --require-rdkit
+      - run: python scripts/check_docs.py
       - run: pytest --cov --cov-report=term-missing
       - run: alembic upgrade head
       - run: alembic check
       - run: pip-audit
-      - run: git ls-files -z | xargs -0 detect-secrets-hook --no-verify --exclude-lines '"(application_commit_sha|sha256)":'
+      - run: git ls-files -z | xargs -0 detect-secrets-hook --no-verify --exclude-lines '"(application_commit_sha|sha256|checksum_sha256|source_sha256|processed_sha256)":'
       - run: docker compose -f infra/docker/compose.yaml config --quiet
+
+  flutter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Install the pinned official Flutter SDK
+        run: |
+          git init "$RUNNER_TEMP/flutter"
+          git -C "$RUNNER_TEMP/flutter" remote add origin https://github.com/flutter/flutter.git
+          git -C "$RUNNER_TEMP/flutter" fetch --depth=1 origin tag 3.47.2
+          git -C "$RUNNER_TEMP/flutter" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/flutter" rev-parse HEAD)" = "d3b14c876900e553bc736ca19295fc09e3853e8e"
+          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - name: Resolve locked client dependencies
+        working-directory: apps/mobile
+        run: flutter --no-version-check --suppress-analytics pub get --enforce-lockfile
+      - name: Check client formatting
+        working-directory: apps/mobile
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Analyze client
+        working-directory: apps/mobile
+        run: flutter --no-version-check --suppress-analytics analyze
+      - name: Test client
+        working-directory: apps/mobile
+        run: flutter --no-version-check --suppress-analytics test
+      - name: Build Web client
+        working-directory: apps/mobile
+        run: flutter --no-version-check --suppress-analytics build web --release --no-web-resources-cdn

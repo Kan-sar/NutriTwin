@@ -87,6 +87,18 @@ def select_targets(
             )
             and (rule.activity_level is None or rule.activity_level == profile.activity_level)
         ]
+        authoritative = [rule for rule in candidates if rule.authoritative]
+        if authoritative:
+            candidates = authoritative
+        if candidates:
+
+            def specificity(rule: TargetRule) -> int:
+                return int(rule.source_sex_category is not None) + int(
+                    rule.activity_level is not None
+                )
+
+            best = max(specificity(rule) for rule in candidates)
+            candidates = [rule for rule in candidates if specificity(rule) == best]
         if len(candidates) != 1:
             reason = "no_matching_approved_rule" if not candidates else "ambiguous_target_rules"
             trace.append(TargetTrace(nutrient, None, None, None, reason, True))

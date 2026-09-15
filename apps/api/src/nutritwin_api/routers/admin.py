@@ -49,9 +49,13 @@ def reference_data(_: AdminUser, db: Annotated[Session, Depends(get_db)]) -> dic
             {
                 "code": source.code,
                 "title": source.title,
+                "organization": source.organization,
+                "url": source.url,
+                "license": source.license,
                 "version": source.version,
                 "authoritative": source.authoritative,
                 "redistribution_status": source.redistribution_status,
+                "checksum_sha256": source.checksum_sha256,
             }
             for source in sources
         ],

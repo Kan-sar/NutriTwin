@@ -219,6 +219,9 @@ class AdminQualitativeEvidenceResponse(ApiModel):
 
 
 class ConstructMealRequest(ApiModel):
+    demo_mode: bool = True
+    derive_from_gaps: bool = False
+    maximum_preparation_minutes: int = Field(default=60, ge=1, le=240)
     nutrient_minimums: dict[str, Decimal] = Field(
         min_length=1,
         max_length=10,
