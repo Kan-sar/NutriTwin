@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from nutritwin_api.config import Settings, get_settings
 from nutritwin_api.database import create_database_engine, create_session_factory
 from nutritwin_api.models import Base
-from nutritwin_api.routers import admin, auth, core, health, twin, users
+from nutritwin_api.routers import admin, auth, core, health, planning, science, twin, users
 
 logger = logging.getLogger("nutritwin")
 
@@ -96,6 +96,8 @@ def create_app(
     app.include_router(core.router)
     app.include_router(twin.router)
     app.include_router(admin.router)
+    app.include_router(science.router)
+    app.include_router(planning.router)
     return app
 
 

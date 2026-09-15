@@ -14,6 +14,8 @@ resources that materially shape the 30% academic milestone.
 | ChEBI | https://www.ebi.ac.uk/chebi/; accessed 2026-08-30 | CC BY 4.0 | Two attributed chemical reference records are stored as a small transformed JSON subset. | EMBL-EBI maintained; stable identifiers retained | Chemical identity is not evidence of a nutritional or clinical effect |
 | FoodOn | https://github.com/FoodOntology/foodon; ontology version 2025-12-30; maintenance check at commit c5035015de540ba4f4210fd0e24d3909d6fb2037 | CC BY 4.0 | Three reviewed food-to-ontology mappings; no ontology source files copied | OBO/OLS published version and stable PURLs used | Broad mappings are labelled and must not be interpreted as composition equivalence |
 | Playwright for Python | https://github.com/microsoft/playwright-python; v1.62.0, commit 3b7c24c3e67dc84f7b0eddd0c5fd2ca685705021 | Apache-2.0 | Optional evidence dependency for local browser screenshots; no upstream files modified | Pinned release; only local loopback pages are captured | Evidence capture tool, not an application runtime dependency |
+| USDA FoodData Central Foundation Foods | https://fdc.nal.usda.gov/download-datasets/; April 2026 JSON release; archive SHA-256 `186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a` | Public domain / CC0 1.0 | 74 fixed food records transformed into 888 normalized nutrient rows; raw archive locally ignored; processed subset and manifest committed | Official USDA ARS release; reproducible acquisition and checksum validation | Non-authoritative fallback for Indian foods/targets; 137 absent values remain explicitly missing |
+| Flutter SDK | https://github.com/flutter/flutter; stable 3.47.2, commit d3b14c876900e553bc736ca19295fc09e3853e8e | BSD-3-Clause | Primary client framework and local development SDK under `C:\apps\flutter`; no upstream source copied into this repository | Official stable checkout; Dart 3.13.2 downloaded from the matching Flutter engine revision | Flutter tool bootstrap and Web build are working; Android SDK/toolchain is not installed |
 | NIH ODS Iron Fact Sheet | https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/; accessed 2026-08-30 | US government informational material; attribution retained | Citation metadata for one qualitative vitamin-C/nonheme-iron context record | Living authoritative information page; access version recorded | Informational only and explicitly forbidden from changing calculations |
 
 ## Existing framework and infrastructure dependencies
@@ -41,3 +43,7 @@ Before adding or upgrading any third-party component:
 
 The project itself has no selected license. Until the owner adds one, repository-authored
 material remains all-rights-reserved; third-party terms continue to apply independently.
+
+## Flutter client dependency addition — 2026-09-14
+
+`http` 1.6.0, official Dart project package (https://pub.dev/packages/http/versions/1.6.0), BSD-3-Clause. Copyright 2014, the Dart project authors. Its installed LICENSE was inspected. It provides the memory-only HTTP/auth transport; no upstream source was copied or modified. Exact transitive versions and archive hashes are recorded in apps/mobile/pubspec.lock. Development lint package flutter_lints is pinned to 6.0.0.

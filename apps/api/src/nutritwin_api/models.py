@@ -420,3 +420,65 @@ class AuditEvent(Base):
     request_id: Mapped[str | None] = mapped_column(String(64))
     details: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class ProfileVersion(Base):
+    __tablename__ = "profile_versions"
+    __table_args__ = (UniqueConstraint("user_id", "revision"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    revision: Mapped[int] = mapped_column(Integer)
+    effective_from: Mapped[date] = mapped_column(Date)
+    facts: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class ScientificRevision(Base):
+    """Immutable submitted payload; separate proposer and approver, no automatic science."""
+
+    __tablename__ = "scientific_revisions"
+    __table_args__ = (
+        CheckConstraint("kind IN ('target', 'effective')", name="ck_science_kind"),
+        CheckConstraint(
+            "status IN ('submitted', 'approved', 'active', 'rejected', 'retired')",
+            name="ck_science_status",
+        ),
+        CheckConstraint("proposer_id <> approver_id", name="ck_science_separate_review"),
+    )
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    kind: Mapped[str] = mapped_column(String(16))
+    status: Mapped[str] = mapped_column(String(16), default="submitted")
+    proposer_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"))
+    approver_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("users.id"))
+    payload: Mapped[dict[str, Any]] = mapped_column(JSON)
+    payload_sha256: Mapped[str] = mapped_column(String(64))
+    review_record: Mapped[str | None] = mapped_column(Text)
+    effective_from: Mapped[date] = mapped_column(Date)
+    retired_on: Mapped[date | None] = mapped_column(Date)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class RecommendationPreference(Base):
+    __tablename__ = "recommendation_preferences"
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+    )
+    settings: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class FoodOffer(Base):
+    """User-supplied prices and preparation constraints, never fabricated market data."""
+
+    __tablename__ = "food_offers"
+    __table_args__ = (
+        CheckConstraint("cost_minor_per_100g >= 0", name="ck_offer_cost"),
+        UniqueConstraint("user_id", "food_id"),
+    )
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    food_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("foods.id"))
+    cost_minor_per_100g: Mapped[int] = mapped_column(Integer)
+    currency: Mapped[str] = mapped_column(String(3), default="INR")
+    preparation_minutes: Mapped[int] = mapped_column(Integer)
+    maximum_servings: Mapped[int] = mapped_column(Integer, default=2)
+    observed_on: Mapped[date] = mapped_column(Date)

@@ -28,6 +28,14 @@ NUTRIENTS = {
     "protein": ("Protein", "g"),
     "iron": ("Iron", "mg"),
     "vitamin_c": ("Vitamin C", "mg"),
+    "calcium": ("Calcium", "mg"),
+    "magnesium": ("Magnesium", "mg"),
+    "potassium": ("Potassium", "mg"),
+    "sodium": ("Sodium", "mg"),
+    "zinc": ("Zinc", "mg"),
+    "fiber": ("Dietary fiber", "g"),
+    "fat": ("Total fat", "g"),
+    "carbohydrate": ("Carbohydrate", "g"),
 }
 
 DEMO_TARGETS = {
@@ -52,6 +60,10 @@ def _default_chemistry_path() -> Path:
     return _resolve_data_path("demo_chemistry_references.json")
 
 
+def _default_fdc_path() -> Path:
+    return _resolve_data_path("fdc_foundation_subset.json")
+
+
 def _resolve_data_path(filename: str) -> Path:
     """Resolve copied repository data before considering an editable-source layout."""
     candidates = (
@@ -69,6 +81,7 @@ def seed_database(
     db: Session,
     dataset_path: Path | None = None,
     chemistry_path: Path | None = None,
+    fdc_path: Path | None = None,
 ) -> dict[str, int]:
     dataset = json.loads((dataset_path or _default_dataset_path()).read_text(encoding="utf-8"))
     source_spec = dataset["source"]
@@ -156,6 +169,67 @@ def seed_database(
                         source_version="1",
                     )
                 )
+
+    fdc_dataset = json.loads((fdc_path or _default_fdc_path()).read_text(encoding="utf-8"))
+    fdc_source_spec = fdc_dataset["source"]
+    fdc_source = db.scalar(select(DataSource).where(DataSource.code == fdc_source_spec["code"]))
+    if fdc_source is None:
+        fdc_source = DataSource(
+            code=fdc_source_spec["code"],
+            title=fdc_source_spec["title"],
+            organization=fdc_source_spec["organization"],
+            url=fdc_source_spec["url"],
+            publication_date=date(2026, 4, 30),
+            license=fdc_source_spec["license"],
+            redistribution_status=fdc_source_spec["redistribution_status"],
+            checksum_sha256=fdc_source_spec["checksum_sha256"],
+            authoritative=False,
+            version=fdc_source_spec["version"],
+            effective_from=date.fromisoformat(fdc_source_spec["effective_from"]),
+        )
+        db.add(fdc_source)
+        db.flush()
+
+    for food_spec in fdc_dataset["foods"]:
+        food = db.scalar(select(Food).where(Food.food_code == food_spec["food_code"]))
+        if food is None:
+            food = Food(
+                food_code=food_spec["food_code"],
+                name=food_spec["name"],
+                source_id=fdc_source.id,
+                source_food_id=food_spec["source_food_id"],
+                edible_fraction=Decimal(food_spec["edible_fraction"]),
+                authoritative=False,
+                dietary_tags=food_spec["dietary_tags"],
+                allergens=food_spec["allergens"],
+            )
+            db.add(food)
+            db.flush()
+        for nutrient_spec in food_spec["nutrients"]:
+            if (
+                db.scalar(
+                    select(FoodNutrient).where(
+                        FoodNutrient.food_id == food.id,
+                        FoodNutrient.nutrient_id
+                        == nutrient_records[nutrient_spec["nutrient_code"]].id,
+                        FoodNutrient.source_version == fdc_source_spec["version"],
+                    )
+                )
+                is not None
+            ):
+                continue
+            amount = nutrient_spec["amount_per_100g"]
+            db.add(
+                FoodNutrient(
+                    food_id=food.id,
+                    nutrient_id=nutrient_records[nutrient_spec["nutrient_code"]].id,
+                    amount_per_100g=None if amount is None else Decimal(amount),
+                    canonical_unit=nutrient_spec["unit"],
+                    value_status=nutrient_spec["value_status"],
+                    missing_reason=nutrient_spec["missing_reason"],
+                    source_version=fdc_source_spec["version"],
+                )
+            )
 
     chemistry = json.loads(
         (chemistry_path or _default_chemistry_path()).read_text(encoding="utf-8")
@@ -292,10 +366,10 @@ def seed_database(
             )
     db.commit()
     return {
-        "sources": 1 + len(chemistry["sources"]),
+        "sources": 2 + len(chemistry["sources"]),
         "nutrients": len(NUTRIENTS),
         "target_rules": len(DEMO_TARGETS),
-        "foods": len(dataset["foods"]),
+        "foods": len(dataset["foods"]) + len(fdc_dataset["foods"]),
         "substances": len(chemistry["substances"]),
         "food_mappings": len(chemistry["food_mappings"]),
         "qualitative_evidence": len(chemistry["qualitative_evidence"]),

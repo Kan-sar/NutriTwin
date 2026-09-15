@@ -16,7 +16,14 @@ from nutritwin_domain.recommendation import (
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
-from nutritwin_api.models import Food, Profile, RecommendationDecision
+from nutritwin_api.models import (
+    Food,
+    Profile,
+    RecommendationDecision,
+    RecommendationPreference,
+    User,
+)
+from nutritwin_api.routers.planning import Preferences
 
 TEMPLATES: tuple[dict[str, Any], ...] = (
     {
@@ -123,6 +130,15 @@ def recommend(
         if profile.dietary_pattern == "unrestricted"
         else frozenset({profile.dietary_pattern})
     )
+    saved = db.get(RecommendationPreference, user_id)
+    user = db.get(User, user_id)
+    preferences = (
+        Preferences.model_validate(saved.settings)
+        if saved is not None
+        else Preferences(
+            maximum_preparation_minutes=30 if user and user.role.value == "student" else 45
+        )
+    )
     ranked = rank_candidates(
         candidates,
         RecommendationContext(
@@ -130,18 +146,14 @@ def recommend(
             required_dietary_tags=required_tags,
             available_ingredient_ids=None,
             require_available_ingredients=False,
-            maximum_budget_minor=None,
-            maximum_preparation_minutes=45,
+            maximum_budget_minor=preferences.maximum_budget_minor,
+            maximum_preparation_minutes=preferences.maximum_preparation_minutes,
         ),
-        {
-            "gap_coverage": Decimal("0.7"),
-            "preparation_time": Decimal("0.2"),
-            "variety": Decimal("0.1"),
-        },
+        preferences.weights,
     )
     output: list[dict[str, Any]] = []
     for item in ranked:
-        trace = jsonable_encoder(asdict(item))
+        trace = jsonable_encoder(asdict(item), custom_encoder={Decimal: str})
         db.add(
             RecommendationDecision(
                 user_id=user_id,

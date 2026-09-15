@@ -16,6 +16,7 @@ from nutritwin_api.models import (
     Meal,
     MealIngredient,
     Profile,
+    ProfileVersion,
     TargetSnapshot,
 )
 from nutritwin_api.schemas import (
@@ -30,7 +31,7 @@ from nutritwin_api.schemas import (
     TargetValueResponse,
 )
 from nutritwin_api.security import CurrentUser
-from nutritwin_api.services.recompute import ensure_recompute_job
+from nutritwin_api.services.recompute import enqueue_affected_windows
 from nutritwin_api.services.targets import get_or_create_target_snapshot
 
 router = APIRouter(prefix="/api/v1", tags=["core nutrition"])
@@ -91,11 +92,39 @@ def upsert_profile(
         db.add(profile)
         action = "profile.created"
     else:
+        if (
+            db.scalar(
+                select(ProfileVersion).where(
+                    ProfileVersion.user_id == user.id, ProfileVersion.revision == profile.revision
+                )
+            )
+            is None
+        ):
+            db.add(
+                ProfileVersion(
+                    user_id=user.id,
+                    revision=profile.revision,
+                    effective_from=profile.birth_date,
+                    facts={
+                        "birth_date": profile.birth_date.isoformat(),
+                        "source_sex_category": profile.source_sex_category,
+                        "activity_level": profile.activity_level,
+                    },
+                )
+            )
         for key, value in payload.model_dump().items():
             setattr(profile, key, value)
         profile.revision += 1
         action = "profile.updated"
     db.flush()
+    db.add(
+        ProfileVersion(
+            user_id=user.id,
+            revision=profile.revision,
+            effective_from=profile.birth_date if profile.revision == 1 else date.today(),
+            facts=payload.model_dump(mode="json"),
+        )
+    )
     db.add(
         AuditEvent(
             actor_user_id=user.id, action=action, object_type="profile", object_id=str(profile.id)
@@ -122,6 +151,7 @@ def current_targets(
     if profile is None:
         raise HTTPException(status_code=404, detail="profile not found")
     snapshot = get_or_create_target_snapshot(db, user, profile, date.today())
+    db.commit()
     return _target_response(snapshot)
 
 
@@ -213,7 +243,7 @@ def create_meal(
             actor_user_id=user.id, action="meal.created", object_type="meal", object_id=str(meal.id)
         )
     )
-    ensure_recompute_job(db, user.id, meal.local_date)
+    enqueue_affected_windows(db, user.id, meal.local_date)
     db.commit()
     db.refresh(meal)
     return _meal_response(meal)
@@ -244,6 +274,8 @@ def update_meal(
     )
     if meal is None:
         raise HTTPException(status_code=404, detail="meal not found")
+    _require_consent(db, user.id)
+    previous_date = meal.local_date
     _validated_food_ids(db, payload.ingredients)
     meal.name = payload.name
     meal.eaten_at = payload.eaten_at
@@ -254,7 +286,14 @@ def update_meal(
         for item in payload.ingredients
     ]
     db.flush()
-    ensure_recompute_job(db, user.id, meal.local_date)
+    db.add(
+        AuditEvent(
+            actor_user_id=user.id, action="meal.updated", object_type="meal", object_id=str(meal.id)
+        )
+    )
+    enqueue_affected_windows(db, user.id, previous_date)
+    if meal.local_date != previous_date:
+        enqueue_affected_windows(db, user.id, meal.local_date)
     db.commit()
     db.refresh(meal)
     return _meal_response(meal)
@@ -271,10 +310,16 @@ def delete_meal(
     )
     if meal is None:
         raise HTTPException(status_code=404, detail="meal not found")
+    _require_consent(db, user.id)
     from nutritwin_api.models import utc_now
 
+    db.add(
+        AuditEvent(
+            actor_user_id=user.id, action="meal.deleted", object_type="meal", object_id=str(meal.id)
+        )
+    )
     meal.deleted_at = utc_now()
     meal.revision += 1
     db.flush()
-    ensure_recompute_job(db, user.id, meal.local_date)
+    enqueue_affected_windows(db, user.id, meal.local_date)
     db.commit()

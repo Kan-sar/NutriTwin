@@ -2,6 +2,7 @@ import argparse
 from pathlib import Path
 
 from nutritwin_data.chemistry import validate_chemistry_dataset
+from nutritwin_data.fdc_foundation import validate as validate_fdc_foundation
 from nutritwin_data.synthetic_demo import validate_synthetic_dataset
 
 
@@ -28,6 +29,15 @@ def main() -> None:
         f"food_mappings={chemistry_counts['food_mappings']}, "
         f"qualitative_evidence={chemistry_counts['qualitative_evidence']}, "
         f"rdkit_used={str(chemistry_counts['rdkit_used']).lower()}"
+    )
+
+    fdc_path = Path("data/processed/fdc_foundation_subset.json")
+    fdc_manifest = Path("data/processed/fdc_foundation_subset.manifest.json")
+    fdc_counts = validate_fdc_foundation(fdc_path, fdc_manifest)
+    print(
+        f"validated {fdc_path}: foods={fdc_counts['foods']}, "
+        f"reported_nutrients={fdc_counts['reported_nutrients']}, "
+        f"missing_nutrients={fdc_counts['missing_nutrients']}"
     )
 
 

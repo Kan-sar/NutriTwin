@@ -4,6 +4,7 @@ import hashlib
 from dataclasses import asdict
 from datetime import date
 from decimal import Decimal
+from typing import Any
 
 from nutritwin_domain.targets import ProfileFacts, TargetRule, select_targets
 from sqlalchemy import select
@@ -11,24 +12,50 @@ from sqlalchemy.orm import Session, selectinload
 
 from nutritwin_api.models import (
     Profile,
+    ProfileVersion,
     TargetRuleRecord,
     TargetSnapshot,
     TargetValue,
     User,
 )
 
-MODEL_VERSION = "target-selection-v1"
+MODEL_VERSION = "targets-v2"
 
 
 def age_in_years(birth_date: date, on_date: date) -> Decimal:
     if birth_date > on_date:
         raise ValueError("birth date cannot be in the future")
-    return Decimal((on_date - birth_date).days) / Decimal("365.2425")
+    years = on_date.year - birth_date.year
+    if (on_date.month, on_date.day) < (birth_date.month, birth_date.day):
+        years -= 1
+    return Decimal(years)
+
+
+def historical_profile(db: Session, profile: Profile, on_date: date) -> tuple[int, dict[str, Any]]:
+    version = db.scalar(
+        select(ProfileVersion)
+        .where(
+            ProfileVersion.user_id == profile.user_id,
+            ProfileVersion.effective_from <= on_date,
+        )
+        .order_by(ProfileVersion.effective_from.desc(), ProfileVersion.revision.desc())
+        .limit(1)
+    )
+    if version is not None:
+        return version.revision, version.facts
+    return profile.revision, {
+        "birth_date": profile.birth_date.isoformat(),
+        "source_sex_category": profile.source_sex_category,
+        "activity_level": profile.activity_level,
+    }
 
 
 def get_or_create_target_snapshot(
     db: Session, user: User, profile: Profile, on_date: date
 ) -> TargetSnapshot:
+    # Serialize snapshot creation for one profile on PostgreSQL.
+    db.execute(select(Profile.id).where(Profile.id == profile.id).with_for_update())
+    revision, facts = historical_profile(db, profile, on_date)
     records = db.scalars(
         select(TargetRuleRecord).options(
             selectinload(TargetRuleRecord.source), selectinload(TargetRuleRecord.nutrient)
@@ -39,18 +66,20 @@ def get_or_create_target_snapshot(
             sorted(
                 (
                     f"{item.id}:{item.version}:{item.source.version}:{item.approved}:"
-                    f"{item.effective_from}:{item.effective_to}"
+                    f"{item.effective_from}:{item.effective_to}:{item.rda}:{item.ear}:{item.tul}:"
+                    f"{item.minimum_age}:{item.maximum_age_exclusive}:"
+                    f"{item.source_sex_category}:{item.activity_level}"
                 )
                 for item in records
             )
         ).encode()
     ).hexdigest()[:12]
-    snapshot_model_version = f"{MODEL_VERSION}+{reference_fingerprint}"
+    snapshot_model_version = f"{MODEL_VERSION}+{reference_fingerprint}+{on_date.isoformat()}"
     existing = db.scalar(
         select(TargetSnapshot)
         .where(
             TargetSnapshot.user_id == user.id,
-            TargetSnapshot.profile_revision == profile.revision,
+            TargetSnapshot.profile_revision == revision,
             TargetSnapshot.model_version == snapshot_model_version,
         )
         .options(selectinload(TargetSnapshot.values))
@@ -82,9 +111,9 @@ def get_or_create_target_snapshot(
     ]
     result = select_targets(
         ProfileFacts(
-            age_in_years(profile.birth_date, on_date),
-            profile.source_sex_category,
-            profile.activity_level,
+            age_in_years(date.fromisoformat(facts["birth_date"]), on_date),
+            facts.get("source_sex_category"),
+            facts.get("activity_level"),
         ),
         rules,
         on_date,
@@ -92,12 +121,20 @@ def get_or_create_target_snapshot(
     )
     snapshot = TargetSnapshot(
         user_id=user.id,
-        profile_revision=profile.revision,
+        profile_revision=revision,
         model_version=result.model_version,
         provisional=result.provisional,
         trace={
             "as_of_date": on_date.isoformat(),
-            "source_notice": "Demo targets are synthetic and are not ICMR-NIN values.",
+            "source_notice": (
+                "Demo targets are synthetic and are not ICMR-NIN values."
+                if result.provisional
+                else "Reviewed authoritative reference records."
+            ),
+            "profile_history_notice": (
+                "Initial profile facts are user-provided baseline assumptions; "
+                "later revisions apply prospectively."
+            ),
             "selections": [asdict(item) for item in result.trace],
         },
     )
@@ -115,6 +152,5 @@ def get_or_create_target_snapshot(
                 canonical_unit=record.nutrient.canonical_unit,
             )
         )
-    db.commit()
-    db.refresh(snapshot)
+    db.flush()
     return snapshot

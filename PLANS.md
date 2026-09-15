@@ -1,3 +1,5 @@
+> Current execution status — 2026-09-14: see [implementation checkpoint](docs/DEVELOPMENT_PROGRESS_2026-09-14.md) and [ADR 0006](docs/adr/0006-reviewed-science-and-seventy-percent-scope.md). Flutter Web, scientific review/import infrastructure, and durable scheduled materialization now exist. The phase table below is the preserved 2026-08-31 baseline; its deferred/partial labels are historical. Strict 70% scientific acceptance remains blocked by real source acquisition and review.
+
 # NutriTwin delivery plan
 
 Updated: 2026-08-31
@@ -7,7 +9,7 @@ Updated: 2026-08-31
 - The user-provided project brief is captured as the provisional authoritative specification because no separate specification file was available before initialization.
 - The repository was created at `C:\Projects\NutriTwin`; the original `C:\.cache` folder was an unrelated cache.
 - ICMR-NIN RDA/EAR 2020 and IFCT 2017 tables are not redistributed. A lawful local acquisition/import and expert-verified golden cases are required before real scientific target data can be enabled.
-- Python 3.12–3.14 is supported and 3.14.5 was used locally. Flutter is not installed on the development host.
+- Python 3.12–3.14 is supported and 3.14.5 was used locally. Flutter stable 3.47.2 and Dart 3.13.2 are downloaded locally, but the one-time Flutter tool snapshot stalled; Android Studio/SDK is not installed. See `docs/FLUTTER_SETUP_HANDOFF.md`.
 - Docker Desktop's stale Windows AF_UNIX runtime sockets were preserved under timestamped recovery names; Docker recreated them and engine 29.5.2 became healthy without a factory reset or data deletion.
 - Pregnancy, lactation, medical conditions, medications, and supplements remain outside the initial target engine. No medical adjustment is inferred.
 
@@ -25,7 +27,7 @@ Updated: 2026-08-31
 | 6 | Weighted ranking and bounded deterministic CP-SAT construction | Feasible/infeasible/constraint/trace tests | Partial: ranking is exposed; pure CP-SAT constructor is tested but not yet an API workflow |
 | 7 | Pantry, grocery optimization, deterministic what-if | Scenario and invariant tests | Deferred |
 | 8 | Evidence graph, Admin workflows, aggregate research export | Graceful degradation, audit and anonymization tests | Partial: Admin read/RBAC and audit foundation only; rest deferred |
-| 9 | Flutter client and accessibility/hardening | Unit/widget/end-to-end tests | Deferred; Flutter SDK unavailable |
+| 9 | Flutter client and accessibility/hardening | Unit/widget/end-to-end tests | Deferred; SDK bootstrap paused and Android toolchain unavailable; no client source generated |
 
 ## Verified vertical-slice criteria
 

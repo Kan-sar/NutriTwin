@@ -1,3 +1,25 @@
+## Final checkpoint — 2026-09-14
+
+The portable `python scripts/check.py` completed successfully after the final backend edits: Ruff lint and formatting, mypy (51 source files), data/chemistry validation, and **59 passing tests with 82.61% coverage**. GNU Make itself is unavailable on this host.
+
+After correcting the final chart syntax, Flutter analysis reported no issues, all **3 client tests passed**, and `build web --release --no-web-resources-cdn` succeeded. The final release build passed the live Chrome workflow: generated test registration, consent, profile setup, food search, meal logging, overview, demo ranking, constrained construction, and editable journal draft. Screenshots were inspected at desktop and 390-pixel widths. The build emitted a non-fatal unused Cupertino font-family warning; rendered Material icons were present.
+
+Screenshots and the executable browser acceptance script are retained under `C:/.cache/nutritwin-browser/` and `C:/.cache/nutritwin_browser_acceptance.py` on this workstation. Browser credentials were generated in memory. Backend edit/delete, history, source import, two-Admin governance, and retry cases passed in the automated suite; they are not all claimed as browser-tested.
+
+Current results apply to an uncommitted working tree. No current remote CI, mobile-platform packaging, production release, or real scientific validation is claimed. The scientific source/review gaps documented in DEVELOPMENT_PROGRESS_2026-09-14.md remain open.
+
+## 2026-09-14 implementation verification
+
+- Backend: 59 tests passed, 82.61% branch-inclusive coverage; 11 affected API tests also passed after final construction composition scaling.
+- Python: Ruff check/format and mypy passed; data validation passed with RDKit (74 USDA foods, 751 reported / 137 missing nutrient observations).
+- Flutter: three tests passed; static analysis and release Web build passed before the last chart addition. See final verification addendum for the final build.
+- Live stack: six Compose services started; PostgreSQL `alembic check` detected no changes; Celery worker ping succeeded; scheduler and durable queue execution observed.
+- Browser: Chrome on loopback exercised registration, consent, profile, search, logging, overview, ranking, construction and draft creation; viewport checks at 1440 and 390 pixels. Test browser credentials were generated at runtime and were not committed.
+- `make check` was attempted but GNU Make is unavailable. The portable equivalent is `python scripts/check.py`.
+- No Android/iOS build, current-head remote CI, restricted real-data scientific golden tests, load/soak tests, or production deployment is claimed.
+
+Earlier records below are historical and must not be read as current-head CI evidence.
+
 # Validation report
 
 Updated: 2026-08-31
@@ -13,7 +35,7 @@ Updated: 2026-08-31
 | `docker --version` | Engine `29.5.2` |
 | `docker compose version` | `v5.1.4` |
 | Docker Desktop | `4.76`; engine and all project services healthy after the recovery described below |
-| `flutter --version` | Unavailable on this host; the Flutter client remains deferred |
+| Flutter setup checkpoint | Official stable 3.47.2 at commit `d3b14c876900e553bc736ca19295fc09e3853e8e` and Dart 3.13.2 are downloaded; standalone Dart runs, but the first Flutter tool-snapshot compilation stalled and was interrupted. Android Studio/SDK is absent; the client remains deferred. |
 
 ## Source and licensing review
 
@@ -107,3 +129,6 @@ LibreOffice rendered all 13 pages to PNG and PDF for visual inspection. Every pa
 - Materialized scheduled nutrition-memory tables, public CP-SAT construction, pantry, grocery, simulation, full Neo4j graph authoring, research exports, and Flutter are not implemented.
 - No participant research, clinical validation, public deployment, or production security assessment has occurred.
 - Remote CI will run after the final push; local validation does not claim a remote runner result in advance.
+
+Shutdown checkpoint: at the user's request, the final Docker image refresh was interrupted during export, the NutriTwin Compose stack was stopped without removing volumes, and Docker Desktop shutdown was requested. The latest local source is fully checked; the interrupted final image refresh is not claimed as verified.
+

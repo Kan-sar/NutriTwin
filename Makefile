@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON ?= .venv/Scripts/python.exe
 VENV_BIN ?= .venv/Scripts
 
-.PHONY: bootstrap bootstrap-research up migrate seed test lint typecheck validate-data validate-chem demo check down
+.PHONY: bootstrap bootstrap-research up migrate seed test lint typecheck validate-data validate-chem import-fdc demo check down
 
 bootstrap:
 	$(PYTHON) -m venv .venv
@@ -38,6 +38,9 @@ validate-data:
 
 validate-chem:
 	$(VENV_PYTHON) scripts/validate_data.py --require-rdkit
+
+import-fdc:
+	$(VENV_PYTHON) scripts/import_fdc_foundation.py --download
 
 demo:
 	$(VENV_PYTHON) scripts/demo.py

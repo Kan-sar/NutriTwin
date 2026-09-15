@@ -74,7 +74,7 @@ def test_constructed_meal_is_traceable_allergen_safe_and_persisted(
         )
         assert decision is not None
         assert decision.trace["optimizer"]["seed"] == 17
-        assert decision.model_version == "cp-sat-meal-v1"
+        assert decision.model_version == "cp-sat-meal-v2"
 
 
 def test_constructed_meal_returns_explicit_infeasibility_fallback(client: TestClient) -> None:
@@ -92,8 +92,8 @@ def test_constructed_meal_returns_explicit_infeasibility_fallback(client: TestCl
     assert response.status_code == 200, response.text
     body = response.json()
     assert body["status"] == "infeasible"
-    assert body["fallback_used"] is True
-    assert body["servings"]
+    assert body["fallback_used"] is False
+    assert body["servings"] == []
     assert float(body["unmet_nutrient_minimums"]["iron"]) > 0
     assert "requested_constraints_infeasible" in body["warnings"]
 

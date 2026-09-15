@@ -1,3 +1,5 @@
+> 2026-09-14 implementation update: the Flutter Web manual client and expanded backend are available in this working tree. See [current progress](docs/DEVELOPMENT_PROGRESS_2026-09-14.md), [client run instructions](apps/mobile/README.md), and [scientific import handoff](docs/SCIENTIFIC_IMPORT.md). Demo targets remain visibly synthetic; this is not a scientifically accepted 70% release.
+
 # NutriTwin
 
 NutriTwin is an explainable, non-clinical personalized-nutrition digital-twin academic prototype for Indian dietary contexts. It keeps logged consumed intake, estimated effective intake, reference targets, persistent intake-gap indications, and future simulations as distinct concepts.
@@ -10,7 +12,7 @@ The verified backend vertical slice supports Student, Adult, and Admin accounts;
 
 The API foundation also includes Argon2 password hashing, short-lived JWT access tokens, rotating/revocable hashed refresh sessions, backend RBAC, audit events, structured request logging, Alembic migrations, an idempotent Celery recomputation job, Docker Compose, and CI checks. The bounded chemistry layer adds reviewed ChEBI substances, FoodOn mappings, calculation-inactive qualitative interaction evidence, and optional RDKit structure validation. It does not predict absorption or make medical claims.
 
-Authoritative ICMR-NIN tables are **not bundled** because redistribution permission has not been established. The included seven-food/four-nutrient dataset and target rules are conspicuously synthetic and validate software behavior only. They are not nutrition guidance and do not scientifically validate the model.
+Authoritative ICMR-NIN tables are **not bundled** because redistribution permission has not been established. Synthetic target rules and seven conspicuously labelled foods validate software behavior only. A second committed subset contains eight real USDA FoodData Central Foundation Foods records under CC0, with fixed identifiers, archive and output checksums, and explicit missing values. USDA records remain non-authoritative fallback composition data for Indian use and are not nutrition guidance.
 
 | Area | Status |
 |---|---|
@@ -22,6 +24,7 @@ Authoritative ICMR-NIN tables are **not bundled** because redistribution permiss
 | ChEBI/FoodOn chemistry and provenance inspection | Implemented for two substances and three demo-food mappings; Admin read-only APIs tested |
 | RDKit structure consistency validation | Implemented as an optional, pinned data-pipeline dependency |
 | Synthetic demo pipeline and automated HTTP walkthrough | Implemented and verified |
+| USDA FDC Foundation Foods import | Implemented for eight fixed April 2026 records; 20 reported and 12 explicitly missing nutrient values |
 | Licensed ICMR-NIN/IFCT import and scientific golden cases | Blocked on lawful source access/permission |
 | Quantitative absorption modifiers | Deferred pending evidence review; identity-estimate baseline implemented |
 | Neo4j evidence graph and Admin authoring | Deferred; core is independent of it |
@@ -92,9 +95,15 @@ make lint
 make typecheck
 make validate-data
 make validate-chem
+make import-fdc
 make demo
 make down
 ```
+
+`make import-fdc` downloads the pinned official USDA April 2026 Foundation Foods JSON
+archive into ignored `data/raw/`, verifies its SHA-256 checksum, rebuilds the bounded
+processed subset, and validates its manifest. Normal setup and seeding use the committed
+processed subset and do not require network access.
 
 Exact commands and observed results are recorded in [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md). The manual/API walkthrough is [docs/DEMO_WALKTHROUGH.md](docs/DEMO_WALKTHROUGH.md).
 

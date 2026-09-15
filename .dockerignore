@@ -1,0 +1,15 @@
+.git
+.venv
+.env
+.env.*
+**/__pycache__
+**/.dart_tool
+**/build
+data/raw
+data/private
+docs
+*.db
+*.sqlite
+.pytest_cache
+.mypy_cache
+.ruff_cache

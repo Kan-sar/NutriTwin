@@ -27,7 +27,7 @@ Flutter (primary, deferred locally) / OpenAPI clients
 | PostgreSQL models/migrations | Accounts, profiles, consent, sources, foods, chemistry/evidence, meals, target snapshots, jobs and audit | Implemented for the slice; live PostgreSQL remains an environment validation gate |
 | `services/worker` | Idempotent recomputation | Partial: Celery task and idempotent execution implemented; live broker/scheduling unverified |
 | Neo4j adapter | Evidence graph | Stubbed until Phase 8 |
-| Flutter | Primary client | Deferred locally; Flutter SDK unavailable |
+| Flutter | Primary client | Deferred locally; Flutter 3.47.2/Dart 3.13.2 downloaded, tool bootstrap paused, and Android toolchain unavailable |
 | Next.js/Kubernetes/vision/barcode/OCR/prices/LLM | Optional scope | Deferred |
 
 ## Bounded contexts
