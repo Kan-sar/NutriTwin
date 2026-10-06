@@ -16,7 +16,7 @@ NutriTwin separates consumed intake, estimated effective intake, reference targe
 | Scientific governance | Source/checksum validation, local import, separate Admin review, explicit activation/retirement | Lawful ICMR-NIN inputs and independently reviewed golden cases |
 | History and jobs | Profile/target versions, immutable result traces, PostgreSQL outbox, Celery worker and scheduler | Load and concurrency hardening |
 
-The catalogue contains **74 USDA Foundation foods with 12 nutrients**, plus seven synthetic demonstration foods. The USDA subset preserves 751 reported and 137 missing observations. USDA composition is not an Indian target substitute. All bundled targets are explicitly synthetic; no real quantitative absorption factor is enabled by default.
+The catalogue contains **122 USDA Foundation foods with 12 nutrients**, plus seven synthetic demonstration foods. The USDA subset preserves 1,223 reported and 241 missing observations. USDA composition is not an Indian target substitute. All bundled targets are explicitly synthetic; no real quantitative absorption factor is enabled by default.
 
 **The strict 70% scientific acceptance gate remains open.** See the [delivery plan](PLANS.md) for phase-level status. Pantry, groceries, what-if simulations, graph editing, research exports and optional recognition features remain deferred.
 
@@ -85,3 +85,15 @@ The [Review-1 report and evidence](docs/review1/README.md) are retained as dated
 ## License
 
 No project license has been selected. Repository-authored material remains under the owner's reserved rights; third-party components and data retain their respective terms in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+### Import real food data without demo accounts
+
+After applying database migrations, run `.venv/Scripts/python.exe scripts/import_catalogue.py`
+for a validation-only dry run; add `--commit` to persist the verified USDA catalogue.
+This imports food composition only, without synthetic target rules or demo accounts.
+Existing source observations cannot be overwritten. Food search supports `source_kind=real`,
+`limit` and `offset`; `/api/v1/food-sources` exposes installed provenance for consenting users.
+The Flutter journal defaults to real data and supports browsing with an empty search.
+
+See [the Kaggle dataset assessment](docs/KAGGLE_DATASET_ASSESSMENT.md) for alternatives,
+source limitations, and the distinction between composition and Indian reference targets.

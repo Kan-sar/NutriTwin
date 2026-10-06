@@ -679,6 +679,120 @@
       "source_food_id": "327357"
     },
     {
+      "allergens": [
+        "milk"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-330137",
+      "name": "USDA FDC \u2014 Yogurt, Greek, plain, nonfat",
+      "nutrients": [
+        {
+          "amount_per_100g": "61.0",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.3",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.07",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "111",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.7",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "141",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "36.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.53",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.37",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.64",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2019",
+      "source_description": "Yogurt, Greek, plain, nonfat",
+      "source_food_id": "330137"
+    },
+    {
       "allergens": [],
       "authoritative": false,
       "data_type": "Foundation",
@@ -795,6 +909,226 @@
       "allergens": [],
       "authoritative": false,
       "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-331897",
+      "name": "USDA FDC \u2014 Chicken, broilers or fryers, drumstick, meat only, cooked, braised",
+      "nutrients": [
+        {
+          "amount_per_100g": "156",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "23.9",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.94",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "12.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "22.4",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "239",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "117",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.54",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "5.95",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2019",
+      "source_description": "Chicken, broilers or fryers, drumstick, meat only, cooked, braised",
+      "source_food_id": "331897"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-331960",
+      "name": "USDA FDC \u2014 Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, braised",
+      "nutrients": [
+        {
+          "amount_per_100g": "166",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "32.1",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.49",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "6.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "32.0",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "343",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "47.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.96",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "3.24",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2019",
+      "source_description": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, braised",
+      "source_food_id": "331960"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
       "dietary_tags": [
         "vegetarian",
         "vegan"
@@ -903,6 +1237,342 @@
       "publication_date": "4/1/2019",
       "source_description": "Tomatoes, canned, red, ripe, diced",
       "source_food_id": "333281"
+    },
+    {
+      "allergens": [
+        "fish"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-333374",
+      "name": "USDA FDC \u2014 Fish, haddock, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": "74.0",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "16.3",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.17",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "11.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "21.1",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "286",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "213",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.32",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.45",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2019",
+      "source_description": "Fish, haddock, raw",
+      "source_food_id": "333374"
+    },
+    {
+      "allergens": [
+        "fish"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-333476",
+      "name": "USDA FDC \u2014 Fish, pollock, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": "56.0",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "12.3",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.22",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "15.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "16.1",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "160",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "333",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.31",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.41",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2019",
+      "source_description": "Fish, pollock, raw",
+      "source_food_id": "333476"
+    },
+    {
+      "allergens": [
+        "fish"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-334194",
+      "name": "USDA FDC \u2014 Fish, tuna, light, canned in water, drained solids",
+      "nutrients": [
+        {
+          "amount_per_100g": "90.0",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "19.0",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.67",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "18.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "22.7",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "176",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "219",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.66",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.94",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.08",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2019",
+      "source_description": "Fish, tuna, light, canned in water, drained solids",
+      "source_food_id": "334194"
     },
     {
       "allergens": [],
@@ -1583,6 +2253,120 @@
       "source_food_id": "746773"
     },
     {
+      "allergens": [
+        "milk"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-746782",
+      "name": "USDA FDC \u2014 Milk, whole, 3.25% milkfat, with added vitamin D",
+      "nutrients": [
+        {
+          "amount_per_100g": "60.0",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.27",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "123",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "11.9",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "150",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "38.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.42",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "3.2",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.63",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "12/16/2019",
+      "source_description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+      "source_food_id": "746782"
+    },
+    {
       "allergens": [],
       "authoritative": false,
       "data_type": "Foundation",
@@ -1922,6 +2706,231 @@
       "source_food_id": "748608"
     },
     {
+      "allergens": [
+        "egg"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-748967",
+      "name": "USDA FDC \u2014 Eggs, Grade A, Large, egg whole",
+      "nutrients": [
+        {
+          "amount_per_100g": "148",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "12.4",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.67",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "48.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "11.4",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "132",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "129",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.24",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "9.96",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.96",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "12/16/2019",
+      "source_description": "Eggs, Grade A, Large, egg whole",
+      "source_food_id": "748967"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-790214",
+      "name": "USDA FDC \u2014 Flour, rice, white, unenriched",
+      "nutrients": [
+        {
+          "amount_per_100g": "359",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.94",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.22",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "6.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "22.9",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "75.0",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.19",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.5",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.3",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "79.8",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/1/2020",
+      "source_description": "Flour, rice, white, unenriched",
+      "source_food_id": "790214"
+    },
+    {
       "allergens": [],
       "authoritative": false,
       "data_type": "Foundation",
@@ -2259,6 +3268,232 @@
       "publication_date": "10/30/2020",
       "source_description": "Garlic, raw",
       "source_food_id": "1104647"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-1104812",
+      "name": "USDA FDC \u2014 Flour, rice, brown",
+      "nutrients": [
+        {
+          "amount_per_100g": "365",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "7.19",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.5",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "10.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "124",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "265",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.91",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "3.85",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "75.5",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/30/2020",
+      "source_description": "Flour, rice, brown",
+      "source_food_id": "1104812"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-1104867",
+      "name": "USDA FDC \u2014 Flour, rice, glutinous",
+      "nutrients": [
+        {
+          "amount_per_100g": "358",
+          "missing_reason": null,
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.69",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.34",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "10.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "21.2",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "80.0",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.34",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.16",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "80.1",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/30/2020",
+      "source_description": "Flour, rice, glutinous",
+      "source_food_id": "1104867"
     },
     {
       "allergens": [],
@@ -4643,6 +5878,120 @@
         "vegetarian"
       ],
       "edible_fraction": "1",
+      "food_code": "usda-fdc-2259792",
+      "name": "USDA FDC \u2014 Buttermilk, low fat",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "3.46",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.013",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "120",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "11.0",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "158",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "92.5",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.426",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.08",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.81",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/28/2022",
+      "source_description": "Buttermilk, low fat",
+      "source_food_id": "2259792"
+    },
+    {
+      "allergens": [
+        "milk"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "edible_fraction": "1",
       "food_code": "usda-fdc-2259793",
       "name": "USDA FDC \u2014 Yogurt, plain, whole milk",
       "nutrients": [
@@ -4746,6 +6095,459 @@
       "publication_date": "4/28/2022",
       "source_description": "Yogurt, plain, whole milk",
       "source_food_id": "2259793"
+    },
+    {
+      "allergens": [
+        "milk"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2259794",
+      "name": "USDA FDC \u2014 Yogurt, Greek, plain, whole milk",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "8.78",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "111",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.7",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "147",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "33.8",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.473",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "4.39",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.75",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/28/2022",
+      "source_description": "Yogurt, Greek, plain, whole milk",
+      "source_food_id": "2259794"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2261421",
+      "name": "USDA FDC \u2014 Flour, oat, whole grain",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "13.2",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "42.8",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "125",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "373",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.62",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.75",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.5",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.31",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "69.9",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/28/2022",
+      "source_description": "Flour, oat, whole grain",
+      "source_food_id": "2261421"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2261422",
+      "name": "USDA FDC \u2014 Flour, potato",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "8.11",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "12.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "44.1",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "73.6",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1270.0",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "47.7",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.9",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.4",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.951",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "79.9",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/28/2022",
+      "source_description": "Flour, potato",
+      "source_food_id": "2261422"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2262075",
+      "name": "USDA FDC \u2014 Flaxseed, ground",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "18.0",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.78",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "230",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "372",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "793",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "36.7",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.74",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "23.1",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "37.3",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "34.4",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/28/2022",
+      "source_description": "Flaxseed, ground",
+      "source_food_id": "2262075"
     },
     {
       "allergens": [],
@@ -5198,6 +7000,232 @@
       "publication_date": "10/28/2022",
       "source_description": "Lettuce, leaf, green, raw",
       "source_food_id": "2346391"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2346396",
+      "name": "USDA FDC \u2014 Oats, whole grain, rolled, old fashioned",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "13.5",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.34",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "45.5",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "126",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "350",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.668",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.74",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "5.89",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "68.7",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/28/2022",
+      "source_description": "Oats, whole grain, rolled, old fashioned",
+      "source_food_id": "2346396"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2346397",
+      "name": "USDA FDC \u2014 Oats, whole grain, steel cut",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "12.5",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.8",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "51.3",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "129",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "376",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.311",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.84",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "5.8",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "69.8",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/28/2022",
+      "source_description": "Oats, whole grain, steel cut",
+      "source_food_id": "2346397"
     },
     {
       "allergens": [],
@@ -7016,6 +9044,684 @@
         "vegan"
       ],
       "edible_fraction": "1",
+      "food_code": "usda-fdc-2512371",
+      "name": "USDA FDC \u2014 Flour, amaranth",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "13.2",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "7.56",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "135",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "233",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "396",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.0",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "7.21",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.24",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "68.8",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Flour, amaranth",
+      "source_food_id": "2512371"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512372",
+      "name": "USDA FDC \u2014 Flour, quinoa",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "11.9",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.53",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "37.6",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "164",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "551",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.32",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.77",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.3",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.6",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "69.5",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Flour, quinoa",
+      "source_food_id": "2512372"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512373",
+      "name": "USDA FDC \u2014 Flour, sorghum",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "8.27",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.72",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "11.4",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "116",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "335",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.66",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.02",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.59",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "77.4",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Flour, sorghum",
+      "source_food_id": "2512373"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512374",
+      "name": "USDA FDC \u2014 Flour, buckwheat",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "8.88",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.84",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "30.6",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "167",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "378",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.76",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.4",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.48",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "75.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Flour, buckwheat",
+      "source_food_id": "2512374"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512377",
+      "name": "USDA FDC \u2014 Flour, cassava",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.918",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.99",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "74.6",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "33.6",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "198",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "13.1",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.41",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.83",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.494",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "87.3",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Flour, cassava",
+      "source_food_id": "2512377"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512378",
+      "name": "USDA FDC \u2014 Buckwheat, whole grain",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "11.1",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.44",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "13.6",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "203",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "414",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.24",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.05",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.04",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "71.1",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Buckwheat, whole grain",
+      "source_food_id": "2512378"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
       "food_code": "usda-fdc-2512379",
       "name": "USDA FDC \u2014 Millet, whole grain",
       "nutrients": [
@@ -7119,6 +9825,571 @@
       "publication_date": "4/20/2023",
       "source_description": "Millet, whole grain",
       "source_food_id": "2512379"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512380",
+      "name": "USDA FDC \u2014 Rice, brown, long grain, unenriched, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.25",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.24",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "8.06",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "115",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "250",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.85",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.02",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.31",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "76.7",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Rice, brown, long grain, unenriched, raw",
+      "source_food_id": "2512380"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2512381",
+      "name": "USDA FDC \u2014 Rice, white, long grain, unenriched, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.04",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.14",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "4.46",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "26.5",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "82.3",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.462",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.35",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.149",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.03",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "80.3",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Rice, white, long grain, unenriched, raw",
+      "source_food_id": "2512381"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2515380",
+      "name": "USDA FDC \u2014 Seeds, pumpkin seeds (pepitas), raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "29.9",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "8.36",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "37.4",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "500",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "691",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.34",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.08",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "40.0",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "18.7",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Seeds, pumpkin seeds (pepitas), raw",
+      "source_food_id": "2515380"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2515381",
+      "name": "USDA FDC \u2014 Seeds, sunflower seed, kernel, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "18.9",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.37",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "116",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "302",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "657",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.58",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "7.22",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "48.4",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "24.5",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/20/2023",
+      "source_description": "Seeds, sunflower seed, kernel, raw",
+      "source_food_id": "2515381"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644281",
+      "name": "USDA FDC \u2014 Beans, cannellini, dry",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "21.6",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.67",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "143",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "154",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1420.0",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.72",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "2.2",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "59.8",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Beans, cannellini, dry",
+      "source_food_id": "2644281"
     },
     {
       "allergens": [],
@@ -7355,6 +10626,119 @@
         "vegan"
       ],
       "edible_fraction": "1",
+      "food_code": "usda-fdc-2644284",
+      "name": "USDA FDC \u2014 Blackeye pea, dry",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "21.2",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.93",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "71.4",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "184",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1240.0",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.46",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.65",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "2.42",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "61.8",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Blackeye pea, dry",
+      "source_food_id": "2644284"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
       "food_code": "usda-fdc-2644285",
       "name": "USDA FDC \u2014 Beans, black, canned, sodium added, drained and rinsed",
       "nutrients": [
@@ -7458,6 +10842,910 @@
       "publication_date": "10/26/2023",
       "source_description": "Beans, black, canned, sodium added, drained and rinsed",
       "source_food_id": "2644285"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644286",
+      "name": "USDA FDC \u2014 Beans, navy, canned, sodium added, drained and rinsed",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "6.57",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.6",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "63.9",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "29.6",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "184",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "190",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.631",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.4",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "20.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Beans, navy, canned, sodium added, drained and rinsed",
+      "source_food_id": "2644286"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644287",
+      "name": "USDA FDC \u2014 Beans, cannellini, canned, sodium added, drained and rinsed",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.41",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.4",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "69.2",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "29.3",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "203",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "164",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.516",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.17",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "18.8",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Beans, cannellini, canned, sodium added, drained and rinsed",
+      "source_food_id": "2644287"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644288",
+      "name": "USDA FDC \u2014 Chickpeas (garbanzo beans, bengal gram), canned, sodium added, drained and rinsed",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.02",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.04",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "40.5",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "28.4",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "137",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "202",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.724",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "3.1",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "20.3",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Chickpeas (garbanzo beans, bengal gram), canned, sodium added, drained and rinsed",
+      "source_food_id": "2644288"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644292",
+      "name": "USDA FDC \u2014 Beans, pinto, canned, sodium added, drained and rinsed",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "6.69",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.28",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "55.2",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "27.5",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "210",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "202",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.625",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.27",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "19.6",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Beans, pinto, canned, sodium added, drained and rinsed",
+      "source_food_id": "2644292"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644293",
+      "name": "USDA FDC \u2014 Blackeye pea, canned, sodium added, drained and rinsed",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "6.92",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.08",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "27.8",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "27.3",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "138",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "227",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.655",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.3",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "19.2",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Blackeye pea, canned, sodium added, drained and rinsed",
+      "source_food_id": "2644293"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2644294",
+      "name": "USDA FDC \u2014 Beans, great northern, canned, sodium added, drained and rinsed",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.03",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.38",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "67.2",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "29.3",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "213",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "223",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.635",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.27",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "19.3",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Beans, great northern, canned, sodium added, drained and rinsed",
+      "source_food_id": "2644294"
+    },
+    {
+      "allergens": [
+        "milk"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2647437",
+      "name": "USDA FDC \u2014 Yogurt, plain, nonfat",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "4.23",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "167",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "15.2",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "210",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "51.5",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.599",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.087",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "8.08",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/26/2023",
+      "source_description": "Yogurt, plain, nonfat",
+      "source_food_id": "2647437"
+    },
+    {
+      "allergens": [
+        "fish"
+      ],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2684440",
+      "name": "USDA FDC \u2014 Fish, salmon, sockeye, wild caught, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "22.3",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.402",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "14.8",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "26.2",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "330",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "53.3",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.425",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "4.94",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/18/2024",
+      "source_description": "Fish, salmon, sockeye, wild caught, raw",
+      "source_food_id": "2684440"
     },
     {
       "allergens": [],
@@ -8362,6 +12650,1136 @@
       "publication_date": "4/18/2024",
       "source_description": "Brussels sprouts, raw",
       "source_food_id": "2685575"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2685576",
+      "name": "USDA FDC \u2014 Beets, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "1.69",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.428",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.6",
+          "missing_reason": null,
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "13.8",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "21.0",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "342",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "112",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.31",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.12",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.302",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "8.79",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/18/2024",
+      "source_description": "Beets, raw",
+      "source_food_id": "2685576"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2685577",
+      "name": "USDA FDC \u2014 Eggplant, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.852",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.8",
+          "missing_reason": null,
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "11.1",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "13.5",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "222",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.442",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.119",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.45",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.12",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.4",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "4/18/2024",
+      "source_description": "Eggplant, raw",
+      "source_food_id": "2685577"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710819",
+      "name": "USDA FDC \u2014 Chia seeds, dry, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "17.0",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "6.04",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "595",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "326",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "642",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.56",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "32.9",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "38.3",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Chia seeds, dry, raw",
+      "source_food_id": "2710819"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710821",
+      "name": "USDA FDC \u2014 Wild rice, dry, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "12.8",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.53",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.97",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "108",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "299",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.01",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "5.84",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.26",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.7",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "75.7",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Wild rice, dry, raw",
+      "source_food_id": "2710821"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710825",
+      "name": "USDA FDC \u2014 Rice, black, unenriched, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.57",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.12",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "14.4",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "113",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "256",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.72",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.18",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.44",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "77.2",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Rice, black, unenriched, raw",
+      "source_food_id": "2710825"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710833",
+      "name": "USDA FDC \u2014 Mango, Tommy Atkins, peeled, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.562",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "25.5",
+          "missing_reason": null,
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "12.4",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.3",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "165",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.066",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.75",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.572",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "15.3",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Mango, Tommy Atkins, peeled, raw",
+      "source_food_id": "2710833"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710834",
+      "name": "USDA FDC \u2014 Mango, Ataulfo, peeled, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "0.688",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "168",
+          "missing_reason": null,
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.0",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "10.6",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "204",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.102",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.29",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.681",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "17.4",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Mango, Ataulfo, peeled, raw",
+      "source_food_id": "2710834"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710838",
+      "name": "USDA FDC \u2014 Rice, red, unenriched, dry, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "8.56",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.2",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "9.22",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "126",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "245",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.438",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.56",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.2",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.44",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "76.2",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Rice, red, unenriched, dry, raw",
+      "source_food_id": "2710838"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710841",
+      "name": "USDA FDC \u2014 Sorghum grain, white, pearled, unenriched, dry, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "10.2",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "2.04",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "7.45",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "109",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "274",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.0",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.28",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.92",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.26",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "74.9",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Sorghum grain, white, pearled, unenriched, dry, raw",
+      "source_food_id": "2710841"
+    },
+    {
+      "allergens": [],
+      "authoritative": false,
+      "data_type": "Foundation",
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "edible_fraction": "1",
+      "food_code": "usda-fdc-2710842",
+      "name": "USDA FDC \u2014 Sorghum, whole grain, white, dry, raw",
+      "nutrients": [
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "energy",
+          "source_nutrient_id": 1008,
+          "unit": "kcal",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "10.1",
+          "missing_reason": null,
+          "nutrient_code": "protein",
+          "source_nutrient_id": 1003,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "3.9",
+          "missing_reason": null,
+          "nutrient_code": "iron",
+          "source_nutrient_id": 1089,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": null,
+          "missing_reason": "not_reported",
+          "nutrient_code": "vitamin_c",
+          "source_nutrient_id": 1162,
+          "unit": "mg",
+          "value_status": "missing"
+        },
+        {
+          "amount_per_100g": "14.9",
+          "missing_reason": null,
+          "nutrient_code": "calcium",
+          "source_nutrient_id": 1087,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "136",
+          "missing_reason": null,
+          "nutrient_code": "magnesium",
+          "source_nutrient_id": 1090,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "367",
+          "missing_reason": null,
+          "nutrient_code": "potassium",
+          "source_nutrient_id": 1092,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "0.329",
+          "missing_reason": null,
+          "nutrient_code": "sodium",
+          "source_nutrient_id": 1093,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "1.77",
+          "missing_reason": null,
+          "nutrient_code": "zinc",
+          "source_nutrient_id": 1095,
+          "unit": "mg",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "8.27",
+          "missing_reason": null,
+          "nutrient_code": "fiber",
+          "source_nutrient_id": 1079,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "4.22",
+          "missing_reason": null,
+          "nutrient_code": "fat",
+          "source_nutrient_id": 1004,
+          "unit": "g",
+          "value_status": "reported"
+        },
+        {
+          "amount_per_100g": "73.6",
+          "missing_reason": null,
+          "nutrient_code": "carbohydrate",
+          "source_nutrient_id": 1005,
+          "unit": "g",
+          "value_status": "reported"
+        }
+      ],
+      "publication_date": "10/31/2024",
+      "source_description": "Sorghum, whole grain, white, dry, raw",
+      "source_food_id": "2710842"
     }
   ],
   "schema_version": "1",
@@ -8378,5 +13796,5 @@
     "url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2026-04-30.zip",
     "version": "Foundation Foods 2026-04-30"
   },
-  "transform_version": "fdc-foundation-subset-v2"
+  "transform_version": "fdc-foundation-subset-v3"
 }

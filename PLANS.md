@@ -29,3 +29,12 @@ The historical 70% convention means seven accepted phase gates, not a percentage
 The current scope uses Student, Adult and Admin roles. Pregnancy/lactation, disease, medications and supplements remain unsupported. Redis, Neo4j, external APIs and LLMs cannot be required for the manual core. No licensed publication is bundled, and no synthetic value may be described as an ICMR value.
 
 See [ADR 0006](docs/adr/0006-reviewed-science-and-seventy-percent-scope.md), [validation](docs/VALIDATION_REPORT.md), [traceability](docs/REQUIREMENTS_TRACEABILITY_MATRIX.md), and the [dated implementation checkpoint](docs/DEVELOPMENT_PROGRESS_2026-09-14.md).
+
+## Dataset integration increment — 2026-10-06
+
+Implemented: 122-food pinned USDA fallback catalogue, manifest-validated food-only import,
+source-filtered/paginated search and signed-in source provenance, with Flutter real-data
+selection. Candidate Kaggle/INDB cooked-dish data was inspected, not installed. Its
+upstream redistribution scope and lost recipe/allergen metadata remain to be resolved.
+The Kaggle RDA candidates use U.S. references and do not satisfy the ICMR-NIN 2020 gate.
+No scientific acceptance percentage changes; see `docs/KAGGLE_DATASET_ASSESSMENT.md`.

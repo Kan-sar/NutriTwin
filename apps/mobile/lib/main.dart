@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'api.dart';
 import 'prices.dart';
 import 'weekly_chart.dart';
+import 'nutrient_explorer.dart';
 
 void main() => runApp(const NutriTwinApp());
 const forest = Color(0xFF244F3D);
-const paper = Color(0xFFF5F5ED);
+const paper = Color(0xFFF7F8F2);
 const chartColors = [
   Color(0xFF4E79A7),
   Color(0xFFE15759),
@@ -84,6 +85,11 @@ class _TwinHomeState extends State<TwinHome> {
   String dietary = 'unrestricted', sex = '', role = 'student';
   bool busy = false, register = false, consent = false, demo = true;
   int page = 0;
+  String? nutrientFocus;
+  String foodSourceKind = 'real';
+  bool moreFoods = false;
+  String lastFoodQuery = '';
+  String lastFoodSource = 'real';
   int draftEpoch = 0;
   NutriApi get api => widget.api;
   final pages = [
@@ -346,7 +352,10 @@ class _TwinHomeState extends State<TwinHome> {
                   style: const TextStyle(color: Colors.white),
                 ),
                 onTap: () {
-                  setState(() => page = i);
+                  setState(() {
+                    page = i;
+                    nutrientFocus = null;
+                  });
                   if (drawer) Navigator.pop(context);
                 },
               ),
@@ -366,6 +375,8 @@ class _TwinHomeState extends State<TwinHome> {
                         await api.logout();
                       } finally {
                         user = null;
+                        nutrientFocus = null;
+                        foods = [];
                         profile = null;
                         summary = null;
                         draft = [];
@@ -454,7 +465,7 @@ class _TwinHomeState extends State<TwinHome> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       heading(
-        'See the bigger picture.',
+        'A little curiosity. A clearer plate.',
         'Your nutrition journal • ${summary?['as_of_date'] ?? day(DateTime.now())}',
       ),
       if (summary == null)
@@ -484,7 +495,19 @@ class _TwinHomeState extends State<TwinHome> {
           ],
         ),
         button('Refresh overview', load),
-        for (final n in orderedNutrients()) nutrientCard(n),
+        NutrientExplorer(
+          nutrients: orderedNutrients(),
+          onSelected: (code) => setState(() => nutrientFocus = code),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Nutrient details',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        const SizedBox(height: 12),
+        for (final n in orderedNutrients())
+          if (nutrientFocus == null || n['nutrient_code'] == nutrientFocus)
+            nutrientCard(n),
         notice(summary!['medical_disclaimer']),
       ],
     ],
@@ -728,34 +751,68 @@ class _TwinHomeState extends State<TwinHome> {
       }),
       panel([
         field('Search foods', search),
+        DropdownButtonFormField<String>(
+          initialValue: foodSourceKind,
+          decoration: const InputDecoration(labelText: 'Food dataset'),
+          items: const [
+            DropdownMenuItem(value: 'real', child: Text('Real source data')),
+            DropdownMenuItem(
+              value: 'demo',
+              child: Text('Synthetic demo foods'),
+            ),
+            DropdownMenuItem(value: 'all', child: Text('All datasets')),
+          ],
+          onChanged: busy
+              ? null
+              : (v) => setState(() {
+                  foodSourceKind = v!;
+                  foods = [];
+                  moreFoods = false;
+                }),
+        ),
+        notice(
+          'USDA foods retain their raw, dry or prepared descriptions. Choose the state you actually weighed; Indian targets remain a separate reference.',
+        ),
+        button('Dataset provenance', () async {
+          final sources = await api.request('GET', '/food-sources');
+          await showDetails('Installed food datasets', sources);
+        }, enabled: consent),
         button('Search', () async {
+          lastFoodQuery = search.text.trim();
+          lastFoodSource = foodSourceKind;
           foods = await api.request(
             'GET',
-            '/foods?query=${Uri.encodeQueryComponent(search.text.trim())}',
+            '/foods?query=${Uri.encodeQueryComponent(lastFoodQuery)}&source_kind=$lastFoodSource&limit=25',
           );
+          moreFoods = foods.length == 25;
         }, enabled: consent),
-        for (final f in foods)
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(f['name']),
-            subtitle: Text(
-              '${f['source_code']} • ${(f['nutrients'] as List).where((n) => n['amount_per_100g'] == null).length} missing nutrient values',
-            ),
-            trailing: IconButton(
-              tooltip: 'Add ${f['name']} to draft',
-              onPressed: busy
-                  ? null
-                  : () => setState(
-                      () => draft.add({
-                        'food_id': f['id'],
-                        'name': f['name'],
-                        'quantity_g': '100',
-                      }),
-                    ),
-              icon: const Icon(Icons.add_circle_outline),
-            ),
-            onTap: () => showDetails('Food composition per 100 g', f),
+        if (foods.isNotEmpty)
+          Text(
+            '${foods.length} foods loaded · comparison covers these results',
           ),
+        if (foods.isNotEmpty)
+          FoodNutrientExplorer(
+            foods: foods,
+            onInspect: (f) => showDetails('Food composition per 100 g', f),
+            onAdd: busy
+                ? null
+                : (f) => setState(
+                    () => draft.add({
+                      'food_id': f['id'],
+                      'name': f['name'],
+                      'quantity_g': '100',
+                    }),
+                  ),
+          ),
+        if (moreFoods)
+          button('Load more foods', () async {
+            final next = await api.request(
+              'GET',
+              '/foods?query=${Uri.encodeQueryComponent(lastFoodQuery)}&source_kind=$lastFoodSource&limit=25&offset=${foods.length}',
+            );
+            foods = [...foods, ...next];
+            moreFoods = next.length == 25;
+          }, enabled: consent),
       ]),
       panel([
         Text(

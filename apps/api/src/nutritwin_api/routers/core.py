@@ -2,7 +2,7 @@
 
 import uuid
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func, select, update
@@ -12,7 +12,9 @@ from nutritwin_api.database import get_db
 from nutritwin_api.models import (
     AuditEvent,
     ConsentRecord,
+    DataSource,
     Food,
+    FoodNutrient,
     Meal,
     MealIngredient,
     Profile,
@@ -182,18 +184,68 @@ def _food_response(food: Food) -> FoodResponse:
 def search_foods(
     user: CurrentUser,
     db: Annotated[Session, Depends(get_db)],
-    query: Annotated[str, Query(min_length=1, max_length=100)],
+    query: Annotated[str, Query(max_length=100)] = "",
+    source_kind: Literal["all", "real", "demo"] = "all",
+    limit: Annotated[int, Query(ge=1, le=100)] = 25,
+    offset: Annotated[int, Query(ge=0, le=10000)] = 0,
 ) -> list[FoodResponse]:
     _require_consent(db, user.id)
     escaped = query.casefold().replace("%", "\\%").replace("_", "\\_")
-    foods = db.scalars(
+    statement = (
         select(Food)
         .where(func.lower(Food.name).like(f"%{escaped}%", escape="\\"))
         .options(selectinload(Food.source), selectinload(Food.nutrients))
-        .order_by(Food.name)
-        .limit(25)
-    ).all()
+        .order_by(Food.name, Food.id)
+        .limit(limit)
+        .offset(offset)
+    )
+    if source_kind != "all":
+        statement = statement.join(DataSource).where(
+            DataSource.code == "DEMO-SYNTHETIC"
+            if source_kind == "demo"
+            else DataSource.code != "DEMO-SYNTHETIC"
+        )
+    foods = db.scalars(statement).all()
     return [_food_response(food) for food in foods]
+
+
+@router.get("/food-sources")
+def food_sources(
+    user: CurrentUser, db: Annotated[Session, Depends(get_db)]
+) -> list[dict[str, Any]]:
+    """Expose the provenance of installed food data to ordinary signed-in users."""
+    _require_consent(db, user.id)
+    output = []
+    for source, food_count in db.execute(
+        select(DataSource, func.count(Food.id))
+        .join(Food)
+        .group_by(DataSource.id)
+        .order_by(DataSource.code)
+    ):
+        missing_count = db.scalar(
+            select(func.count(FoodNutrient.id))
+            .join(Food)
+            .where(
+                Food.source_id == source.id,
+                FoodNutrient.amount_per_100g.is_(None),
+            )
+        )
+        output.append(
+            {
+                "code": source.code,
+                "title": source.title,
+                "version": source.version,
+                "url": source.url,
+                "license": source.license,
+                "redistribution_status": source.redistribution_status,
+                "checksum_sha256": source.checksum_sha256,
+                "authoritative": source.authoritative,
+                "food_count": food_count,
+                "missing_nutrient_rows": missing_count,
+                "synthetic": source.code == "DEMO-SYNTHETIC",
+            }
+        )
+    return output
 
 
 def _meal_response(meal: Meal) -> MealResponse:

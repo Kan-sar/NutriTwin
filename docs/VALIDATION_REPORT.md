@@ -47,3 +47,48 @@ python -m alembic check
 No Android/iOS build, production deployment, comprehensive accessibility certification, load/soak campaign, or real scientific golden-case validation is claimed. ICMR-NIN inputs and quantitative evidence still need lawful acquisition and independent review. The prior build emitted a non-fatal Cupertino font-family warning; rendered Material icons were present.
 
 [Detailed historical validation](archive/VALIDATION_THROUGH_2026-09-14.md) retains the original commands, environment notes, CI identifiers, and recovery/shutdown history. [Review-1 evidence](review1/README.md) remains unchanged and dated. [The delivery plan](../PLANS.md) records the open acceptance gates.
+
+## Frontend nutrient exploration — 2026-10-06
+
+Adapted interaction patterns from https://www.itsmyplate.com/ in the existing Flutter client, without importing its code or assets. Overview now exposes selectable nutrient bubbles, daily/7-day/30-day coverage, target bars, and focused detail/history. Food search now ranks the current results by a selected nutrient per 100 g and retains composition inspection and draft addition. API-provided coverage is displayed without introducing client nutrition calculations. Unknown values remain unknown, synthetic target notices remain visible, and consumed versus estimated effective intake stays distinct.
+
+Validation performed:
+- `flutter --no-version-check test test/nutrient_explorer_test.dart`: 3 passed after fixing bubble text overflow. Covers focus/reset, period switching, over-target/unknown values, narrow layout with 1.3x text, food ordering, and draft selection.
+- `flutter --no-version-check analyze`: no issues.
+- `flutter --no-version-check test`: 8 passed, including existing authentication and meal-conflict tests.
+- `flutter --no-version-check build web`: succeeded. Flutter emitted a font-family warning; the rendered fixture showed readable text and icons.
+- `C:\GCC_bin\mingw64\bin\mingw32-make.exe check`: passed Ruff, formatting, mypy, data validation, documentation links, and backend tests (69 passed, 4 PostgreSQL tests skipped because `NUTRITWIN_TEST_POSTGRES_URL` was unset; 82.78% coverage).
+- Built a separate ignored synthetic fixture with `flutter --no-version-check build web --target build/explorer_preview.dart --output build/explorer-preview`, served it on loopback, and inspected the rendered desktop view in the browser. Screenshot: `apps/mobile/build/nutrient-redesign-preview.png` (ignored local artifact). This was visual fixture verification, not an authenticated live-data browser test.
+
+No deployment or scientific acceptance is claimed. Existing unrelated backend/documentation changes were preserved.
+
+## Real catalogue integration and Kaggle assessment — 2026-10-06
+
+Implemented the next dataset increment using the existing pinned April 2026 USDA
+Foundation archive: 122 foods, 1,223 reported nutrient observations and 241 explicit
+missing observations across twelve canonical nutrients. All 74 prior food records and
+their source metadata were compared with HEAD and remain identical. Added a food-only
+transactional importer that validates the manifest, rejects changed existing observations,
+and creates neither demo accounts nor target rules. Demo seeding now reuses this importer.
+The authenticated API supports real/demo filters, bounded pagination and source provenance;
+Flutter defaults to real foods and supports browsing/loading more results.
+
+Commands and observed results:
+- `python scripts/import_fdc_foundation.py`: validated 122 foods / 1,223 reported / 241 missing.
+- `python -m pytest tests/data/test_fdc_foundation.py tests/api/test_catalogue.py tests/api/test_vertical_slice.py -q`: 11 passed.
+- `C:\GCC_bin\mingw64\bin\mingw32-make.exe check`: passed Ruff, formatting (117 files), mypy (54 source files), data validation, docs, and backend tests. 76 passed / 4 PostgreSQL cases skipped because no test PostgreSQL URL was configured. Coverage 82.90%.
+- `flutter --no-version-check analyze`: no issues.
+- `flutter --no-version-check test`: 8 passed.
+- `flutter --no-version-check build web`: succeeded; existing font-family warning remains.
+- `python scripts/import_catalogue.py`: dry run validated; 122 would be inserted, rolled back.
+- Backed up the verified local SQLite development database to ignored `data/raw/nutritwin-before-catalogue-2026-10-06.db`, then ran `python scripts/import_catalogue.py --commit`: inserted 122 foods. A second dry run returned zero new foods.
+- `python scripts/check_docs.py`: 99 local links across 32 documents passed after adding the assessment.
+- `git diff --check`: no whitespace errors.
+
+Kaggle candidate metadata was read using its public dataset API. Version 3 of the
+INDB-derived Indian food dataset was downloaded into ignored raw storage and inspected
+(1,014 unique dish names, 164 empty cells, no ingredient/allergen fields, damaged folate
+unit label). It is an assessed candidate, not an installed or authoritative source.
+See `KAGGLE_DATASET_ASSESSMENT.md` for links, checksum and decisions. No ICMR targets or
+IFCT tables were replaced, no scientific approval was fabricated, and no deployment was
+performed. This increment did not repeat authenticated browser verification.

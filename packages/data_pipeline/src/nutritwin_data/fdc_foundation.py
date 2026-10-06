@@ -18,7 +18,7 @@ SOURCE_FILENAME = "FoodData_Central_foundation_food_json_2026-04-30.zip"
 SOURCE_MEMBER = "FoodData_Central_foundation_food_json_2026-04-30.json"
 # pragma: allowlist nextline secret -- public USDA archive integrity digest
 SOURCE_ARCHIVE_SHA256 = "186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a"
-TRANSFORM_VERSION = "fdc-foundation-subset-v2"
+TRANSFORM_VERSION = "fdc-foundation-subset-v3"
 
 SELECTED_FOODS: dict[int, dict[str, Any]] = {
     746771: {"tags": ["vegetarian", "vegan"], "allergens": []},
@@ -102,6 +102,55 @@ for _food_id in (
 ):
     SELECTED_FOODS[_food_id] = {"tags": ["vegetarian", "vegan"], "allergens": []}
 
+# Additional fixed records inspected against the pinned archive. Keep raw/dry/canned
+# descriptors: these records are not interchangeable with cooked Indian dishes.
+for _food_id in (
+    790214,
+    1104812,
+    1104867,
+    2261421,
+    2261422,
+    2262075,
+    2346396,
+    2346397,
+    2512371,
+    2512372,
+    2512373,
+    2512374,
+    2512377,
+    2512378,
+    2512380,
+    2512381,
+    2515380,
+    2515381,
+    2644281,
+    2644284,
+    2644286,
+    2644287,
+    2644288,
+    2644292,
+    2644293,
+    2644294,
+    2685576,
+    2685577,
+    2710819,
+    2710821,
+    2710825,
+    2710833,
+    2710834,
+    2710838,
+    2710841,
+    2710842,
+):
+    SELECTED_FOODS[_food_id] = {"tags": ["vegetarian", "vegan"], "allergens": []}
+for _food_id in (330137, 746782, 2259792, 2259794, 2647437):
+    SELECTED_FOODS[_food_id] = {"tags": ["vegetarian"], "allergens": ["milk"]}
+for _food_id in (331897, 331960):
+    SELECTED_FOODS[_food_id] = {"tags": [], "allergens": []}
+SELECTED_FOODS[748967] = {"tags": [], "allergens": ["egg"]}
+for _food_id in (333374, 333476, 334194, 2684440):
+    SELECTED_FOODS[_food_id] = {"tags": [], "allergens": ["fish"]}
+
 NUTRIENTS: dict[int, tuple[str, str]] = {
     1008: ("energy", "kcal"),
     1003: ("protein", "g"),
@@ -155,11 +204,14 @@ def load_foundation_foods(archive: Path) -> list[dict[str, Any]]:
 
 
 def _nutrient_rows(food: dict[str, Any]) -> list[dict[str, Any]]:
-    by_id = {
-        item.get("nutrient", {}).get("id"): item
-        for item in food.get("foodNutrients", [])
-        if isinstance(item, dict) and item.get("nutrient", {}).get("id") in NUTRIENTS
-    }
+    by_id = {}
+    for item in food.get("foodNutrients", []):
+        nutrient_id = item.get("nutrient", {}).get("id")
+        if nutrient_id not in NUTRIENTS:
+            continue
+        if nutrient_id in by_id:
+            raise ValueError("duplicate source nutrient observation")
+        by_id[nutrient_id] = item
     rows: list[dict[str, Any]] = []
     for nutrient_id, (code, expected_unit) in NUTRIENTS.items():
         item = by_id.get(nutrient_id)
@@ -281,15 +333,37 @@ def validate(dataset_path: Path, manifest_path: Path) -> dict[str, int]:
     foods = dataset["foods"]
     if len(foods) != len(SELECTED_FOODS) or len(foods) != manifest["processed_food_count"]:
         raise ValueError("FDC processed food count mismatch")
+    identifiers = [int(food["source_food_id"]) for food in foods]
+    if len(set(identifiers)) != len(foods) or set(identifiers) != set(SELECTED_FOODS):
+        raise ValueError("FDC identifiers must match the pinned selection without duplicates")
+    if manifest["selected_fdc_ids"] != sorted(SELECTED_FOODS):
+        raise ValueError("FDC manifest selection mismatch")
+    if (
+        dataset["transform_version"] != TRANSFORM_VERSION
+        or manifest["transform_version"] != TRANSFORM_VERSION
+    ):
+        raise ValueError("FDC transform version mismatch")
     reported = 0
     missing = 0
     for food in foods:
+        identifier = int(food["source_food_id"])
+        if food["food_code"] != f"usda-fdc-{identifier}" or food["data_type"] != "Foundation":
+            raise ValueError("FDC food identity or data type mismatch")
+        if (
+            food["dietary_tags"] != SELECTED_FOODS[identifier]["tags"]
+            or food["allergens"] != SELECTED_FOODS[identifier]["allergens"]
+        ):
+            raise ValueError("FDC reviewed dietary metadata mismatch")
         if not food["name"].startswith("USDA FDC — ") or food["authoritative"] is not False:
             raise ValueError("FDC food provenance label or authority flag is invalid")
         rows = food["nutrients"]
-        if {row["nutrient_code"] for row in rows} != {value[0] for value in NUTRIENTS.values()}:
+        if len(rows) != len(NUTRIENTS) or {row["nutrient_code"] for row in rows} != {
+            value[0] for value in NUTRIENTS.values()
+        }:
             raise ValueError(f"incomplete nutrient normalization for {food['food_code']}")
         for row in rows:
+            if NUTRIENTS.get(row["source_nutrient_id"]) != (row["nutrient_code"], row["unit"]):
+                raise ValueError("FDC nutrient identifier/unit mismatch")
             if row["amount_per_100g"] is None:
                 if row["value_status"] != "missing" or not row["missing_reason"]:
                     raise ValueError("missing FDC value lacks explicit missingness metadata")
@@ -299,7 +373,12 @@ def validate(dataset_path: Path, manifest_path: Path) -> dict[str, int]:
                     amount = Decimal(row["amount_per_100g"])
                 except (InvalidOperation, TypeError) as exc:
                     raise ValueError("invalid FDC nutrient amount") from exc
-                if amount < 0 or row["value_status"] != "reported":
+                if (
+                    not amount.is_finite()
+                    or amount < 0
+                    or row["value_status"] != "reported"
+                    or row["missing_reason"] is not None
+                ):
                     raise ValueError("invalid reported FDC nutrient row")
                 reported += 1
     return {"foods": len(foods), "reported_nutrients": reported, "missing_nutrients": missing}

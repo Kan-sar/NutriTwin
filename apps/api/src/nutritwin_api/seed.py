@@ -22,6 +22,7 @@ from nutritwin_api.models import (
     User,
 )
 from nutritwin_api.security import hash_password
+from nutritwin_api.services.catalogue import import_fdc_catalogue
 
 NUTRIENTS = {
     "energy": ("Energy", "kcal"),
@@ -170,66 +171,10 @@ def seed_database(
                     )
                 )
 
-    fdc_dataset = json.loads((fdc_path or _default_fdc_path()).read_text(encoding="utf-8"))
-    fdc_source_spec = fdc_dataset["source"]
-    fdc_source = db.scalar(select(DataSource).where(DataSource.code == fdc_source_spec["code"]))
-    if fdc_source is None:
-        fdc_source = DataSource(
-            code=fdc_source_spec["code"],
-            title=fdc_source_spec["title"],
-            organization=fdc_source_spec["organization"],
-            url=fdc_source_spec["url"],
-            publication_date=date(2026, 4, 30),
-            license=fdc_source_spec["license"],
-            redistribution_status=fdc_source_spec["redistribution_status"],
-            checksum_sha256=fdc_source_spec["checksum_sha256"],
-            authoritative=False,
-            version=fdc_source_spec["version"],
-            effective_from=date.fromisoformat(fdc_source_spec["effective_from"]),
-        )
-        db.add(fdc_source)
-        db.flush()
-
-    for food_spec in fdc_dataset["foods"]:
-        food = db.scalar(select(Food).where(Food.food_code == food_spec["food_code"]))
-        if food is None:
-            food = Food(
-                food_code=food_spec["food_code"],
-                name=food_spec["name"],
-                source_id=fdc_source.id,
-                source_food_id=food_spec["source_food_id"],
-                edible_fraction=Decimal(food_spec["edible_fraction"]),
-                authoritative=False,
-                dietary_tags=food_spec["dietary_tags"],
-                allergens=food_spec["allergens"],
-            )
-            db.add(food)
-            db.flush()
-        for nutrient_spec in food_spec["nutrients"]:
-            if (
-                db.scalar(
-                    select(FoodNutrient).where(
-                        FoodNutrient.food_id == food.id,
-                        FoodNutrient.nutrient_id
-                        == nutrient_records[nutrient_spec["nutrient_code"]].id,
-                        FoodNutrient.source_version == fdc_source_spec["version"],
-                    )
-                )
-                is not None
-            ):
-                continue
-            amount = nutrient_spec["amount_per_100g"]
-            db.add(
-                FoodNutrient(
-                    food_id=food.id,
-                    nutrient_id=nutrient_records[nutrient_spec["nutrient_code"]].id,
-                    amount_per_100g=None if amount is None else Decimal(amount),
-                    canonical_unit=nutrient_spec["unit"],
-                    value_status=nutrient_spec["value_status"],
-                    missing_reason=nutrient_spec["missing_reason"],
-                    source_version=fdc_source_spec["version"],
-                )
-            )
+    resolved_fdc_path = fdc_path or _default_fdc_path()
+    fdc_counts = import_fdc_catalogue(
+        db, resolved_fdc_path, resolved_fdc_path.with_suffix(".manifest.json")
+    )
 
     chemistry = json.loads(
         (chemistry_path or _default_chemistry_path()).read_text(encoding="utf-8")
@@ -369,7 +314,7 @@ def seed_database(
         "sources": 2 + len(chemistry["sources"]),
         "nutrients": len(NUTRIENTS),
         "target_rules": len(DEMO_TARGETS),
-        "foods": len(dataset["foods"]) + len(fdc_dataset["foods"]),
+        "foods": len(dataset["foods"]) + fdc_counts["foods"],
         "substances": len(chemistry["substances"]),
         "food_mappings": len(chemistry["food_mappings"]),
         "qualitative_evidence": len(chemistry["qualitative_evidence"]),
