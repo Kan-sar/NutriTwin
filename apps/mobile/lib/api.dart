@@ -14,7 +14,7 @@ class ApiError implements Exception {
 /// Tokens deliberately live only in memory, including on the web.
 class NutriApi {
   final http.Client client;
-  final String baseUrl;
+  String baseUrl;
   String? _access;
   String? _refresh;
   Future<void>? _refreshing;

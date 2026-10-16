@@ -1,11 +1,24 @@
+import 'composition_analytics.dart';
+import 'mobile_experience.dart';
+
+import 'package:flutter/foundation.dart';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
 import 'api.dart';
+import 'dishes.dart';
+import 'dashboard_widgets.dart';
 import 'prices.dart';
 import 'weekly_chart.dart';
 import 'nutrient_explorer.dart';
+import 'nutrient_stats_selector.dart';
+import 'palettes.dart';
+import 'intake_alerts.dart';
+import 'palette_storage_stub.dart'
+    if (dart.library.js_interop) 'palette_storage_web.dart'
+    as palette_storage;
 
 void main() => runApp(const NutriTwinApp());
 const forest = Color(0xFF244F3D);
@@ -26,33 +39,47 @@ String shown(dynamic value) {
 String label(String code) => code.replaceAll('_', ' ');
 double? number(dynamic value) => double.tryParse('$value');
 
-class NutriTwinApp extends StatelessWidget {
+class NutriTwinApp extends StatefulWidget {
   final NutriApi? api;
   const NutriTwinApp({super.key, this.api});
+  @override
+  State<NutriTwinApp> createState() => _NutriTwinAppState();
+}
+
+class _NutriTwinAppState extends State<NutriTwinApp> {
+  late final NutriApi api = widget.api ?? NutriApi();
+  AppPalette palette = paletteById(
+    palette_storage.readPalette() ??
+        (!kIsWeb && defaultTargetPlatform == TargetPlatform.android
+            ? 'mobile'
+            : null),
+  );
   @override
   Widget build(BuildContext context) => MaterialApp(
     title: 'NutriTwin',
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      useMaterial3: true,
-      scaffoldBackgroundColor: paper,
-      colorScheme: ColorScheme.fromSeed(seedColor: forest, primary: forest),
-      inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(),
-      ),
-      cardTheme: CardThemeData(
-        color: Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      ),
+    theme: palette.theme,
+    home: TwinHome(
+      api: api,
+      palette: palette,
+      onPaletteChanged: (id) {
+        setState(() => palette = paletteById(id));
+        return palette_storage.writePalette(id);
+      },
     ),
-    home: TwinHome(api: api ?? NutriApi()),
   );
 }
 
 class TwinHome extends StatefulWidget {
   final NutriApi api;
-  const TwinHome({super.key, required this.api});
+  final AppPalette palette;
+  final bool Function(String) onPaletteChanged;
+  const TwinHome({
+    super.key,
+    required this.api,
+    required this.palette,
+    required this.onPaletteChanged,
+  });
   @override
   State<TwinHome> createState() => _TwinHomeState();
 }
@@ -62,6 +89,8 @@ class _TwinHomeState extends State<TwinHome> {
   final birth = TextEditingController(), allergens = TextEditingController();
   final search = TextEditingController(),
       mealName = TextEditingController(text: 'My meal');
+  String? journalDay;
+  bool manualJournal = false;
   final mealDate = TextEditingController(text: day(DateTime.now()));
   final mealTime = TextEditingController(text: '12:00');
   final budget = TextEditingController(text: '50'),
@@ -81,23 +110,105 @@ class _TwinHomeState extends State<TwinHome> {
       revisions = [];
   List<Map<String, dynamic>> draft = [];
   String? editId, error;
+  Map<String, dynamic>? dishEditMeal;
   int? editRevision;
   String dietary = 'unrestricted', sex = '', role = 'student';
   bool busy = false, register = false, consent = false, demo = true;
   int page = 0;
-  String? nutrientFocus;
+  bool get compact => MediaQuery.sizeOf(context).width < 960;
+  void openMobilePage(int next) => setState(() {
+    page = next;
+    if (next == 1) {
+      journalDay ??= day(DateTime.now());
+    }
+  });
+  Future<void> serverSettings() async {
+    final value = await showDialog<String>(
+      context: context,
+      builder: (_) => ServerDialog(initial: api.baseUrl),
+    );
+    if (value != null && mounted) {
+      setState(() {
+        api.clear();
+        api.baseUrl = value;
+      });
+    }
+  }
+
+  Future<void> mobileAdd() async {
+    final next = await showModalBottomSheet<int>(
+      context: context,
+      showDragHandle: true,
+      builder: (c) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const ListTile(
+              title: Text(
+                'Add to your diary',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.search),
+              title: const Text('Food'),
+              subtitle: const Text('Search foods and enter grams'),
+              onTap: () => Navigator.pop(c, 1),
+            ),
+            ListTile(
+              leading: const Icon(Icons.restaurant),
+              title: const Text('Dish or recipe'),
+              subtitle: const Text('Choose a dish and adjust portions'),
+              onTap: () => Navigator.pop(c, 5),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (next != null && mounted) {
+      setState(() {
+        page = next;
+        if (next == 1) {
+          manualJournal = true;
+          journalDay ??= day(DateTime.now());
+        }
+      });
+    }
+  }
+
   String foodSourceKind = 'real';
   bool moreFoods = false;
+  bool foodSearchCompleted = false;
+  String? journalMessage;
+  final draftAnchor = GlobalKey();
   String lastFoodQuery = '';
   String lastFoodSource = 'real';
   int draftEpoch = 0;
   NutriApi get api => widget.api;
+  Future<void> changePalette() async {
+    final id = await choosePalette(context, widget.palette.id);
+    if (id == null || !mounted) return;
+    final saved = widget.onPaletteChanged(id);
+    if (!saved) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Palette applied for this session. Browser storage is unavailable.',
+          ),
+        ),
+      );
+    }
+  }
+
   final pages = [
     'Overview',
     'Food journal',
     'Meal planning',
     'Profile',
     'Evidence review',
+    'Dishes & recipes',
+    'Meal composition',
+    'Nutrient analytics',
   ];
   final icons = [
     Icons.dashboard_outlined,
@@ -105,6 +216,9 @@ class _TwinHomeState extends State<TwinHome> {
     Icons.auto_awesome_outlined,
     Icons.person_outline,
     Icons.fact_check_outlined,
+    Icons.rice_bowl_outlined,
+    Icons.pie_chart_outline,
+    Icons.scatter_plot_outlined,
   ];
   @override
   void dispose() {
@@ -195,6 +309,9 @@ class _TwinHomeState extends State<TwinHome> {
     TextEditingController controller, {
     bool secret = false,
     int lines = 1,
+    String? hint,
+    ValueChanged<String>? onSubmitted,
+    Widget? suffixIcon,
   }) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 7),
     child: TextField(
@@ -202,19 +319,30 @@ class _TwinHomeState extends State<TwinHome> {
       enabled: !busy,
       obscureText: secret,
       maxLines: lines,
-      decoration: InputDecoration(labelText: name),
+      onSubmitted: onSubmitted,
+      decoration: InputDecoration(
+        labelText: name,
+        hintText: hint,
+        suffixIcon: suffixIcon,
+      ),
     ),
   );
   Widget button(
     String title,
     Future<void> Function() callback, {
     bool enabled = true,
+    bool primary = true,
   }) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 8),
-    child: FilledButton(
-      onPressed: busy || !enabled ? null : () => act(callback),
-      child: Text(title),
-    ),
+    child: primary
+        ? FilledButton(
+            onPressed: busy || !enabled ? null : () => act(callback),
+            child: Text(title),
+          )
+        : TextButton(
+            onPressed: busy || !enabled ? null : () => act(callback),
+            child: Text(title),
+          ),
   );
   Widget panel(List<Widget> children) => Card(
     child: Padding(
@@ -232,7 +360,7 @@ class _TwinHomeState extends State<TwinHome> {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineLarge
+          style: Theme.of(context).textTheme.headlineMedium
               ?.copyWith(fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 8),
@@ -242,7 +370,10 @@ class _TwinHomeState extends State<TwinHome> {
   );
   Widget notice(String text) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 12),
-    child: Text(text, style: const TextStyle(color: forest)),
+    child: Text(
+      text,
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+    ),
   );
   Future<void> showDetails(String title, Object? details) async {
     if (!mounted) return;
@@ -267,15 +398,124 @@ class _TwinHomeState extends State<TwinHome> {
     );
   }
 
+  Future<void> showFoodDetails(dynamic food) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(food['name']),
+        content: SizedBox(
+          width: 460,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Source: ${food['source_code']}'),
+                const SizedBox(height: 12),
+                const Text(
+                  'Composition per 100 g',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  'Values describe the food as named. Missing values are unknown, not zero.',
+                ),
+                const SizedBox(height: 12),
+                for (final nutrient in food['nutrients'])
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(label(nutrient['nutrient_code']))),
+                        const SizedBox(width: 12),
+                        Text(
+                          nutrient['amount_per_100g'] == null
+                              ? 'Unknown'
+                              : '${shown(nutrient['amount_per_100g'])} ${nutrient['unit']}',
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> chooseMealDate() async {
+    final now = DateTime.now();
+    final parsed = DateTime.tryParse(mealDate.text);
+    final earliest = DateTime(1900);
+    final initial =
+        parsed != null && !parsed.isAfter(now) && !parsed.isBefore(earliest)
+        ? parsed
+        : now;
+    final selected = await showDatePicker(
+      context: context,
+      initialDate: initial,
+      firstDate: earliest,
+      lastDate: now,
+    );
+    if (selected != null && mounted) {
+      setState(() => mealDate.text = day(selected));
+    }
+  }
+
+  Future<void> chooseMealTime() async {
+    final parts = mealTime.text.split(':');
+    final hour = int.tryParse(parts.first);
+    final minute = parts.length == 2 ? int.tryParse(parts.last) : null;
+    final initial =
+        hour != null &&
+            minute != null &&
+            hour >= 0 &&
+            hour < 24 &&
+            minute >= 0 &&
+            minute < 60
+        ? TimeOfDay(hour: hour, minute: minute)
+        : TimeOfDay.now();
+    final selected = await showTimePicker(
+      context: context,
+      initialTime: initial,
+    );
+    if (selected != null && mounted) {
+      setState(
+        () => mealTime.text =
+            '${selected.hour.toString().padLeft(2, '0')}:${selected.minute.toString().padLeft(2, '0')}',
+      );
+    }
+  }
+
   Widget loginView() => Center(
     child: ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 490),
       child: panel([
-        const Icon(Icons.spa_outlined, size: 52, color: forest),
+        Icon(
+          Icons.spa_outlined,
+          size: 52,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+        TextButton.icon(
+          onPressed: changePalette,
+          icon: const Icon(Icons.palette_outlined),
+          label: const Text('Color palette'),
+        ),
         const SizedBox(height: 20),
         heading(
           'NutriTwin',
           'A clearer picture of what you eat, one day at a time.',
+        ),
+        TextButton.icon(
+          onPressed: busy ? null : serverSettings,
+          icon: const Icon(Icons.dns_outlined),
+          label: const Text('Server connection'),
         ),
         field('Email', email),
         field('Password', password, secret: true),
@@ -324,47 +564,85 @@ class _TwinHomeState extends State<TwinHome> {
     ),
   );
   Widget navigation({bool drawer = false}) => Material(
-    color: forest,
+    color: widget.palette.navigation,
     child: SizedBox(
-      width: 248,
+      width: 236,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(28),
+            Padding(
+              padding: EdgeInsets.fromLTRB(24, 24, 24, 10),
               child: Text(
                 '◉  NutriTwin',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: widget.palette.onNavigation,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            for (int i = 0; i < (user?['role'] == 'admin' ? 5 : 4); i++)
-              ListTile(
-                selected: page == i,
-                selectedTileColor: Colors.white12,
-                leading: Icon(icons[i], color: Colors.white),
-                title: Text(
-                  pages[i],
-                  style: const TextStyle(color: Colors.white),
-                ),
-                onTap: () {
-                  setState(() {
-                    page = i;
-                    nutrientFocus = null;
-                  });
-                  if (drawer) Navigator.pop(context);
-                },
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                children: [
+                  for (final group in {
+                    'YOUR DAY': [0, 5, 1],
+                    'EXPLORE': [7, 6, 2],
+                    'ACCOUNT': [3, if (user?['role'] == 'admin') 4],
+                  }.entries) ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 18, 16, 8),
+                      child: Text(
+                        group.key,
+                        style: TextStyle(
+                          color: widget.palette.onNavigation,
+                          fontSize: 10,
+                          letterSpacing: 1.4,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    for (final i in group.value)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: ListTile(
+                          selected: page == i,
+                          selectedTileColor: widget.palette.onNavigation
+                              .withValues(alpha: .16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          leading: Icon(
+                            icons[i],
+                            size: 21,
+                            color: widget.palette.onNavigation,
+                          ),
+                          title: Text(
+                            pages[i],
+                            style: TextStyle(
+                              color: widget.palette.onNavigation,
+                              fontSize: 14,
+                              fontWeight: page == i
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() => page = i);
+                            if (drawer) Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                  ],
+                ],
               ),
-            const Spacer(),
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
                 '${user?['email']}\n${user?['role']}',
-                style: const TextStyle(color: Colors.white70),
+                style: TextStyle(color: widget.palette.onNavigation),
               ),
             ),
             TextButton(
@@ -375,7 +653,6 @@ class _TwinHomeState extends State<TwinHome> {
                         await api.logout();
                       } finally {
                         user = null;
-                        nutrientFocus = null;
                         foods = [];
                         profile = null;
                         summary = null;
@@ -387,9 +664,9 @@ class _TwinHomeState extends State<TwinHome> {
                         constructed = null;
                       }
                     }),
-              child: const Text(
+              child: Text(
                 'Sign out',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: widget.palette.onNavigation),
               ),
             ),
             const SizedBox(height: 20),
@@ -404,59 +681,233 @@ class _TwinHomeState extends State<TwinHome> {
     final content = user == null
         ? loginView()
         : switch (page) {
-            0 => overview(),
-            1 => journal(),
+            0 =>
+              wide
+                  ? overview()
+                  : MobileDashboard(
+                      summary: summary,
+                      meals: meals,
+                      onOpen: openMobilePage,
+                      onAdd: mobileAdd,
+                    ),
+            1 =>
+              !wide && !manualJournal
+                  ? MobileDiary(
+                      meals: meals,
+                      selectedDay: journalDay ?? day(DateTime.now()),
+                      onDate: (d) => setState(() => journalDay = d),
+                      onAdd: mobileAdd,
+                      onEdit: (m) => setState(() {
+                        manualJournal = true;
+                        draftEpoch++;
+                        editId = m['id'];
+                        editRevision = m['revision'];
+                        mealName.text = m['name'];
+                        mealDate.text = m['local_date'];
+                        mealTime.text = DateTime.parse(m['eaten_at'])
+                            .toLocal()
+                            .toIso8601String()
+                            .substring(11, 16);
+                        draft = [
+                          for (final i in m['ingredients'])
+                            Map<String, dynamic>.from(i),
+                        ];
+                      }),
+                      onManage: () => setState(() => manualJournal = true),
+                    )
+                  : journal(),
+            8 => MobileMore(
+              email: user?['email'] ?? '',
+              admin: user?['role'] == 'admin',
+              onOpen: openMobilePage,
+              onPalette: changePalette,
+              onLogout: () => act(() async {
+                try {
+                  await api.logout();
+                } finally {
+                  user = null;
+                  profile = null;
+                  summary = null;
+                  meals = [];
+                  draft = [];
+                  foods = [];
+                  ranked = [];
+                  history = [];
+                  revisions = [];
+                  constructed = null;
+                  dishEditMeal = null;
+                }
+              }),
+            ),
             2 => planning(),
             3 => profileView(),
+            5 => DishWorkspace(
+              key: ValueKey('${user?['id']}:${dishEditMeal?['id']}'),
+              api: api,
+              admin: user?['role'] == 'admin',
+              initialMeal: dishEditMeal,
+              onChanged: () async {
+                await load();
+                if (mounted) setState(() {});
+              },
+            ),
+            6 => MealCompositionPage(
+              api: api,
+              meals: meals,
+              onEdit: (m) => setState(() {
+                dishEditMeal = m;
+                page = 5;
+              }),
+            ),
+            7 => CompositionAnalyticsPage(
+              api: api,
+              onOpenPlateBuilder: () => setState(() => page = 6),
+            ),
             _ => evidence(),
           };
     return Scaffold(
-      appBar: user != null && !wide ? AppBar(title: Text(pages[page])) : null,
-      drawer: user != null && !wide
-          ? Drawer(child: navigation(drawer: true))
+      appBar: user != null && !wide
+          ? AppBar(
+              automaticallyImplyLeading: false,
+              title: Text(
+                page == 0 || page == 7 || page == 6
+                    ? 'NutriTwin'
+                    : page == 1
+                    ? 'Diary'
+                    : page == 5
+                    ? 'Foods'
+                    : page == 8
+                    ? 'More'
+                    : pages[page],
+              ),
+              bottom: [0, 7, 6].contains(page)
+                  ? PreferredSize(
+                      preferredSize: const Size.fromHeight(48),
+                      child: MobileDiscoverTabs(
+                        page: page,
+                        onOpen: openMobilePage,
+                      ),
+                    )
+                  : null,
+              actions: [
+                IconButton(
+                  onPressed: changePalette,
+                  tooltip: 'Color palette',
+                  icon: const Icon(Icons.palette_outlined),
+                ),
+              ],
+            )
           : null,
-      body: Row(
-        children: [
-          if (user != null && wide) navigation(),
-          Expanded(
-            child: Column(
-              children: [
-                if (busy)
-                  const LinearProgressIndicator(
-                    semanticsLabel: 'Loading NutriTwin',
-                  ),
-                if (error != null)
-                  Semantics(
-                    liveRegion: true,
-                    child: Material(
-                      color: const Color(0xFFFFE8E4),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.error_outline),
-                            const SizedBox(width: 12),
-                            Expanded(child: Text(error!)),
-                            IconButton(
-                              tooltip: 'Dismiss error',
-                              onPressed: () => setState(() => error = null),
-                              icon: const Icon(Icons.close),
+      bottomNavigationBar: user != null && !wide
+          ? MobileBottomBar(
+              page: page,
+              onOpen: openMobilePage,
+              onAdd: mobileAdd,
+            )
+          : null,
+      body: SafeArea(
+        child: Row(
+          children: [
+            if (user != null && wide) navigation(),
+            Expanded(
+              child: Column(
+                children: [
+                  if (user != null && wide)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 28,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(icons[page], size: 19),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'NutriTwin  /  ${pages[page]}',
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
-                          ],
+                          ),
+                          const Icon(Icons.calendar_today_outlined, size: 16),
+                          const SizedBox(width: 8),
+                          Text(summary?['as_of_date'] ?? day(DateTime.now())),
+                          const SizedBox(width: 20),
+                          TextButton.icon(
+                            onPressed: changePalette,
+                            label: const Text('Color palette'),
+                            icon: const Icon(Icons.palette_outlined, size: 20),
+                          ),
+                          const SizedBox(width: 12),
+                        ],
+                      ),
+                    ),
+                  if (busy)
+                    const LinearProgressIndicator(
+                      semanticsLabel: 'Loading NutriTwin',
+                    ),
+                  if (error != null)
+                    Semantics(
+                      liveRegion: true,
+                      child: Material(
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.error_outline),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  error!,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onErrorContainer,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                tooltip: 'Dismiss error',
+                                onPressed: () => setState(() => error = null),
+                                icon: const Icon(Icons.close),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      key: ValueKey(
+                        'workspace-$page-${page == 1 && manualJournal}',
+                      ),
+                      primary: false,
+                      padding: EdgeInsets.all(wide ? 28 : 16),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1440),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: content,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(wide ? 36 : 16),
-                    child: content,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -465,7 +916,7 @@ class _TwinHomeState extends State<TwinHome> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       heading(
-        'A little curiosity. A clearer plate.',
+        'Nutrition overview',
         'Your nutrition journal • ${summary?['as_of_date'] ?? day(DateTime.now())}',
       ),
       if (summary == null)
@@ -483,31 +934,87 @@ class _TwinHomeState extends State<TwinHome> {
               ? 'DEMO TARGETS • Synthetic reference values, not ICMR-NIN recommendations.'
               : 'Reviewed, versioned reference targets.',
         ),
+        const SizedBox(height: 12),
         Wrap(
-          spacing: 12,
-          runSpacing: 12,
+          spacing: 10,
+          runSpacing: 10,
           children: [
-            Chip(
-              label: Text('${summary!['logged_days_30']} of 30 days logged'),
+            FilledButton.icon(
+              onPressed: busy
+                  ? null
+                  : () => setState(() {
+                      dishEditMeal = null;
+                      page = 5;
+                    }),
+              icon: const Icon(Icons.add),
+              label: const Text('Log food'),
             ),
-            const Chip(label: Text('Missing values remain unknown')),
-            const Chip(label: Text('No LLM used')),
+            TextButton.icon(
+              onPressed: busy ? null : () => act(load),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Refresh overview'),
+            ),
           ],
         ),
-        button('Refresh overview', load),
-        NutrientExplorer(
-          nutrients: orderedNutrients(),
-          onSelected: (code) => setState(() => nutrientFocus = code),
+        const SizedBox(height: 24),
+        JournalSummaryCards(
+          mealsToday: meals
+              .where((m) => m['local_date'] == summary!['as_of_date'])
+              .length,
+          loggedDays: summary!['logged_days_30'] ?? 0,
+          alerts: orderedNutrients()
+              .where(
+                (n) => [
+                  'watch',
+                  'elevated',
+                  'persistent',
+                ].contains(n['risk']?['band']),
+              )
+              .length,
         ),
-        const SizedBox(height: 20),
-        Text(
-          'Nutrient details',
-          style: Theme.of(context).textTheme.headlineSmall,
+        const SizedBox(height: 24),
+        WorkspaceColumns(
+          primary: WorkspacePanel(
+            child: NutrientStatsSelector(
+              nutrients: orderedNutrients(),
+              statsBuilder: nutrientCard,
+            ),
+          ),
+          secondary: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              IntakeAlerts(
+                nutrients: orderedNutrients(),
+                provisional: summary!['target_provisional'] == true,
+                onInspect: (n) => showDialog<void>(
+                  context: context,
+                  builder: (_) => IntakeRiskDetails(
+                    nutrient: n,
+                    provisional: summary!['target_provisional'] == true,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              const WorkspacePanel(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Reading your journal',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Missing values remain unknown. A logged day does not mean every meal or nutrient was recorded.',
+                    ),
+                    SizedBox(height: 8),
+                    Text('No LLM used in nutrition calculations.'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 12),
-        for (final n in orderedNutrients())
-          if (nutrientFocus == null || n['nutrient_code'] == nutrientFocus)
-            nutrientCard(n),
         notice(summary!['medical_disclaimer']),
       ],
     ],
@@ -555,7 +1062,7 @@ class _TwinHomeState extends State<TwinHome> {
           value: (percent / 100).clamp(0, 1),
           minHeight: 8,
           color: chartColors[0],
-          backgroundColor: paper,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           semanticsLabel: 'Consumed target coverage',
           semanticsValue: '$percent percent',
         ),
@@ -651,6 +1158,21 @@ class _TwinHomeState extends State<TwinHome> {
         'Your profile',
         'Only the context needed for your nutrition journal.',
       ),
+      if (profile != null)
+        panel([
+          Text(
+            'Your food history',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          Text(
+            '${meals.length} saved meals · ${summary?['logged_days_30'] ?? 0} of 30 days logged',
+          ),
+          for (final m in meals.take(5))
+            ListTile(title: Text(m['name']), subtitle: Text(m['local_date'])),
+          button('View composition and nutrients', () async {
+            page = 6;
+          }),
+        ]),
       panel([
         field('Birth date (YYYY-MM-DD)', birth),
         DropdownButtonFormField<String>(
@@ -735,8 +1257,148 @@ class _TwinHomeState extends State<TwinHome> {
     editRevision = null;
     draft = [];
     mealName.text = 'My meal';
-    mealDate.text = day(DateTime.now());
+    mealDate.text = journalDay ?? day(DateTime.now());
     mealTime.text = '12:00';
+  }
+
+  Future<void> searchFoods() async {
+    final query = search.text.trim();
+    final source = foodSourceKind;
+    final result = await api.request(
+      'GET',
+      '/foods?query=${Uri.encodeQueryComponent(query)}&source_kind=$source&limit=25',
+    );
+    lastFoodQuery = query;
+    lastFoodSource = source;
+    foods = result;
+    moreFoods = foods.length == 25;
+    foodSearchCompleted = true;
+  }
+
+  void reviewDraft() {
+    setState(() => manualJournal = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final target = draftAnchor.currentContext;
+      if (target != null) {
+        Scrollable.ensureVisible(
+          target,
+          duration: const Duration(milliseconds: 250),
+        );
+      }
+    });
+  }
+
+  String? validateMealDraft() {
+    if (mealName.text.trim().isEmpty) {
+      return 'Give this meal a name before saving.';
+    }
+    final value = mealDate.text.trim();
+    final date = DateTime.tryParse(value);
+    if (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value) ||
+        date == null ||
+        day(date) != value) {
+      return 'Enter a valid meal date as YYYY-MM-DD.';
+    }
+    if (value.compareTo(day(DateTime.now())) > 0) {
+      return 'Choose today or a past date for a meal you have eaten.';
+    }
+    if (!RegExp(r'^([01]\d|2[0-3]):[0-5]\d$').hasMatch(mealTime.text.trim())) {
+      return 'Enter a valid local time as HH:mm, for example 12:30.';
+    }
+    for (final item in draft) {
+      final grams = '${item['quantity_g']}'.trim();
+      final amount = double.tryParse(grams);
+      if (amount == null || !amount.isFinite || amount <= 0) {
+        return 'Enter a gram amount greater than zero for ${item['name'] ?? 'each ingredient'}.';
+      }
+    }
+    return null;
+  }
+
+  Future<void> chooseJournalDay() async {
+    final selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.tryParse(journalDay ?? '') ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (selected != null && mounted) {
+      setState(() {
+        journalDay = day(selected);
+        if (editId == null) mealDate.text = journalDay!;
+      });
+    }
+  }
+
+  Future<void> moveMealDate(dynamic meal) async {
+    final selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.parse(meal['local_date']),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (selected == null || !mounted) return;
+    final previousTime = DateTime.parse(meal['eaten_at']).toLocal();
+    final at = DateTime(
+      selected.year,
+      selected.month,
+      selected.day,
+      previousTime.hour,
+      previousTime.minute,
+      previousTime.second,
+    );
+    await api.request(
+      'PATCH',
+      '/meals/${meal['id']}/date?expected_revision=${meal['revision']}',
+      body: {
+        'local_date': day(selected),
+        'eaten_at': at.toUtc().toIso8601String(),
+      },
+    );
+    journalDay = day(selected);
+    journalMessage =
+        '${meal['name']} moved to $journalDay. Both dates will be recalculated.';
+    await load();
+  }
+
+  Future<void> clearJournal({required bool all}) async {
+    final snapshot = meals
+        .where((m) => all || m['local_date'] == journalDay)
+        .toList();
+    if (snapshot.isEmpty) return;
+    final yes = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text(all ? 'Remove all journal entries?' : 'Clear $journalDay?'),
+        content: Text(
+          'Remove ${snapshot.length} saved meal entries${all ? ' across all dates' : ' on $journalDay'}? Your intake history and alerts will be recalculated. Your profile, recipes and datasets are kept. This cannot be undone in the app.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(c, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(c, true),
+            child: const Text('Remove entries'),
+          ),
+        ],
+      ),
+    );
+    if (yes != true) return;
+    await api.request(
+      'POST',
+      '/meals/batch-delete',
+      body: {
+        'entries': [
+          for (final m in snapshot) {'id': m['id'], 'revision': m['revision']},
+        ],
+      },
+    );
+    if (snapshot.any((m) => m['id'] == editId)) resetDraft();
+    journalMessage = '${snapshot.length} journal entries removed.';
+    await load();
   }
 
   Widget journal() => Column(
@@ -744,203 +1406,411 @@ class _TwinHomeState extends State<TwinHome> {
     children: [
       heading(
         'Food journal',
-        'Search a source, choose an amount, and save what you ate.',
+        'Review saved meals by date, or build a meal from individual foods.',
       ),
-      button('Refresh journal', () async {
-        meals = await api.request('GET', '/meals');
-      }),
-      panel([
-        field('Search foods', search),
-        DropdownButtonFormField<String>(
-          initialValue: foodSourceKind,
-          decoration: const InputDecoration(labelText: 'Food dataset'),
-          items: const [
-            DropdownMenuItem(value: 'real', child: Text('Real source data')),
-            DropdownMenuItem(
-              value: 'demo',
-              child: Text('Synthetic demo foods'),
-            ),
-            DropdownMenuItem(value: 'all', child: Text('All datasets')),
-          ],
-          onChanged: busy
-              ? null
-              : (v) => setState(() {
-                  foodSourceKind = v!;
-                  foods = [];
-                  moreFoods = false;
-                }),
-        ),
-        notice(
-          'USDA foods retain their raw, dry or prepared descriptions. Choose the state you actually weighed; Indian targets remain a separate reference.',
-        ),
-        button('Dataset provenance', () async {
-          final sources = await api.request('GET', '/food-sources');
-          await showDetails('Installed food datasets', sources);
-        }, enabled: consent),
-        button('Search', () async {
-          lastFoodQuery = search.text.trim();
-          lastFoodSource = foodSourceKind;
-          foods = await api.request(
-            'GET',
-            '/foods?query=${Uri.encodeQueryComponent(lastFoodQuery)}&source_kind=$lastFoodSource&limit=25',
-          );
-          moreFoods = foods.length == 25;
-        }, enabled: consent),
-        if (foods.isNotEmpty)
-          Text(
-            '${foods.length} foods loaded · comparison covers these results',
+      Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          ChoiceChip(
+            label: const Text('Saved entries'),
+            selected: !manualJournal,
+            onSelected: (_) => setState(() => manualJournal = false),
           ),
-        if (foods.isNotEmpty)
-          FoodNutrientExplorer(
-            foods: foods,
-            onInspect: (f) => showDetails('Food composition per 100 g', f),
-            onAdd: busy
-                ? null
-                : (f) => setState(
-                    () => draft.add({
-                      'food_id': f['id'],
-                      'name': f['name'],
-                      'quantity_g': '100',
-                    }),
-                  ),
+          ChoiceChip(
+            label: const Text('Build a meal'),
+            selected: manualJournal,
+            onSelected: (_) => setState(() => manualJournal = true),
           ),
-        if (moreFoods)
-          button('Load more foods', () async {
-            final next = await api.request(
-              'GET',
-              '/foods?query=${Uri.encodeQueryComponent(lastFoodQuery)}&source_kind=$lastFoodSource&limit=25&offset=${foods.length}',
-            );
-            foods = [...foods, ...next];
-            moreFoods = next.length == 25;
-          }, enabled: consent),
-      ]),
-      panel([
-        Text(
-          editId == null ? 'Meal draft' : 'Edit logged meal',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        if (editId != null)
-          const Text(
-            'If this meal changed elsewhere, your draft stays here. Refresh the journal to compare it with the saved meal, then select Edit on the latest meal before applying your changes.',
-          ),
-        field('Meal name', mealName),
-        field('Meal date (YYYY-MM-DD)', mealDate),
-        field('Local meal time (HH:mm)', mealTime),
-        for (int i = 0; i < draft.length; i++)
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(draft[i]['name'] ?? 'Saved ingredient ${i + 1}'),
-            subtitle: TextFormField(
-              key: ValueKey(
-                '${draftEpoch}_${editId}_${draft[i]['food_id']}_$i',
-              ),
-              initialValue: '${draft[i]['quantity_g']}',
-              enabled: !busy,
-              decoration: const InputDecoration(labelText: 'Grams'),
-              onChanged: (v) => draft[i]['quantity_g'] = v,
-            ),
-            trailing: IconButton(
-              tooltip: 'Remove ingredient',
-              onPressed: busy ? null : () => setState(() => draft.removeAt(i)),
-              icon: const Icon(Icons.close),
-            ),
-          ),
-        button(editId == null ? 'Save meal' : 'Save changes', () async {
-          final eaten = DateTime.parse(
-            '${mealDate.text.trim()}T${mealTime.text.trim()}:00',
-          );
-          final payload = {
-            'name': mealName.text.trim(),
-            'local_date': mealDate.text.trim(),
-            'eaten_at': eaten.toUtc().toIso8601String(),
-            'ingredients': [
-              for (final item in draft)
-                {'food_id': item['food_id'], 'quantity_g': item['quantity_g']},
-            ],
-          };
-          await api.request(
-            editId == null ? 'POST' : 'PUT',
-            editId == null
-                ? '/meals'
-                : '/meals/$editId?expected_revision=$editRevision',
-            body: payload,
-          );
-          resetDraft();
-          await load();
-        }, enabled: draft.isNotEmpty && consent),
-        button('Clear draft', () async {
-          resetDraft();
-        }),
-      ]),
-      for (final m in meals)
+        ],
+      ),
+      const SizedBox(height: 16),
+      if (!manualJournal)
         panel([
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(m['name']),
-            subtitle: Text(
-              '${m['local_date']} • ${(m['ingredients'] as List).length} ingredients • revision ${m['revision']}',
-            ),
-            trailing: Wrap(
-              children: [
-                IconButton(
-                  tooltip: 'Edit meal',
-                  onPressed: busy
+          Text('Browse by day', style: Theme.of(context).textTheme.titleLarge),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: busy ? null : chooseJournalDay,
+                icon: const Icon(Icons.calendar_month_outlined),
+                label: Text(journalDay ?? 'Choose a date'),
+              ),
+              TextButton(
+                onPressed: busy
+                    ? null
+                    : () => setState(() => journalDay = day(DateTime.now())),
+                child: const Text('Today'),
+              ),
+              TextButton(
+                onPressed: busy
+                    ? null
+                    : () => setState(() => journalDay = null),
+                child: const Text('All dates'),
+              ),
+              if (journalDay != null)
+                OutlinedButton.icon(
+                  onPressed:
+                      busy || !meals.any((m) => m['local_date'] == journalDay)
                       ? null
-                      : () => setState(() {
-                          draftEpoch++;
-                          editId = m['id'];
-                          editRevision = m['revision'];
-                          mealName.text = m['name'];
-                          mealDate.text = m['local_date'];
-                          mealTime.text = DateTime.parse(m['eaten_at'])
-                              .toLocal()
-                              .toIso8601String()
-                              .substring(11, 16);
-                          draft = [
-                            for (final i in m['ingredients'])
-                              Map<String, dynamic>.from(i),
-                          ];
-                        }),
-                  icon: const Icon(Icons.edit_outlined),
+                      : () => act(() => clearJournal(all: false)),
+                  icon: const Icon(Icons.delete_sweep_outlined),
+                  label: const Text('Clear selected day'),
                 ),
-                IconButton(
-                  tooltip: 'Delete meal',
-                  onPressed: busy
-                      ? null
-                      : () => act(() async {
-                          final yes = await showDialog<bool>(
-                            context: context,
-                            builder: (c) => AlertDialog(
-                              title: const Text('Delete this meal?'),
-                              content: const Text(
-                                'Your daily and rolling calculations will be recalculated.',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(c, false),
-                                  child: const Text('Cancel'),
-                                ),
-                                FilledButton(
-                                  onPressed: () => Navigator.pop(c, true),
-                                  child: const Text('Delete'),
-                                ),
-                              ],
-                            ),
-                          );
-                          if (yes == true) {
-                            await api.request(
-                              'DELETE',
-                              '/meals/${m['id']}?expected_revision=${m['revision']}',
-                            );
-                            await load();
-                          }
-                        }),
-                  icon: const Icon(Icons.delete_outline),
-                ),
-              ],
-            ),
+              OutlinedButton.icon(
+                onPressed: busy || meals.isEmpty
+                    ? null
+                    : () => act(() => clearJournal(all: true)),
+                icon: const Icon(Icons.delete_forever_outlined),
+                label: const Text('Remove all entries'),
+              ),
+            ],
+          ),
+          Text(
+            journalDay == null
+                ? '${meals.length} saved meals across all dates'
+                : '${meals.where((m) => m['local_date'] == journalDay).length} saved meals on $journalDay',
           ),
         ]),
+      Wrap(
+        spacing: 10,
+        runSpacing: 8,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          TextButton.icon(
+            onPressed: busy
+                ? null
+                : () => act(() async {
+                    meals = await api.request('GET', '/meals');
+                  }),
+            icon: const Icon(Icons.refresh),
+            label: const Text('Refresh journal'),
+          ),
+        ],
+      ),
+      const SizedBox(height: 16),
+      if (!consent)
+        notice(
+          'Complete your profile and consent in Profile to start logging meals.',
+        ),
+      if (journalMessage != null)
+        Semantics(liveRegion: true, child: notice(journalMessage!)),
+      if (draft.isNotEmpty && !manualJournal)
+        OutlinedButton.icon(
+          onPressed: reviewDraft,
+          icon: const Icon(Icons.receipt_long_outlined),
+          label: Text(
+            'Review draft · ${draft.length} ${draft.length == 1 ? 'ingredient' : 'ingredients'}',
+          ),
+        ),
+      Offstage(
+        offstage: manualJournal,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              journalDay == null
+                  ? 'Saved meals · all dates'
+                  : 'Saved meals · $journalDay',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            if (journalDay != null &&
+                !meals.any((m) => m['local_date'] == journalDay))
+              notice(
+                'No entries on this date. Choose another day or add a meal.',
+              ),
+            if (meals.isEmpty)
+              notice(
+                'No meals logged yet. Save your first meal to start your nutrition history.',
+              ),
+            for (final m in meals.where(
+              (m) => journalDay == null || m['local_date'] == journalDay,
+            ))
+              panel([
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(m['name']),
+                  subtitle: Text(
+                    '${m['local_date']} • ${(m['ingredients'] as List).length} ingredients • revision ${m['revision']}',
+                  ),
+                  trailing: Wrap(
+                    children: [
+                      IconButton(
+                        tooltip: 'Edit meal',
+                        onPressed: busy
+                            ? null
+                            : () => setState(() {
+                                manualJournal = true;
+                                draftEpoch++;
+                                editId = m['id'];
+                                editRevision = m['revision'];
+                                mealName.text = m['name'];
+                                mealDate.text = m['local_date'];
+                                mealTime.text = DateTime.parse(m['eaten_at'])
+                                    .toLocal()
+                                    .toIso8601String()
+                                    .substring(11, 16);
+                                draft = [
+                                  for (final i in m['ingredients'])
+                                    Map<String, dynamic>.from(i),
+                                ];
+                              }),
+                        icon: const Icon(Icons.edit_outlined),
+                      ),
+                      IconButton(
+                        tooltip: 'Change meal date',
+                        onPressed: busy
+                            ? null
+                            : () => act(() => moveMealDate(m)),
+                        icon: const Icon(Icons.event_outlined),
+                      ),
+                      IconButton(
+                        tooltip: 'Delete meal',
+                        onPressed: busy
+                            ? null
+                            : () => act(() async {
+                                final yes = await showDialog<bool>(
+                                  context: context,
+                                  builder: (c) => AlertDialog(
+                                    title: const Text('Delete this meal?'),
+                                    content: const Text(
+                                      'Your daily and rolling calculations will be recalculated.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(c, false),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      FilledButton(
+                                        onPressed: () => Navigator.pop(c, true),
+                                        child: const Text('Delete'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                if (yes == true) {
+                                  await api.request(
+                                    'DELETE',
+                                    '/meals/${m['id']}?expected_revision=${m['revision']}',
+                                  );
+                                  await load();
+                                }
+                              }),
+                        icon: const Icon(Icons.delete_outline),
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+          ],
+        ),
+      ),
+      Offstage(
+        offstage: !manualJournal,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Text(
+              'Build a meal manually',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const Text(
+              'Choose individual foods and review their amounts before saving.',
+            ),
+            const SizedBox(height: 12),
+            panel([
+              Text(
+                '1. Find a food',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              field(
+                'Search foods',
+                search,
+                hint: 'Try lentils, rice or spinach',
+                onSubmitted: (_) {
+                  if (consent) act(searchFoods);
+                },
+              ),
+              DropdownButtonFormField<String>(
+                initialValue: foodSourceKind,
+                decoration: const InputDecoration(labelText: 'Food dataset'),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'real',
+                    child: Text('Real source data'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'demo',
+                    child: Text('Synthetic demo foods'),
+                  ),
+                  DropdownMenuItem(value: 'all', child: Text('All datasets')),
+                ],
+                onChanged: busy
+                    ? null
+                    : (v) => setState(() {
+                        foodSourceKind = v!;
+                        foods = [];
+                        moreFoods = false;
+                        foodSearchCompleted = false;
+                      }),
+              ),
+              notice(
+                'USDA foods retain their raw, dry or prepared descriptions. Choose the state you actually weighed; Indian targets remain a separate reference.',
+              ),
+              button(
+                'Dataset provenance',
+                () async {
+                  final sources = await api.request('GET', '/food-sources');
+                  await showDetails('Installed food datasets', sources);
+                },
+                enabled: consent,
+                primary: false,
+              ),
+              button('Search', searchFoods, enabled: consent),
+              if (!foodSearchCompleted)
+                const Text(
+                  'Search by name, or leave the search empty to browse foods.',
+                ),
+              if (foodSearchCompleted && foods.isEmpty)
+                const Text(
+                  'No foods found. Try a shorter name or choose another dataset.',
+                ),
+              if (foods.isNotEmpty)
+                Text(
+                  '${foods.length} foods loaded · comparison covers these results',
+                ),
+              if (foods.isNotEmpty)
+                FoodNutrientExplorer(
+                  foods: foods,
+                  onInspect: showFoodDetails,
+                  onAdd: busy
+                      ? null
+                      : (f) => setState(() {
+                          draft.add({
+                            'food_id': f['id'],
+                            'name': f['name'],
+                            'quantity_g': '100',
+                          });
+                          journalMessage =
+                              '${f['name']} added to your draft at 100 g. Review the amount before saving.';
+                        }),
+                ),
+              if (moreFoods)
+                button('Load more foods', () async {
+                  final next = await api.request(
+                    'GET',
+                    '/foods?query=${Uri.encodeQueryComponent(lastFoodQuery)}&source_kind=$lastFoodSource&limit=25&offset=${foods.length}',
+                  );
+                  foods = [...foods, ...next];
+                  moreFoods = next.length == 25;
+                }, enabled: consent),
+            ]),
+            panel([
+              Text(
+                editId == null ? 'Meal draft' : 'Edit logged meal',
+                key: draftAnchor,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const Text(
+                '2. Review amounts · Your draft is not logged until you save it.',
+              ),
+              if (draft.isEmpty)
+                notice(
+                  'Your draft is empty. Use Add food in the search results above.',
+                ),
+              if (editId != null)
+                const Text(
+                  'If this meal changed elsewhere, your draft stays here. Refresh the journal to compare it with the saved meal, then select Edit on the latest meal before applying your changes.',
+                ),
+              field('Meal name', mealName),
+              field(
+                'Meal date (YYYY-MM-DD)',
+                mealDate,
+                suffixIcon: IconButton(
+                  tooltip: 'Choose meal date',
+                  onPressed: busy ? null : chooseMealDate,
+                  icon: const Icon(Icons.calendar_month_outlined),
+                ),
+              ),
+              field(
+                'Local meal time (HH:mm)',
+                mealTime,
+                suffixIcon: IconButton(
+                  tooltip: 'Choose meal time',
+                  onPressed: busy ? null : chooseMealTime,
+                  icon: const Icon(Icons.schedule),
+                ),
+              ),
+              for (int i = 0; i < draft.length; i++)
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(draft[i]['name'] ?? 'Saved ingredient ${i + 1}'),
+                  subtitle: TextFormField(
+                    key: ValueKey(
+                      '${draftEpoch}_${editId}_${draft[i]['food_id']}_$i',
+                    ),
+                    initialValue: '${draft[i]['quantity_g']}',
+                    enabled: !busy,
+                    decoration: const InputDecoration(labelText: 'Grams'),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    onChanged: (v) => draft[i]['quantity_g'] = v,
+                  ),
+                  trailing: IconButton(
+                    tooltip: 'Remove ingredient',
+                    onPressed: busy
+                        ? null
+                        : () => setState(() => draft.removeAt(i)),
+                    icon: const Icon(Icons.close),
+                  ),
+                ),
+              button(editId == null ? 'Save meal' : 'Save changes', () async {
+                final validation = validateMealDraft();
+                if (validation != null) {
+                  error = validation;
+                  return;
+                }
+                final savedName = mealName.text.trim();
+                final eaten = DateTime.parse(
+                  '${mealDate.text.trim()}T${mealTime.text.trim()}:00',
+                );
+                final payload = {
+                  'name': mealName.text.trim(),
+                  'local_date': mealDate.text.trim(),
+                  'eaten_at': eaten.toUtc().toIso8601String(),
+                  'ingredients': [
+                    for (final item in draft)
+                      {
+                        'food_id': item['food_id'],
+                        'quantity_g': item['quantity_g'],
+                      },
+                  ],
+                };
+                await api.request(
+                  editId == null ? 'POST' : 'PUT',
+                  editId == null
+                      ? '/meals'
+                      : '/meals/$editId?expected_revision=$editRevision',
+                  body: payload,
+                );
+                resetDraft();
+                journalMessage =
+                    '$savedName saved. Your nutrition overview will reflect this meal.';
+                await load();
+              }, enabled: draft.isNotEmpty && consent),
+              button('Clear draft', () async {
+                resetDraft();
+                journalMessage =
+                    'Draft cleared. Your saved meals are unchanged.';
+              }),
+            ]),
+          ],
+        ),
+      ),
     ],
   );
   Widget planning() => Column(
@@ -1065,6 +1935,7 @@ class _TwinHomeState extends State<TwinHome> {
                   'quantity_g': '${s['quantity_g']}',
                 },
             ];
+            manualJournal = true;
             page = 1;
           }, enabled: (constructed!['servings'] as List).isNotEmpty),
           button(

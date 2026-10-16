@@ -107,13 +107,22 @@ void main() {
       expect(mutations, hasLength(1));
       expect(mutations.single.url.queryParameters['expected_revision'], '1');
       expect(find.textContaining('This meal changed since'), findsOneWidget);
-      final refresh = find.widgetWithText(FilledButton, 'Refresh journal');
+      final refresh = find.widgetWithText(TextButton, 'Refresh journal');
       await tester.ensureVisible(refresh);
       await tester.tap(refresh);
       await tester.pumpAndSettle();
-      expect(find.text('Changed elsewhere'), findsOneWidget);
       if (operation == 'edit') {
         expect(find.text('My unsaved draft'), findsOneWidget);
+        await tester.ensureVisible(find.text('Saved entries'));
+        await tester.tap(find.text('Saved entries'));
+        await tester.pumpAndSettle();
+      }
+      expect(find.text('Changed elsewhere'), findsOneWidget);
+      if (operation == 'edit') {
+        expect(
+          find.text('My unsaved draft', skipOffstage: false),
+          findsOneWidget,
+        );
         await tester.tap(find.byTooltip('Edit meal'));
         await tester.pumpAndSettle();
         final save = find.widgetWithText(FilledButton, 'Save changes');

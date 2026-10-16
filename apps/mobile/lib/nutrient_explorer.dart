@@ -79,7 +79,7 @@ class _NutrientExplorerState extends State<NutrientExplorer> {
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5F7F2),
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(28),
             ),
             child: targets
@@ -101,9 +101,12 @@ class _NutrientExplorerState extends State<NutrientExplorer> {
                   ),
           ),
           const SizedBox(height: 16),
-          const Text(
+          Text(
             'Consumed intake / reference target · not estimated effective intake.\nBubble size is a visual guide capped at 100%; labels show full coverage. Unknown values are unfilled. Incomplete totals may be lower bounds.',
-            style: TextStyle(fontSize: 12, color: Color(0xFF546259)),
+            style: TextStyle(
+              fontSize: 12,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           const SizedBox(height: 16),
           Wrap(
@@ -272,7 +275,7 @@ class _FoodNutrientExplorerState extends State<FoodNutrientExplorer> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const Text(
-          'Compare the current search results per 100 g. Tap + to add a food to your meal draft.',
+          'Compare foods per 100 g. Select a food name for composition, or Add food to start a draft.',
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -301,19 +304,29 @@ class _FoodNutrientExplorerState extends State<FoodNutrientExplorer> {
                 if (amount(food) != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 6),
-                    child: LinearProgressIndicator(
-                      value: (amount(food)! / maximum).clamp(0, 1),
-                      minHeight: 6,
+                    // The adjacent text carries the quantity. A progress role on
+                    // this decorative bar can hide the row's actions on Web.
+                    child: ExcludeSemantics(
+                      child: LinearProgressIndicator(
+                        value: (amount(food)! / maximum).clamp(0, 1),
+                        minHeight: 6,
+                      ),
                     ),
                   ),
               ],
             ),
-            trailing: IconButton(
-              tooltip: 'Add ${food['name']} to draft',
-              onPressed: widget.onAdd == null
-                  ? null
-                  : () => widget.onAdd!(food),
-              icon: const Icon(Icons.add_circle_outline),
+            trailing: Semantics(
+              container: true,
+              child: Tooltip(
+                message: 'Add ${food['name']} to draft',
+                child: TextButton.icon(
+                  onPressed: widget.onAdd == null
+                      ? null
+                      : () => widget.onAdd!(food),
+                  icon: const Icon(Icons.add_circle_outline),
+                  label: const Text('Add food'),
+                ),
+              ),
             ),
           ),
       ],

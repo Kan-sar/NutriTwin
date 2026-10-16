@@ -1,0 +1,43 @@
+name: Android APK
+on:
+  push:
+    branches: [feat/android-app]
+    paths: ['apps/mobile/**', '.github/workflows/android.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Install pinned official Flutter
+        run: |
+          git init "$RUNNER_TEMP/flutter"
+          git -C "$RUNNER_TEMP/flutter" remote add origin https://github.com/flutter/flutter.git
+          git -C "$RUNNER_TEMP/flutter" fetch --depth=1 origin tag 3.47.2
+          git -C "$RUNNER_TEMP/flutter" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/flutter" rev-parse HEAD)" = "d3b14c876900e553bc736ca19295fc09e3853e8e"
+          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - name: Verify client
+        working-directory: apps/mobile
+        run: |
+          flutter --no-version-check --suppress-analytics pub get --enforce-lockfile
+          dart format --output=none --set-exit-if-changed lib test
+          flutter --no-version-check --suppress-analytics analyze
+          flutter --no-version-check --suppress-analytics test
+      - name: Build sideload APK
+        working-directory: apps/mobile
+        run: flutter --no-version-check --suppress-analytics build apk --release --dart-define=API_BASE_URL=http://10.0.2.2:8000
+      - name: Record binary checksum
+        run: |
+          mkdir -p android-release
+          cp apps/mobile/build/app/outputs/flutter-apk/app-release.apk android-release/NutriTwin-0.3.0.apk
+          cd android-release
+          sha256sum NutriTwin-0.3.0.apk > SHA256SUMS.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: NutriTwin-android
+          path: android-release/
+          retention-days: 30

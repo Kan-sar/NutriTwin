@@ -77,6 +77,7 @@ void main() {
   testWidgets(
     'food ranking distinguishes zero from missing and adds the chosen food',
     (tester) async {
+      final semantics = tester.ensureSemantics();
       dynamic added;
       final foods = [
         for (final entry in {
@@ -113,8 +114,26 @@ void main() {
       );
       expect(find.text('TEST · Unknown per 100 g'), findsOneWidget);
       expect(find.text('TEST · 0.00 mg per 100 g'), findsOneWidget);
+      expect(
+        tester.getSemantics(
+          find.descendant(
+            of: find.byTooltip('Add Rich food to draft'),
+            matching: find.byType(TextButton),
+          ),
+        ),
+        matchesSemantics(
+          label: 'Add food',
+          isButton: true,
+          hasEnabledState: true,
+          isEnabled: true,
+          isFocusable: true,
+          hasTapAction: true,
+          hasFocusAction: true,
+        ),
+      );
       await tester.tap(find.byTooltip('Add Rich food to draft'));
       expect(added['name'], 'Rich food');
+      semantics.dispose();
     },
   );
 }
