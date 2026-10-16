@@ -40,6 +40,7 @@ void main() {
     await tester.tap(find.byTooltip('Add to diary'));
     expect(added, isTrue);
     expect(tester.takeException(), isNull);
+    expect(tester.getSize(find.byType(MobileBottomBar)).height, lessThan(110));
   });
 
   testWidgets('diary filters dates, edits the selected entry and changes day', (

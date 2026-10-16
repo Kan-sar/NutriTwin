@@ -34,6 +34,7 @@ class MobileBottomBar extends StatelessWidget {
             item(context, 'Diary', Icons.receipt_long, 1, page == 1),
             Expanded(
               child: Center(
+                heightFactor: 1,
                 child: IconButton.filled(
                   style: IconButton.styleFrom(
                     backgroundColor: mobileOrange,
